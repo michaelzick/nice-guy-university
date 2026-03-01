@@ -2,27 +2,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { 
-  Star, 
-  Clock, 
-  BookOpen, 
-  User, 
-  BarChart, 
-  Globe, 
-  Calendar, 
-  Award, 
-  PlayCircle,
-  ShoppingCart,
-  Share2,
-  Heart,
-  Check
+  Star, Clock, BookOpen, User, BarChart, Globe, Calendar, Award, PlayCircle,
+  ShoppingCart, Share2, Heart, Check
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { 
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -41,16 +25,12 @@ export default function CourseDetails() {
     const fetchCourse = () => {
       const foundCourse = getCourseBySlug(slug);
       setCourse(foundCourse);
-      
       if (foundCourse) {
         const related = getRelatedCourses(foundCourse.id, foundCourse.category);
         setRelatedCourses(related);
       }
-      
       setIsLoading(false);
     };
-    
-    // Simulate API call with a timeout
     setTimeout(fetchCourse, 500);
   }, [slug]);
   
@@ -60,12 +40,9 @@ export default function CourseDetails() {
         <Navbar />
         <div className="flex-grow flex items-center justify-center">
           <div className="animate-pulse">
-            <div className="h-6 bg-gray-200 rounded w-48 mb-4"></div>
-            <div className="h-10 bg-gray-200 rounded w-96 mb-6"></div>
-            <div className="h-64 bg-gray-200 rounded w-full mb-6"></div>
-            <div className="h-4 bg-gray-200 rounded w-full mb-4"></div>
-            <div className="h-4 bg-gray-200 rounded w-5/6 mb-4"></div>
-            <div className="h-4 bg-gray-200 rounded w-4/6"></div>
+            <div className="h-6 bg-muted rounded w-48 mb-4"></div>
+            <div className="h-10 bg-muted rounded w-96 mb-6"></div>
+            <div className="h-64 bg-muted rounded w-full mb-6"></div>
           </div>
         </div>
         <Footer />
@@ -79,14 +56,10 @@ export default function CourseDetails() {
         <Navbar />
         <div className="flex-grow flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">Course Not Found</h1>
-            <p className="text-xl text-gray-600 mb-8">
-              We couldn't find the course you're looking for.
-            </p>
+            <h1 className="text-3xl font-bold text-foreground mb-4">Program Not Found</h1>
+            <p className="text-xl text-muted-foreground mb-8">We couldn't find the program you're looking for.</p>
             <Link to="/courses">
-              <Button className="bg-learnify-600 hover:bg-learnify-700 text-white">
-                Browse Courses
-              </Button>
+              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">Browse Programs</Button>
             </Link>
           </div>
         </div>
@@ -96,10 +69,7 @@ export default function CourseDetails() {
   }
   
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(price);
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
   };
   
   return (
@@ -108,163 +78,120 @@ export default function CourseDetails() {
       
       <main className="flex-grow pt-20">
         {/* Course Header */}
-        <div className="bg-gray-900 text-white py-12">
+        <div className="bg-secondary text-secondary-foreground py-12">
           <div className="container mx-auto max-w-6xl px-4">
             <div className="grid md:grid-cols-3 gap-8">
               <div className="md:col-span-2 fade-in">
                 <div className="flex items-center text-sm mb-4">
-                  <Link to="/" className="text-gray-400 hover:text-white">Home</Link>
+                  <Link to="/" className="text-muted-foreground hover:text-primary">Home</Link>
                   <span className="mx-2">›</span>
-                  <Link to="/courses" className="text-gray-400 hover:text-white">Courses</Link>
+                  <Link to="/courses" className="text-muted-foreground hover:text-primary">Programs</Link>
                   <span className="mx-2">›</span>
-                  <Link to={`/category/${course.category}`} className="text-gray-400 hover:text-white">
-                    {course.category.replace("-", " ")}
-                  </Link>
+                  <span className="text-muted-foreground">{course.category.replace(/-/g, " ")}</span>
                 </div>
                 
-                <h1 className="text-3xl md:text-4xl font-bold mb-4">{course.title}</h1>
-                
-                <p className="text-xl text-gray-300 mb-6">{course.shortDescription}</p>
+                <h1 className="text-3xl md:text-4xl font-bold mb-4 text-secondary-foreground">{course.title}</h1>
+                <p className="text-xl text-muted-foreground mb-6">{course.shortDescription}</p>
                 
                 <div className="flex items-center flex-wrap gap-4 mb-6">
                   <div className="flex items-center">
                     <div className="flex">
                       {Array(5).fill(0).map((_, i) => (
-                        <Star 
-                          key={i} 
-                          className={`w-4 h-4 ${i < Math.round(course.rating) ? 'text-yellow-500 fill-yellow-500' : 'text-gray-400'}`} 
-                        />
+                        <Star key={i} className={`w-4 h-4 ${i < Math.round(course.rating) ? 'text-yellow-500 fill-yellow-500' : 'text-muted-foreground'}`} />
                       ))}
                     </div>
                     <span className="ml-2 font-medium">{course.rating}</span>
-                    <span className="ml-1 text-gray-400">({course.ratingCount} ratings)</span>
+                    <span className="ml-1 text-muted-foreground">({course.ratingCount} ratings)</span>
                   </div>
-                  
-                  <div className="flex items-center text-gray-300">
+                  <div className="flex items-center text-muted-foreground">
                     <User className="w-4 h-4 mr-1" />
-                    <span>{course.studentsCount.toLocaleString()} students</span>
+                    <span>{course.studentsCount.toLocaleString()} enrolled</span>
                   </div>
-                  
-                  <div className="flex items-center text-gray-300">
+                  <div className="flex items-center text-muted-foreground">
                     <Calendar className="w-4 h-4 mr-1" />
-                    <span>Last updated {course.lastUpdated}</span>
-                  </div>
-                  
-                  <div className="flex items-center text-gray-300">
-                    <Globe className="w-4 h-4 mr-1" />
-                    <span>{course.language}</span>
+                    <span>Updated {course.lastUpdated}</span>
                   </div>
                 </div>
                 
                 <div className="flex items-center mb-6">
-                  {course.instructorAvatar ? (
-                    <img 
-                      src={course.instructorAvatar} 
-                      alt={course.instructor} 
-                      className="w-10 h-10 rounded-full mr-3 border-2 border-white"
-                    />
-                  ) : (
-                    <div className="w-10 h-10 rounded-full bg-gray-200 mr-3" />
-                  )}
+                  <div className="w-10 h-10 rounded-full bg-primary/20 mr-3 flex items-center justify-center">
+                    <User className="w-5 h-5 text-primary" />
+                  </div>
                   <div>
-                    <p className="text-sm text-gray-400">Created by</p>
-                    <h3 className="font-medium">{course.instructor}</h3>
+                    <p className="text-sm text-muted-foreground">Created by</p>
+                    <h3 className="font-medium text-secondary-foreground">{course.instructor}</h3>
                   </div>
                 </div>
               </div>
               
               <div className="md:col-span-1 fade-in-delay-1">
-                <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                <div className="bg-card rounded-lg shadow-md overflow-hidden border border-border">
                   <div className="relative pb-[56.25%] overflow-hidden">
                     <img 
                       src={`${course.thumbnailUrl}?auto=format&fit=crop&w=800&q=80`}
                       alt={course.title}
                       className="absolute inset-0 w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                      <button className="bg-white bg-opacity-90 rounded-full p-3 hover:bg-opacity-100 transition-all duration-300">
-                        <PlayCircle className="w-10 h-10 text-learnify-600" />
-                      </button>
-                    </div>
                   </div>
                   
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-4">
                       {course.salePrice ? (
                         <div className="flex items-center">
-                          <span className="text-3xl font-bold text-gray-900">
-                            {formatPrice(course.salePrice)}
-                          </span>
-                          <span className="text-xl text-gray-500 line-through ml-3">
-                            {formatPrice(course.price)}
-                          </span>
+                          <span className="text-3xl font-bold text-card-foreground">{formatPrice(course.salePrice)}</span>
+                          <span className="text-xl text-muted-foreground line-through ml-3">{formatPrice(course.price)}</span>
                         </div>
                       ) : (
-                        <span className="text-3xl font-bold text-gray-900">
-                          {formatPrice(course.price)}
-                        </span>
+                        <span className="text-3xl font-bold text-card-foreground">{formatPrice(course.price)}</span>
                       )}
                     </div>
                     
                     {isInCart(course.id) ? (
                       <Link to="/cart" className="w-full">
-                        <Button 
-                          variant="outline" 
-                          className="w-full mb-3 border-learnify-600 text-learnify-600 hover:bg-learnify-50 py-6"
-                        >
+                        <Button variant="outline" className="w-full mb-3 border-primary text-primary hover:bg-primary/10 py-6">
                           <ShoppingCart className="mr-2 h-5 w-5" />
                           Go to Cart
                         </Button>
                       </Link>
                     ) : (
                       <Button 
-                        className="w-full mb-3 bg-learnify-600 hover:bg-learnify-700 text-white py-6"
+                        className="w-full mb-3 bg-primary hover:bg-primary/90 text-primary-foreground py-6"
                         onClick={() => addToCart(course.id)}
                       >
-                        <ShoppingCart className="mr-2 h-5 w-5" />
-                        Add to Cart
+                        Enroll Now
                       </Button>
                     )}
                     
-                    <Button variant="outline" className="w-full py-6 mb-6">
-                      Buy Now
-                    </Button>
+                    <a href="https://calendly.com" target="_blank" rel="noopener noreferrer">
+                      <Button variant="outline" className="w-full py-6 mb-6">
+                        Book a Free Session First
+                      </Button>
+                    </a>
                     
-                    <div className="text-center text-sm text-gray-500 mb-6">
+                    <div className="text-center text-sm text-muted-foreground mb-6">
                       30-Day Money-Back Guarantee
                     </div>
                     
-                    <div className="border-t border-gray-200 pt-6">
-                      <h3 className="font-bold text-gray-900 mb-4">This course includes:</h3>
-                      <ul className="space-y-3">
+                    <div className="border-t border-border pt-6">
+                      <h3 className="font-bold text-card-foreground mb-4">This program includes:</h3>
+                      <ul className="space-y-3 text-card-foreground">
                         <li className="flex items-start">
-                          <Clock className="h-5 w-5 text-gray-500 mr-3 flex-shrink-0 mt-0.5" />
-                          <span>{course.duration} of on-demand video</span>
+                          <Clock className="h-5 w-5 text-muted-foreground mr-3 flex-shrink-0 mt-0.5" />
+                          <span>{course.duration} of content</span>
                         </li>
                         <li className="flex items-start">
-                          <BookOpen className="h-5 w-5 text-gray-500 mr-3 flex-shrink-0 mt-0.5" />
-                          <span>{course.lectureCount} lectures</span>
+                          <BookOpen className="h-5 w-5 text-muted-foreground mr-3 flex-shrink-0 mt-0.5" />
+                          <span>{course.lectureCount} lessons</span>
                         </li>
                         <li className="flex items-start">
-                          <BarChart className="h-5 w-5 text-gray-500 mr-3 flex-shrink-0 mt-0.5" />
+                          <BarChart className="h-5 w-5 text-muted-foreground mr-3 flex-shrink-0 mt-0.5" />
                           <span>{course.level} level</span>
                         </li>
                         <li className="flex items-start">
-                          <Award className="h-5 w-5 text-gray-500 mr-3 flex-shrink-0 mt-0.5" />
-                          <span>Certificate of completion</span>
+                          <Award className="h-5 w-5 text-muted-foreground mr-3 flex-shrink-0 mt-0.5" />
+                          <span>Lifetime access</span>
                         </li>
                       </ul>
-                    </div>
-                    
-                    <div className="flex justify-between mt-6 pt-6 border-t border-gray-200">
-                      <Button variant="ghost" size="sm" className="hover:bg-gray-100">
-                        <Share2 className="h-4 w-4 mr-2" />
-                        Share
-                      </Button>
-                      <Button variant="ghost" size="sm" className="hover:bg-gray-100">
-                        <Heart className="h-4 w-4 mr-2" />
-                        Wishlist
-                      </Button>
                     </div>
                   </div>
                 </div>
@@ -274,41 +201,38 @@ export default function CourseDetails() {
         </div>
         
         {/* Course Content */}
-        <div className="py-12 bg-white">
+        <div className="py-12 bg-background">
           <div className="container mx-auto max-w-6xl px-4">
             <Tabs defaultValue="overview">
-              <TabsList className="mb-8 bg-gray-100 p-1 rounded-lg">
+              <TabsList className="mb-8 bg-muted p-1 rounded-lg">
                 <TabsTrigger value="overview" className="rounded-md">Overview</TabsTrigger>
                 <TabsTrigger value="curriculum" className="rounded-md">Curriculum</TabsTrigger>
-                <TabsTrigger value="instructor" className="rounded-md">Instructor</TabsTrigger>
-                <TabsTrigger value="reviews" className="rounded-md">Reviews</TabsTrigger>
+                <TabsTrigger value="instructor" className="rounded-md">About Coach</TabsTrigger>
               </TabsList>
               
               <TabsContent value="overview" className="fade-in">
                 <div className="grid md:grid-cols-3 gap-8">
                   <div className="md:col-span-2">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-6">About This Course</h2>
-                    <p className="text-gray-700 mb-8 leading-relaxed">
-                      {course.description}
-                    </p>
+                    <h2 className="text-2xl font-bold text-foreground mb-6">About This Program</h2>
+                    <p className="text-muted-foreground mb-8 leading-relaxed">{course.description}</p>
                     
                     <div className="mb-8">
-                      <h3 className="text-xl font-bold text-gray-900 mb-4">What You'll Learn</h3>
+                      <h3 className="text-xl font-bold text-foreground mb-4">What You'll Learn</h3>
                       <div className="grid sm:grid-cols-2 gap-3">
                         {course.whatYouWillLearn.map((item, index) => (
                           <div key={index} className="flex items-start">
-                            <Check className="h-5 w-5 text-learnify-600 mr-3 flex-shrink-0 mt-0.5" />
-                            <span className="text-gray-700">{item}</span>
+                            <Check className="h-5 w-5 text-primary mr-3 flex-shrink-0 mt-0.5" />
+                            <span className="text-muted-foreground">{item}</span>
                           </div>
                         ))}
                       </div>
                     </div>
                     
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-4">Course Topics</h3>
+                      <h3 className="text-xl font-bold text-foreground mb-4">Topics Covered</h3>
                       <div className="flex flex-wrap gap-2">
                         {course.topics.map((topic, index) => (
-                          <div key={index} className="bg-gray-100 text-gray-700 rounded-full py-1 px-4 text-sm">
+                          <div key={index} className="bg-muted text-muted-foreground rounded-full py-1 px-4 text-sm">
                             {topic}
                           </div>
                         ))}
@@ -317,30 +241,28 @@ export default function CourseDetails() {
                   </div>
                   
                   <div className="md:col-span-1">
-                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-                      <h3 className="text-lg font-bold text-gray-900 mb-4">Course Details</h3>
+                    <div className="bg-muted border border-border rounded-lg p-6">
+                      <h3 className="text-lg font-bold text-foreground mb-4">Program Details</h3>
                       <ul className="space-y-4">
                         <li className="flex justify-between">
-                          <span className="text-gray-600">Level</span>
-                          <span className="font-medium text-gray-900">{course.level}</span>
+                          <span className="text-muted-foreground">Level</span>
+                          <span className="font-medium text-foreground">{course.level}</span>
                         </li>
                         <li className="flex justify-between">
-                          <span className="text-gray-600">Category</span>
-                          <Link to={`/category/${course.category}`} className="font-medium text-learnify-600 hover:underline">
-                            {course.category.replace("-", " ")}
-                          </Link>
+                          <span className="text-muted-foreground">Category</span>
+                          <span className="font-medium text-primary">{course.category.replace(/-/g, " ")}</span>
                         </li>
                         <li className="flex justify-between">
-                          <span className="text-gray-600">Language</span>
-                          <span className="font-medium text-gray-900">{course.language}</span>
+                          <span className="text-muted-foreground">Language</span>
+                          <span className="font-medium text-foreground">{course.language}</span>
                         </li>
                         <li className="flex justify-between">
-                          <span className="text-gray-600">Last Updated</span>
-                          <span className="font-medium text-gray-900">{course.lastUpdated}</span>
+                          <span className="text-muted-foreground">Last Updated</span>
+                          <span className="font-medium text-foreground">{course.lastUpdated}</span>
                         </li>
                         <li className="flex justify-between">
-                          <span className="text-gray-600">Total Enrolled</span>
-                          <span className="font-medium text-gray-900">{course.studentsCount.toLocaleString()}</span>
+                          <span className="text-muted-foreground">Enrolled</span>
+                          <span className="font-medium text-foreground">{course.studentsCount.toLocaleString()}</span>
                         </li>
                       </ul>
                     </div>
@@ -350,139 +272,86 @@ export default function CourseDetails() {
               
               <TabsContent value="curriculum" className="fade-in">
                 <div className="mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Course Curriculum</h2>
-                  <div className="flex items-center text-gray-600 mb-6">
+                  <h2 className="text-2xl font-bold text-foreground mb-2">Program Curriculum</h2>
+                  <div className="flex items-center text-muted-foreground mb-6">
                     <BookOpen className="h-5 w-5 mr-2" />
-                    <span>{course.lectureCount} lectures</span>
+                    <span>{course.lectureCount} lessons</span>
                     <span className="mx-3">•</span>
                     <Clock className="h-5 w-5 mr-2" />
-                    <span>{course.duration} total length</span>
+                    <span>{course.duration} total</span>
                   </div>
                   
                   <Accordion type="single" collapsible className="w-full">
-                    <AccordionItem value="section-1" className="border border-gray-200 rounded-lg mb-4 overflow-hidden">
-                      <AccordionTrigger className="px-6 py-4 hover:bg-gray-50">
+                    <AccordionItem value="section-1" className="border border-border rounded-lg mb-4 overflow-hidden">
+                      <AccordionTrigger className="px-6 py-4 hover:bg-muted">
                         <div className="flex justify-between items-center w-full text-left">
                           <div>
-                            <h3 className="font-bold text-gray-900">Getting Started</h3>
-                            <div className="text-sm text-gray-500">5 lectures • 45 minutes</div>
+                            <h3 className="font-bold text-foreground">Getting Started</h3>
+                            <div className="text-sm text-muted-foreground">5 lessons • 45 minutes</div>
                           </div>
                         </div>
                       </AccordionTrigger>
                       <AccordionContent>
                         <div className="px-6 pb-4">
-                          <ul className="divide-y divide-gray-100">
-                            <li className="py-3 flex justify-between items-center">
-                              <div className="flex items-center">
-                                <PlayCircle className="h-5 w-5 text-gray-400 mr-3" />
-                                <span>Introduction to the Course</span>
-                              </div>
-                              <div className="text-sm text-gray-500">10:23</div>
-                            </li>
-                            <li className="py-3 flex justify-between items-center">
-                              <div className="flex items-center">
-                                <PlayCircle className="h-5 w-5 text-gray-400 mr-3" />
-                                <span>Course Overview</span>
-                              </div>
-                              <div className="text-sm text-gray-500">08:15</div>
-                            </li>
-                            <li className="py-3 flex justify-between items-center">
-                              <div className="flex items-center">
-                                <PlayCircle className="h-5 w-5 text-gray-400 mr-3" />
-                                <span>Setting Up Your Environment</span>
-                              </div>
-                              <div className="text-sm text-gray-500">12:44</div>
-                            </li>
-                            <li className="py-3 flex justify-between items-center">
-                              <div className="flex items-center">
-                                <PlayCircle className="h-5 w-5 text-gray-400 mr-3" />
-                                <span>Essential Tools and Resources</span>
-                              </div>
-                              <div className="text-sm text-gray-500">07:32</div>
-                            </li>
-                            <li className="py-3 flex justify-between items-center">
-                              <div className="flex items-center">
-                                <PlayCircle className="h-5 w-5 text-gray-400 mr-3" />
-                                <span>First Steps and Project Setup</span>
-                              </div>
-                              <div className="text-sm text-gray-500">06:18</div>
-                            </li>
+                          <ul className="divide-y divide-border">
+                            {["Introduction & Assessment", "Understanding the Pattern", "Your Recovery Roadmap", "Setting Expectations", "First Assignment"].map((title, i) => (
+                              <li key={i} className="py-3 flex justify-between items-center">
+                                <div className="flex items-center">
+                                  <PlayCircle className="h-5 w-5 text-muted-foreground mr-3" />
+                                  <span className="text-foreground">{title}</span>
+                                </div>
+                              </li>
+                            ))}
                           </ul>
                         </div>
                       </AccordionContent>
                     </AccordionItem>
                     
-                    <AccordionItem value="section-2" className="border border-gray-200 rounded-lg mb-4 overflow-hidden">
-                      <AccordionTrigger className="px-6 py-4 hover:bg-gray-50">
+                    <AccordionItem value="section-2" className="border border-border rounded-lg mb-4 overflow-hidden">
+                      <AccordionTrigger className="px-6 py-4 hover:bg-muted">
                         <div className="flex justify-between items-center w-full text-left">
                           <div>
-                            <h3 className="font-bold text-gray-900">Fundamentals</h3>
-                            <div className="text-sm text-gray-500">8 lectures • 1h 15m</div>
+                            <h3 className="font-bold text-foreground">Core Framework</h3>
+                            <div className="text-sm text-muted-foreground">8 lessons • 1h 15m</div>
                           </div>
                         </div>
                       </AccordionTrigger>
                       <AccordionContent>
                         <div className="px-6 pb-4">
-                          <ul className="divide-y divide-gray-100">
-                            <li className="py-3 flex justify-between items-center">
-                              <div className="flex items-center">
-                                <PlayCircle className="h-5 w-5 text-gray-400 mr-3" />
-                                <span>Core Concepts</span>
-                              </div>
-                              <div className="text-sm text-gray-500">14:23</div>
-                            </li>
-                            <li className="py-3 flex justify-between items-center">
-                              <div className="flex items-center">
-                                <PlayCircle className="h-5 w-5 text-gray-400 mr-3" />
-                                <span>Building Blocks</span>
-                              </div>
-                              <div className="text-sm text-gray-500">11:45</div>
-                            </li>
-                            <li className="py-3 flex justify-between items-center">
-                              <div className="flex items-center">
-                                <PlayCircle className="h-5 w-5 text-gray-400 mr-3" />
-                                <span>Essential Techniques</span>
-                              </div>
-                              <div className="text-sm text-gray-500">09:36</div>
-                            </li>
+                          <ul className="divide-y divide-border">
+                            {["The Approval Loop", "Spotting Covert Contracts", "Building Awareness"].map((title, i) => (
+                              <li key={i} className="py-3 flex justify-between items-center">
+                                <div className="flex items-center">
+                                  <PlayCircle className="h-5 w-5 text-muted-foreground mr-3" />
+                                  <span className="text-foreground">{title}</span>
+                                </div>
+                              </li>
+                            ))}
                           </ul>
                         </div>
                       </AccordionContent>
                     </AccordionItem>
                     
-                    <AccordionItem value="section-3" className="border border-gray-200 rounded-lg overflow-hidden">
-                      <AccordionTrigger className="px-6 py-4 hover:bg-gray-50">
+                    <AccordionItem value="section-3" className="border border-border rounded-lg overflow-hidden">
+                      <AccordionTrigger className="px-6 py-4 hover:bg-muted">
                         <div className="flex justify-between items-center w-full text-left">
                           <div>
-                            <h3 className="font-bold text-gray-900">Advanced Topics</h3>
-                            <div className="text-sm text-gray-500">12 lectures • 2h 30m</div>
+                            <h3 className="font-bold text-foreground">Advanced Recovery</h3>
+                            <div className="text-sm text-muted-foreground">12 lessons • 2h 30m</div>
                           </div>
                         </div>
                       </AccordionTrigger>
                       <AccordionContent>
                         <div className="px-6 pb-4">
-                          <ul className="divide-y divide-gray-100">
-                            <li className="py-3 flex justify-between items-center">
-                              <div className="flex items-center">
-                                <PlayCircle className="h-5 w-5 text-gray-400 mr-3" />
-                                <span>Advanced Strategies</span>
-                              </div>
-                              <div className="text-sm text-gray-500">18:12</div>
-                            </li>
-                            <li className="py-3 flex justify-between items-center">
-                              <div className="flex items-center">
-                                <PlayCircle className="h-5 w-5 text-gray-400 mr-3" />
-                                <span>Best Practices</span>
-                              </div>
-                              <div className="text-sm text-gray-500">15:45</div>
-                            </li>
-                            <li className="py-3 flex justify-between items-center">
-                              <div className="flex items-center">
-                                <PlayCircle className="h-5 w-5 text-gray-400 mr-3" />
-                                <span>Real-world Applications</span>
-                              </div>
-                              <div className="text-sm text-gray-500">22:18</div>
-                            </li>
+                          <ul className="divide-y divide-border">
+                            {["Displeasure Tolerance", "Setting Hard Boundaries", "Integration & Maintenance"].map((title, i) => (
+                              <li key={i} className="py-3 flex justify-between items-center">
+                                <div className="flex items-center">
+                                  <PlayCircle className="h-5 w-5 text-muted-foreground mr-3" />
+                                  <span className="text-foreground">{title}</span>
+                                </div>
+                              </li>
+                            ))}
                           </ul>
                         </div>
                       </AccordionContent>
@@ -493,167 +362,44 @@ export default function CourseDetails() {
               
               <TabsContent value="instructor" className="fade-in">
                 <div className="flex items-start mb-8">
-                  {course.instructorAvatar ? (
-                    <img 
-                      src={course.instructorAvatar} 
-                      alt={course.instructor} 
-                      className="w-20 h-20 rounded-full mr-6"
-                    />
-                  ) : (
-                    <div className="w-20 h-20 rounded-full bg-gray-200 mr-6" />
-                  )}
+                  <div className="w-20 h-20 rounded-full bg-primary/20 mr-6 flex items-center justify-center">
+                    <User className="w-10 h-10 text-primary" />
+                  </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">{course.instructor}</h2>
-                    <p className="text-gray-600 mb-4">Professional Instructor & Course Creator</p>
-                    <div className="flex items-center space-x-4 mb-4">
-                      <div className="flex items-center">
+                    <h2 className="text-2xl font-bold text-foreground mb-2">Michael Zick</h2>
+                    <p className="text-muted-foreground mb-4">Nice Guy Recovery Coach</p>
+                    <div className="flex items-center flex-wrap gap-4 mb-4">
+                      <div className="flex items-center text-muted-foreground">
                         <Star className="w-4 h-4 text-yellow-500 fill-yellow-500 mr-1" />
-                        <span className="text-gray-700">4.8 Instructor Rating</span>
+                        <span>4.8 Rating</span>
                       </div>
-                      <div className="flex items-center">
-                        <Award className="w-4 h-4 text-gray-500 mr-1" />
-                        <span className="text-gray-700">24,583 Reviews</span>
-                      </div>
-                      <div className="flex items-center">
-                        <User className="w-4 h-4 text-gray-500 mr-1" />
-                        <span className="text-gray-700">58,421 Students</span>
-                      </div>
-                      <div className="flex items-center">
-                        <PlayCircle className="w-4 h-4 text-gray-500 mr-1" />
-                        <span className="text-gray-700">12 Courses</span>
+                      <div className="flex items-center text-muted-foreground">
+                        <User className="w-4 h-4 mr-1" />
+                        <span>5,000+ Clients</span>
                       </div>
                     </div>
                   </div>
                 </div>
                 
-                <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-8">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">About the Instructor</h3>
-                  <p className="text-gray-700 mb-4">
-                    With over 10 years of industry experience, {course.instructor} has helped thousands of students master complex topics through clear explanations and practical examples. Their courses are known for being comprehensive yet accessible, with a focus on real-world applications and job-ready skills.
+                <div className="bg-muted p-6 rounded-lg border border-border mb-8">
+                  <h3 className="text-xl font-bold text-foreground mb-4">About Michael</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Michael Zick is a Nice Guy Recovery Coach who helps men break free from approval addiction and build authentic, fulfilling lives. After his own recovery journey, he developed a structured framework that has helped thousands of men transform their relationships, careers, and self-identity.
                   </p>
-                  <p className="text-gray-700">
-                    Before becoming a full-time instructor, they worked as a senior professional in the field and brought that practical knowledge to their teaching methodology. They're passionate about helping students achieve their career goals and regularly update course content to reflect industry changes.
+                  <p className="text-muted-foreground">
+                    His coaching approach is direct, no-nonsense, and results-focused. He doesn't deal in vague platitudes — every program includes specific tools, exercises, and frameworks you can apply immediately.
                   </p>
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="reviews" className="fade-in">
-                <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Student Reviews</h2>
-                  <div className="flex items-center mb-6">
-                    <div className="flex items-center mr-4">
-                      <span className="text-3xl font-bold text-gray-900 mr-2">{course.rating}</span>
-                      <div className="flex">
-                        {Array(5).fill(0).map((_, i) => (
-                          <Star 
-                            key={i} 
-                            className={`w-5 h-5 ${i < Math.round(course.rating) ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`} 
-                          />
-                        ))}
-                      </div>
-                    </div>
-                    <span className="text-gray-600">Course Rating • {course.ratingCount.toLocaleString()} ratings</span>
-                  </div>
-                  
-                  <div className="space-y-6">
-                    <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                      <div className="flex items-center mb-4">
-                        <img 
-                          src="https://randomuser.me/api/portraits/men/32.jpg" 
-                          alt="John D." 
-                          className="w-10 h-10 rounded-full mr-4"
-                        />
-                        <div>
-                          <h4 className="font-medium text-gray-900">John D.</h4>
-                          <div className="flex items-center">
-                            <div className="flex mr-2">
-                              {Array(5).fill(0).map((_, i) => (
-                                <Star 
-                                  key={i} 
-                                  className={`w-4 h-4 ${i < 5 ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`} 
-                                />
-                              ))}
-                            </div>
-                            <span className="text-sm text-gray-500">2 weeks ago</span>
-                          </div>
-                        </div>
-                      </div>
-                      <p className="text-gray-700">
-                        This course exceeded my expectations! The instructor explains complex concepts in a way that's easy to understand, and the practical exercises helped reinforce what I learned. I've already started applying these skills in my current job.
-                      </p>
-                    </div>
-                    
-                    <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                      <div className="flex items-center mb-4">
-                        <img 
-                          src="https://randomuser.me/api/portraits/women/44.jpg" 
-                          alt="Emily R." 
-                          className="w-10 h-10 rounded-full mr-4"
-                        />
-                        <div>
-                          <h4 className="font-medium text-gray-900">Emily R.</h4>
-                          <div className="flex items-center">
-                            <div className="flex mr-2">
-                              {Array(5).fill(0).map((_, i) => (
-                                <Star 
-                                  key={i} 
-                                  className={`w-4 h-4 ${i < 4 ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`} 
-                                />
-                              ))}
-                            </div>
-                            <span className="text-sm text-gray-500">1 month ago</span>
-                          </div>
-                        </div>
-                      </div>
-                      <p className="text-gray-700">
-                        Great course with lots of valuable information. The only reason I'm giving 4 stars instead of 5 is that some sections could use more in-depth examples. Otherwise, the instructor is knowledgeable and presents the material well.
-                      </p>
-                    </div>
-                    
-                    <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                      <div className="flex items-center mb-4">
-                        <img 
-                          src="https://randomuser.me/api/portraits/men/62.jpg" 
-                          alt="Michael T." 
-                          className="w-10 h-10 rounded-full mr-4"
-                        />
-                        <div>
-                          <h4 className="font-medium text-gray-900">Michael T.</h4>
-                          <div className="flex items-center">
-                            <div className="flex mr-2">
-                              {Array(5).fill(0).map((_, i) => (
-                                <Star 
-                                  key={i} 
-                                  className={`w-4 h-4 ${i < 5 ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`} 
-                                />
-                              ))}
-                            </div>
-                            <span className="text-sm text-gray-500">2 months ago</span>
-                          </div>
-                        </div>
-                      </div>
-                      <p className="text-gray-700">
-                        I've taken many online courses, and this is definitely one of the best. The curriculum is well-structured, and the projects are challenging but achievable. The instructor responds quickly to questions in the discussion forum, which is a huge plus.
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="mt-6 text-center">
-                    <Button variant="outline" className="text-learnify-600 border-learnify-600 hover:bg-learnify-50">
-                      Load More Reviews
-                    </Button>
-                  </div>
                 </div>
               </TabsContent>
             </Tabs>
           </div>
         </div>
         
-        {/* Related Courses */}
+        {/* Related Programs */}
         {relatedCourses.length > 0 && (
-          <section className="py-12 bg-gray-50">
+          <section className="py-12 bg-muted">
             <div className="container mx-auto max-w-6xl px-4">
-              <h2 className="text-2xl font-bold text-gray-900 mb-8">Related Courses</h2>
+              <h2 className="text-2xl font-bold text-foreground mb-8">Related Programs</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {relatedCourses.map((relatedCourse, index) => (
                   <CourseCard 
