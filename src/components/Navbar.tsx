@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ShoppingCart, User, LogOut, LayoutDashboard, BookOpen, Settings } from '@/lib/icons';
 import { Button } from '@/components/ui/button';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import { useCart } from '@/hooks/use-cart';
 import { useAuth } from '@/hooks/use-auth';
 import {
@@ -58,25 +57,6 @@ export default function Navbar() {
             <Link to="/about" className="cubist-link text-foreground hover:text-primary transition-colors font-bold uppercase tracking-[0.08em] border-b-2 border-transparent hover:border-foreground pb-1">
               About
             </Link>
-            {isAdmin && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="text-foreground hover:text-primary font-bold">
-                    Admin
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56 border-2 border-foreground bg-card">
-                  {adminRoutes.map(({ to, label, icon: Icon }) => (
-                    <DropdownMenuItem asChild key={to}>
-                      <Link to={to} className="flex items-center cursor-pointer uppercase tracking-[0.05em] font-semibold">
-                        <Icon className="mr-2 h-4 w-4" />
-                        {label}
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
             <a href="https://calendly.com" target="_blank" rel="noopener noreferrer">
               <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-6">
                 Book a Free Session
@@ -140,7 +120,6 @@ export default function Navbar() {
               </Link>
             )}
 
-            <ThemeToggle />
           </nav>
 
           <div className="flex items-center space-x-2 md:hidden">
@@ -154,7 +133,6 @@ export default function Navbar() {
                 )}
               </Button>
             </Link>
-            <ThemeToggle />
             <Button
               variant="outline"
               size="icon"

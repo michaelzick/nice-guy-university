@@ -9,6 +9,7 @@ import { AuthProvider } from "@/hooks/use-auth";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import AuthGuard from "@/components/AuthGuard";
 import AdminGuard from "@/components/AdminGuard";
+import ScrollToTop from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 import CoursesPage from "./pages/CoursesPage";
 import CourseDetails from "./pages/CourseDetails";
@@ -39,6 +40,7 @@ const App = () => (
             <Toaster />
             <Sonner />
             <BrowserRouter>
+              <ScrollToTop />
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/courses" element={<CoursesPage />} />

@@ -67,10 +67,9 @@ export default function CourseDetails() {
       <Navbar />
 
       <main className="flex-grow pt-20">
-        {/* Course Header */}
         <div className="bg-secondary text-secondary-foreground py-12">
           <div className="container mx-auto max-w-6xl px-4">
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-8 items-start">
               <div className="md:col-span-2 fade-in">
                 <div className="flex items-center text-sm mb-4">
                   <Link to="/" className="text-muted-foreground hover:text-primary">Home</Link>
@@ -112,9 +111,136 @@ export default function CourseDetails() {
                     <h3 className="font-medium text-secondary-foreground">{course.instructor}</h3>
                   </div>
                 </div>
+
+                <div className="mt-8 bg-background text-foreground border-2 border-foreground p-6 cubist-frame">
+                  <Tabs defaultValue="overview">
+                    <TabsList className="mb-8 bg-muted p-1">
+                      <TabsTrigger value="overview">Overview</TabsTrigger>
+                      <TabsTrigger value="curriculum">Curriculum</TabsTrigger>
+                      <TabsTrigger value="instructor">About Coach</TabsTrigger>
+                    </TabsList>
+
+                    <TabsContent value="overview" className="fade-in">
+                      <h2 className="text-2xl font-bold text-foreground mb-6">About This Program</h2>
+                      <p className="text-muted-foreground mb-8 leading-relaxed">{course.description}</p>
+
+                      <div className="mb-8">
+                        <h3 className="text-xl font-bold text-foreground mb-4">What You'll Learn</h3>
+                        <div className="grid sm:grid-cols-2 gap-3">
+                          {course.whatYouWillLearn.map((item, index) => (
+                            <div key={index} className="flex items-start">
+                              <Check className="h-5 w-5 text-primary mr-3 flex-shrink-0 mt-0.5" />
+                              <span className="text-muted-foreground">{item}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <h3 className="text-xl font-bold text-foreground mb-4">Topics Covered</h3>
+                        <div className="flex flex-wrap gap-2">
+                          {course.topics.map((topic, index) => (
+                            <div key={index} className="bg-muted text-muted-foreground border-2 border-foreground py-1 px-4 text-sm font-semibold uppercase tracking-[0.05em]">
+                              {topic}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </TabsContent>
+
+                    <TabsContent value="curriculum" className="fade-in">
+                      <div className="mb-6">
+                        <h2 className="text-2xl font-bold text-foreground mb-2">Program Curriculum</h2>
+                        <div className="flex items-center text-muted-foreground mb-6">
+                          <BookOpen className="h-5 w-5 mr-2" />
+                          <span>{totalLessons > 0 ? totalLessons : course.lectureCount} lessons</span>
+                          <span className="mx-3">&bull;</span>
+                          <Clock className="h-5 w-5 mr-2" />
+                          <span>{course.duration} total</span>
+                        </div>
+
+                        {chapters.length > 0 ? (
+                          <Accordion type="single" collapsible className="w-full">
+                            {chapters.map((chapter) => {
+                              const chapterDuration = chapter.lessons.reduce((s, l) => s + l.durationSeconds, 0);
+                              return (
+                                <AccordionItem key={chapter.id} value={chapter.id} className="border-2 border-foreground mb-4 overflow-hidden">
+                                  <AccordionTrigger className="px-6 py-4 hover:bg-muted">
+                                    <div className="flex justify-between items-center w-full text-left">
+                                      <div>
+                                        <h3 className="font-bold text-foreground">{chapter.title}</h3>
+                                        <div className="text-sm text-muted-foreground">
+                                          {chapter.lessons.length} lessons {chapterDuration > 0 && `\u2022 ${formatDuration(chapterDuration)}`}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </AccordionTrigger>
+                                  <AccordionContent>
+                                    <div className="px-6 pb-4">
+                                      <ul className="divide-y divide-border">
+                                        {chapter.lessons.map((lesson) => (
+                                          <li key={lesson.id} className="py-3 flex justify-between items-center">
+                                            <div className="flex items-center">
+                                              <PlayCircle className="h-5 w-5 text-muted-foreground mr-3" />
+                                              <span className="text-foreground">{lesson.title}</span>
+                                              {lesson.isPreview && (
+                                                <span className="ml-2 text-xs bg-primary/10 text-primary px-2 py-0.5 border-2 border-primary uppercase tracking-[0.05em]">Preview</span>
+                                              )}
+                                            </div>
+                                            {lesson.durationSeconds > 0 && (
+                                              <span className="text-sm text-muted-foreground">{formatDuration(lesson.durationSeconds)}</span>
+                                            )}
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </div>
+                                  </AccordionContent>
+                                </AccordionItem>
+                              );
+                            })}
+                          </Accordion>
+                        ) : (
+                          <p className="text-muted-foreground">Curriculum details coming soon.</p>
+                        )}
+                      </div>
+                    </TabsContent>
+
+                    <TabsContent value="instructor" className="fade-in">
+                      <div className="flex items-start mb-8">
+                        <div className="w-20 h-20 bg-primary/20 border-2 border-foreground mr-6 flex items-center justify-center">
+                          <User className="w-10 h-10 text-primary" />
+                        </div>
+                        <div>
+                          <h2 className="text-2xl font-bold text-foreground mb-2">Michael Zick</h2>
+                          <p className="text-muted-foreground mb-4">Nice Guy Recovery Coach</p>
+                          <div className="flex items-center flex-wrap gap-4 mb-4">
+                            <div className="flex items-center text-muted-foreground">
+                              <Star className="w-4 h-4 text-yellow-500 fill-yellow-500 mr-1" />
+                              <span>4.8 Rating</span>
+                            </div>
+                            <div className="flex items-center text-muted-foreground">
+                              <User className="w-4 h-4 mr-1" />
+                              <span>5,000+ Clients</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="bg-muted p-6 border-2 border-foreground mb-8 cubist-frame">
+                        <h3 className="text-xl font-bold text-foreground mb-4">About Michael</h3>
+                        <p className="text-muted-foreground mb-4">
+                          Michael Zick is a Nice Guy Recovery Coach who helps men break free from approval addiction and build authentic, fulfilling lives. After his own recovery journey, he developed a structured framework that has helped thousands of men transform their relationships, careers, and self-identity.
+                        </p>
+                        <p className="text-muted-foreground">
+                          His coaching approach is direct, no-nonsense, and results-focused. He doesn't deal in vague platitudes — every program includes specific tools, exercises, and frameworks you can apply immediately.
+                        </p>
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+                </div>
               </div>
 
-              <div className="md:col-span-1 fade-in-delay-1">
+              <div className="md:col-span-1 fade-in-delay-1 space-y-6">
                 <div className="bg-card overflow-hidden border-2 border-foreground cubist-frame">
                   <div className="relative pb-[56.25%] overflow-hidden">
                     <img
@@ -162,7 +288,7 @@ export default function CourseDetails() {
                       30-Day Money-Back Guarantee
                     </div>
 
-                    <div className="border-t border-border pt-6">
+                    <div className="border-t-2 border-border pt-6">
                       <h3 className="font-bold text-card-foreground mb-4">This program includes:</h3>
                       <ul className="space-y-3 text-card-foreground">
                         <li className="flex items-start">
@@ -185,170 +311,33 @@ export default function CourseDetails() {
                     </div>
                   </div>
                 </div>
+                <div className="bg-card border-2 border-foreground p-6 cubist-frame">
+                  <h3 className="text-lg font-bold text-card-foreground mb-4">Program Details</h3>
+                  <ul className="space-y-4">
+                    <li className="flex justify-between">
+                      <span className="text-muted-foreground">Level</span>
+                      <span className="font-medium text-foreground">{course.level}</span>
+                    </li>
+                    <li className="flex justify-between">
+                      <span className="text-muted-foreground">Category</span>
+                      <span className="font-medium text-primary">{course.category.replace(/-/g, " ")}</span>
+                    </li>
+                    <li className="flex justify-between">
+                      <span className="text-muted-foreground">Language</span>
+                      <span className="font-medium text-foreground">{course.language}</span>
+                    </li>
+                    <li className="flex justify-between">
+                      <span className="text-muted-foreground">Last Updated</span>
+                      <span className="font-medium text-foreground">{course.lastUpdated}</span>
+                    </li>
+                    <li className="flex justify-between">
+                      <span className="text-muted-foreground">Enrolled</span>
+                      <span className="font-medium text-foreground">{course.studentsCount.toLocaleString()}</span>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Course Content */}
-        <div className="py-12 bg-background">
-          <div className="container mx-auto max-w-6xl px-4">
-            <Tabs defaultValue="overview">
-              <TabsList className="mb-8 bg-muted p-1">
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="curriculum">Curriculum</TabsTrigger>
-                <TabsTrigger value="instructor">About Coach</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="overview" className="fade-in">
-                <div className="grid md:grid-cols-3 gap-8">
-                  <div className="md:col-span-2">
-                    <h2 className="text-2xl font-bold text-foreground mb-6">About This Program</h2>
-                    <p className="text-muted-foreground mb-8 leading-relaxed">{course.description}</p>
-
-                    <div className="mb-8">
-                      <h3 className="text-xl font-bold text-foreground mb-4">What You'll Learn</h3>
-                      <div className="grid sm:grid-cols-2 gap-3">
-                        {course.whatYouWillLearn.map((item, index) => (
-                          <div key={index} className="flex items-start">
-                            <Check className="h-5 w-5 text-primary mr-3 flex-shrink-0 mt-0.5" />
-                            <span className="text-muted-foreground">{item}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="text-xl font-bold text-foreground mb-4">Topics Covered</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {course.topics.map((topic, index) => (
-                          <div key={index} className="bg-muted text-muted-foreground border-2 border-foreground py-1 px-4 text-sm font-semibold uppercase tracking-[0.05em]">
-                            {topic}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="md:col-span-1">
-                    <div className="bg-muted border-2 border-foreground p-6 cubist-frame">
-                      <h3 className="text-lg font-bold text-foreground mb-4">Program Details</h3>
-                      <ul className="space-y-4">
-                        <li className="flex justify-between">
-                          <span className="text-muted-foreground">Level</span>
-                          <span className="font-medium text-foreground">{course.level}</span>
-                        </li>
-                        <li className="flex justify-between">
-                          <span className="text-muted-foreground">Category</span>
-                          <span className="font-medium text-primary">{course.category.replace(/-/g, " ")}</span>
-                        </li>
-                        <li className="flex justify-between">
-                          <span className="text-muted-foreground">Language</span>
-                          <span className="font-medium text-foreground">{course.language}</span>
-                        </li>
-                        <li className="flex justify-between">
-                          <span className="text-muted-foreground">Last Updated</span>
-                          <span className="font-medium text-foreground">{course.lastUpdated}</span>
-                        </li>
-                        <li className="flex justify-between">
-                          <span className="text-muted-foreground">Enrolled</span>
-                          <span className="font-medium text-foreground">{course.studentsCount.toLocaleString()}</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </TabsContent>
-
-              <TabsContent value="curriculum" className="fade-in">
-                <div className="mb-6">
-                  <h2 className="text-2xl font-bold text-foreground mb-2">Program Curriculum</h2>
-                  <div className="flex items-center text-muted-foreground mb-6">
-                    <BookOpen className="h-5 w-5 mr-2" />
-                    <span>{totalLessons > 0 ? totalLessons : course.lectureCount} lessons</span>
-                    <span className="mx-3">&bull;</span>
-                    <Clock className="h-5 w-5 mr-2" />
-                    <span>{course.duration} total</span>
-                  </div>
-
-                  {chapters.length > 0 ? (
-                    <Accordion type="single" collapsible className="w-full">
-                      {chapters.map((chapter) => {
-                        const chapterDuration = chapter.lessons.reduce((s, l) => s + l.durationSeconds, 0);
-                        return (
-                          <AccordionItem key={chapter.id} value={chapter.id} className="border-2 border-foreground mb-4 overflow-hidden">
-                            <AccordionTrigger className="px-6 py-4 hover:bg-muted">
-                              <div className="flex justify-between items-center w-full text-left">
-                                <div>
-                                  <h3 className="font-bold text-foreground">{chapter.title}</h3>
-                                  <div className="text-sm text-muted-foreground">
-                                    {chapter.lessons.length} lessons {chapterDuration > 0 && `\u2022 ${formatDuration(chapterDuration)}`}
-                                  </div>
-                                </div>
-                              </div>
-                            </AccordionTrigger>
-                            <AccordionContent>
-                              <div className="px-6 pb-4">
-                                <ul className="divide-y divide-border">
-                                  {chapter.lessons.map((lesson) => (
-                                    <li key={lesson.id} className="py-3 flex justify-between items-center">
-                                      <div className="flex items-center">
-                                        <PlayCircle className="h-5 w-5 text-muted-foreground mr-3" />
-                                        <span className="text-foreground">{lesson.title}</span>
-                                        {lesson.isPreview && (
-                                          <span className="ml-2 text-xs bg-primary/10 text-primary px-2 py-0.5 border-2 border-primary uppercase tracking-[0.05em]">Preview</span>
-                                        )}
-                                      </div>
-                                      {lesson.durationSeconds > 0 && (
-                                        <span className="text-sm text-muted-foreground">{formatDuration(lesson.durationSeconds)}</span>
-                                      )}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            </AccordionContent>
-                          </AccordionItem>
-                        );
-                      })}
-                    </Accordion>
-                  ) : (
-                    <p className="text-muted-foreground">Curriculum details coming soon.</p>
-                  )}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="instructor" className="fade-in">
-                <div className="flex items-start mb-8">
-                  <div className="w-20 h-20 bg-primary/20 border-2 border-foreground mr-6 flex items-center justify-center">
-                    <User className="w-10 h-10 text-primary" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold text-foreground mb-2">Michael Zick</h2>
-                    <p className="text-muted-foreground mb-4">Nice Guy Recovery Coach</p>
-                    <div className="flex items-center flex-wrap gap-4 mb-4">
-                      <div className="flex items-center text-muted-foreground">
-                        <Star className="w-4 h-4 text-yellow-500 fill-yellow-500 mr-1" />
-                        <span>4.8 Rating</span>
-                      </div>
-                      <div className="flex items-center text-muted-foreground">
-                        <User className="w-4 h-4 mr-1" />
-                        <span>5,000+ Clients</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-muted p-6 border-2 border-foreground mb-8 cubist-frame">
-                  <h3 className="text-xl font-bold text-foreground mb-4">About Michael</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Michael Zick is a Nice Guy Recovery Coach who helps men break free from approval addiction and build authentic, fulfilling lives. After his own recovery journey, he developed a structured framework that has helped thousands of men transform their relationships, careers, and self-identity.
-                  </p>
-                  <p className="text-muted-foreground">
-                    His coaching approach is direct, no-nonsense, and results-focused. He doesn't deal in vague platitudes — every program includes specific tools, exercises, and frameworks you can apply immediately.
-                  </p>
-                </div>
-              </TabsContent>
-            </Tabs>
           </div>
         </div>
 

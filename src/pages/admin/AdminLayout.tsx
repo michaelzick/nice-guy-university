@@ -1,7 +1,6 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { LayoutDashboard, BookOpen, ShoppingCart, Settings, ChevronLeft } from '@/lib/icons';
 import { Button } from '@/components/ui/button';
-import { ThemeToggle } from '@/components/ThemeToggle';
 
 const navItems = [
   { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', exact: true },
@@ -52,7 +51,6 @@ export default function AdminLayout() {
                 Back to Site
               </Button>
             </Link>
-            <ThemeToggle />
           </div>
         </div>
       </aside>
