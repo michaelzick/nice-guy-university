@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ShoppingCart, User, LogOut, LayoutDashboard, BookOpen } from 'lucide-react';
+import { Menu, X, ShoppingCart, User, LogOut, LayoutDashboard, BookOpen, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useCart } from '@/hooks/use-cart';
@@ -20,6 +20,12 @@ export default function Navbar() {
   const location = useLocation();
   const { cart } = useCart();
   const { user, profile, isAdmin, signOut } = useAuth();
+  const adminRoutes = [
+    { to: '/admin', label: 'Admin Dashboard', icon: LayoutDashboard },
+    { to: '/admin/courses', label: 'Admin Courses', icon: BookOpen },
+    { to: '/admin/orders', label: 'Admin Orders', icon: ShoppingCart },
+    { to: '/admin/settings', label: 'Admin Settings', icon: Settings },
+  ];
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -50,6 +56,25 @@ export default function Navbar() {
             <Link to="/about" className="text-secondary-foreground/80 hover:text-primary transition-colors font-medium">
               About
             </Link>
+            {isAdmin && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="text-secondary-foreground/80 hover:text-primary font-medium px-0">
+                    Admin
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-52">
+                  {adminRoutes.map(({ to, label, icon: Icon }) => (
+                    <DropdownMenuItem asChild key={to}>
+                      <Link to={to} className="flex items-center cursor-pointer">
+                        <Icon className="mr-2 h-4 w-4" />
+                        {label}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
             <a href="https://calendly.com" target="_blank" rel="noopener noreferrer">
               <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-6">
                 Book a Free Session
@@ -88,12 +113,17 @@ export default function Navbar() {
                     </Link>
                   </DropdownMenuItem>
                   {isAdmin && (
-                    <DropdownMenuItem asChild>
-                      <Link to="/admin" className="flex items-center cursor-pointer">
-                        <LayoutDashboard className="mr-2 h-4 w-4" />
-                        Admin Dashboard
-                      </Link>
-                    </DropdownMenuItem>
+                    <>
+                      <DropdownMenuSeparator />
+                      {adminRoutes.map(({ to, label, icon: Icon }) => (
+                        <DropdownMenuItem asChild key={to}>
+                          <Link to={to} className="flex items-center cursor-pointer">
+                            <Icon className="mr-2 h-4 w-4" />
+                            {label}
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </>
                   )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={signOut} className="cursor-pointer">
@@ -153,9 +183,16 @@ export default function Navbar() {
                   My Programs
                 </Link>
                 {isAdmin && (
-                  <Link to="/admin" className="text-secondary-foreground/80 hover:text-primary font-medium py-2">
-                    Admin Dashboard
-                  </Link>
+                  <>
+                    <p className="text-xs uppercase tracking-wider text-secondary-foreground/50 pt-2">
+                      Admin
+                    </p>
+                    {adminRoutes.map(({ to, label }) => (
+                      <Link key={to} to={to} className="text-secondary-foreground/80 hover:text-primary font-medium py-2">
+                        {label}
+                      </Link>
+                    ))}
+                  </>
                 )}
                 <Button
                   variant="ghost"

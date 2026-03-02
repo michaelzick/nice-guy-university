@@ -99,8 +99,8 @@ export default function FilterSidebar({
                   <div className="flex items-center">
                     <Checkbox 
                       id={`${idPrefix}price-all`} 
-                      checked={priceRange[0] === 0 && priceRange[1] === 200}
-                      onCheckedChange={() => setPriceRange([0, 200])}
+                      checked={priceRange[0] === 0 && priceRange[1] === 500}
+                      onCheckedChange={() => setPriceRange([0, 500])}
                       className="mr-2 data-[state=checked]:bg-learnify-600 data-[state=checked]:border-learnify-600"
                     />
                     <label htmlFor={`${idPrefix}price-all`} className="text-sm text-gray-700 cursor-pointer">
@@ -122,7 +122,7 @@ export default function FilterSidebar({
                     <Checkbox 
                       id={`${idPrefix}price-paid`} 
                       checked={priceRange[0] > 0}
-                      onCheckedChange={() => setPriceRange(priceRange[0] > 0 ? [0, 200] : [0.01, 200])}
+                      onCheckedChange={() => setPriceRange(priceRange[0] > 0 ? [0, 500] : [0.01, 500])}
                       className="mr-2 data-[state=checked]:bg-learnify-600 data-[state=checked]:border-learnify-600"
                     />
                     <label htmlFor={`${idPrefix}price-paid`} className="text-sm text-gray-700 cursor-pointer">
@@ -154,8 +154,8 @@ export default function FilterSidebar({
                   <div className="flex items-center">
                     <Checkbox 
                       id={`${idPrefix}price-100-plus`} 
-                      checked={priceRange[0] === 100 && priceRange[1] === 200}
-                      onCheckedChange={() => setPriceRange([100, 200])}
+                      checked={priceRange[0] === 100 && priceRange[1] === 500}
+                      onCheckedChange={() => setPriceRange([100, 500])}
                       className="mr-2 data-[state=checked]:bg-learnify-600 data-[state=checked]:border-learnify-600"
                     />
                     <label htmlFor={`${idPrefix}price-100-plus`} className="text-sm text-gray-700 cursor-pointer">

@@ -16,7 +16,6 @@ export default function CoursesPage() {
 
   const {
     filteredCourses,
-    isLoading,
     searchQuery,
     setSearchQuery,
     selectedLevels,
@@ -103,7 +102,7 @@ export default function CoursesPage() {
               )}
 
               <CourseGrid
-                isLoading={isLoading || isLoadingCourses}
+                isLoading={isLoadingCourses}
                 courses={filteredCourses}
                 clearFilters={clearFilters}
               />

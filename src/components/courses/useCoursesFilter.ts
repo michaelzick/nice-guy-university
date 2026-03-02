@@ -5,21 +5,15 @@ import { PriceRangeType } from './types';
 
 export default function useCoursesFilter(initialCourses: Course[]) {
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [sortOption, setSortOption] = useState('popular');
-  const [priceRange, setPriceRange] = useState<PriceRangeType>([0, 200]);
-  
-  // Initial loading effect
+  const [priceRange, setPriceRange] = useState<PriceRangeType>([0, 500]);
+
+  // Sync courses when they arrive
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setFilteredCourses(initialCourses);
-      setIsLoading(false);
-    }, 500);
-    
-    return () => clearTimeout(timer);
+    setFilteredCourses(initialCourses);
   }, [initialCourses]);
   
   // Filter and sort effect
@@ -95,7 +89,7 @@ export default function useCoursesFilter(initialCourses: Course[]) {
   const clearFilters = () => {
     setSelectedLevels([]);
     setSelectedCategories([]);
-    setPriceRange([0, 200]);
+    setPriceRange([0, 500]);
     setSearchQuery('');
   };
   
@@ -103,13 +97,12 @@ export default function useCoursesFilter(initialCourses: Course[]) {
     return selectedLevels.length > 0 || 
            selectedCategories.length > 0 || 
            priceRange[0] > 0 || 
-           priceRange[1] < 200 ||
+           priceRange[1] < 500 ||
            searchQuery.trim().length > 0;
   };
   
   return {
     filteredCourses,
-    isLoading,
     searchQuery,
     setSearchQuery,
     selectedLevels,

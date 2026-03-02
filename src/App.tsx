@@ -26,6 +26,7 @@ import AdminDashboard from "./pages/admin/Dashboard";
 import AdminCoursesList from "./pages/admin/CoursesList";
 import AdminCourseForm from "./pages/admin/CourseForm";
 import AdminOrdersList from "./pages/admin/OrdersList";
+import AdminSettings from "./pages/admin/Settings";
 
 const queryClient = new QueryClient();
 
@@ -62,6 +63,7 @@ const App = () => (
                   <Route path="courses/new" element={<AdminCourseForm />} />
                   <Route path="courses/:id/edit" element={<AdminCourseForm />} />
                   <Route path="orders" element={<AdminOrdersList />} />
+                  <Route path="settings" element={<AdminSettings />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
               </Routes>

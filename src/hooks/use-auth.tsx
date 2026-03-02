@@ -13,6 +13,8 @@ type AuthContextType = {
   signUp: (email: string, password: string, firstName: string, lastName: string) => Promise<{ error: string | null }>;
   signInWithMagicLink: (email: string) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
+  updatePassword: (newPassword: string) => Promise<{ error: string | null }>;
+  updateProfile: (updates: { firstName?: string; lastName?: string; avatarUrl?: string }) => Promise<{ error: string | null }>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -47,14 +49,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const initializeAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
       setSession(session);
       setUser(session?.user ?? null);
+
       if (session?.user) {
-        fetchProfile(session.user.id).then(setProfile);
+        const p = await fetchProfile(session.user.id);
+        setProfile(p);
+      } else {
+        setProfile(null);
       }
+
       setIsLoading(false);
-    });
+    };
+
+    initializeAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
@@ -104,10 +114,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { error: error?.message ?? null };
   };
 
+  const updatePassword = async (newPassword: string) => {
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    return { error: error?.message ?? null };
+  };
+
+  const updateProfile = async (updates: { firstName?: string; lastName?: string; avatarUrl?: string }) => {
+    if (!user) return { error: 'Not authenticated' };
+
+    const dbUpdates: Record<string, string> = {};
+    if (updates.firstName !== undefined) dbUpdates.first_name = updates.firstName;
+    if (updates.lastName !== undefined) dbUpdates.last_name = updates.lastName;
+    if (updates.avatarUrl !== undefined) dbUpdates.avatar_url = updates.avatarUrl;
+
+    const { error } = await supabase
+      .from('profiles')
+      .update(dbUpdates)
+      .eq('id', user.id);
+
+    if (error) return { error: error.message };
+
+    const refreshed = await fetchProfile(user.id);
+    setProfile(refreshed);
+    return { error: null };
+  };
+
   const signOut = async () => {
     await supabase.auth.signOut();
     setProfile(null);
   };
+
+  const normalizedRole = typeof profile?.role === 'string'
+    ? profile.role.trim().toLowerCase()
+    : '';
 
   return (
     <AuthContext.Provider
@@ -116,11 +155,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         session,
         profile,
         isLoading,
-        isAdmin: profile?.role === 'admin',
+        isAdmin: normalizedRole === 'admin',
         signIn,
         signUp,
         signInWithMagicLink,
         signOut,
+        updatePassword,
+        updateProfile,
       }}
     >
       {children}

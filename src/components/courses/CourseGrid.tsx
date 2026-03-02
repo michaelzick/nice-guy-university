@@ -1,7 +1,6 @@
 
-import { Search } from 'lucide-react';
+import { Loader2, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
 import CourseCard from '@/components/CourseCard';
 import { Course } from '@/types/course';
 
@@ -14,21 +13,9 @@ interface CourseGridProps {
 export default function CourseGrid({ isLoading, courses, clearFilters }: CourseGridProps) {
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {Array(4).fill(0).map((_, index) => (
-          <div key={index} className="animate-pulse">
-            <div className="rounded-lg overflow-hidden">
-              <div className="bg-gray-200 h-48 w-full"></div>
-              <div className="p-5 bg-white">
-                <div className="h-4 bg-gray-200 rounded w-1/4 mb-4"></div>
-                <div className="h-6 bg-gray-200 rounded w-3/4 mb-4"></div>
-                <div className="h-4 bg-gray-200 rounded w-full mb-4"></div>
-                <div className="h-4 bg-gray-200 rounded w-2/3"></div>
-                <div className="h-10 bg-gray-200 rounded w-full mt-6"></div>
-              </div>
-            </div>
-          </div>
-        ))}
+      <div className="py-16 flex flex-col items-center justify-center gap-3">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <p className="text-sm text-muted-foreground">Loading programs...</p>
       </div>
     );
   }
@@ -36,11 +23,11 @@ export default function CourseGrid({ isLoading, courses, clearFilters }: CourseG
   if (courses.length === 0) {
     return (
       <div className="text-center py-16 fade-in">
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-6">
-          <Search className="h-10 w-10 text-gray-400" />
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-muted rounded-full mb-6">
+          <Search className="h-10 w-10 text-muted-foreground" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">No courses found</h2>
-        <p className="text-gray-600 mb-8 max-w-md mx-auto">
+        <h2 className="text-2xl font-bold text-foreground mb-4">No courses found</h2>
+        <p className="text-muted-foreground mb-8 max-w-md mx-auto">
           We couldn't find any courses that match your current filters. Try adjusting your search criteria.
         </p>
         <Button 
@@ -56,7 +43,7 @@ export default function CourseGrid({ isLoading, courses, clearFilters }: CourseG
   
   return (
     <div>
-      <p className="text-sm text-gray-600 mb-6">
+      <p className="text-sm text-muted-foreground mb-6">
         Showing {courses.length} {courses.length === 1 ? 'course' : 'courses'}
       </p>
       

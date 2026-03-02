@@ -63,7 +63,7 @@ export default function ActiveFilters({
         );
       })}
       
-      {!(priceRange[0] === 0 && priceRange[1] === 200) && (
+      {!(priceRange[0] === 0 && priceRange[1] === 500) && (
         <Badge 
           variant="outline" 
           className="bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -73,7 +73,7 @@ export default function ActiveFilters({
             : `$${priceRange[0]} - $${priceRange[1]}`}
           <X 
             className="h-3 w-3 ml-1 cursor-pointer" 
-            onClick={() => setPriceRange([0, 200])}
+            onClick={() => setPriceRange([0, 500])}
           />
         </Badge>
       )}
