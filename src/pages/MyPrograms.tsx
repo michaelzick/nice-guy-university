@@ -34,7 +34,7 @@ export default function MyPrograms() {
                 You haven't enrolled in any programs yet. Browse our catalog to get started.
               </p>
               <Link to="/courses">
-                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">
                   Browse Programs
                 </Button>
               </Link>

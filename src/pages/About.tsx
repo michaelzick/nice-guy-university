@@ -99,7 +99,7 @@ export default function About() {
                 </Button>
               </a>
               <Link to="/courses">
-                <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-6 text-lg">
+                <Button className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-6 text-lg">
                   Browse Programs
                 </Button>
               </Link>

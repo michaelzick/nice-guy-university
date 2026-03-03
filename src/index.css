@@ -190,10 +190,14 @@
   }
 
   .elevated-on-hover {
+    transition: border-color 0.18s ease;
+  }
+
+  .cta-elevated-on-hover {
     transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
   }
 
-  .elevated-on-hover:hover {
+  .cta-elevated-on-hover:hover {
     transform: translate(-3px, -3px);
     box-shadow: 8px 8px 0 rgba(0, 113, 227, 0.5);
   }
@@ -228,23 +232,6 @@
 .shadow-2xl,
 .shadow-inner {
   box-shadow: none !important;
-}
-
-button,
-[role="button"],
-a.cubist-link,
-.course-card,
-.card {
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-
-button:hover,
-[role="button"]:hover,
-a.cubist-link:hover,
-.course-card:hover,
-.card:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: 8px 8px 0 rgba(0, 113, 227, 0.5);
 }
 
 .course-card {

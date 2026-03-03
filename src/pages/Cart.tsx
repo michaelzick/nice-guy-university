@@ -106,7 +106,7 @@ export default function Cart() {
                 Browse our coaching programs and start your recovery journey.
               </p>
               <Link to="/courses">
-                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">
                   Browse Programs
                 </Button>
               </Link>

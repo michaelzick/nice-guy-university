@@ -55,7 +55,7 @@ export default function CoursePlayer() {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-foreground mb-4">Program Not Found</h1>
           <Link to="/courses">
-            <Button>Browse Programs</Button>
+            <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">Browse Programs</Button>
           </Link>
         </div>
       </div>

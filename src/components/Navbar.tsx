@@ -55,7 +55,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2 cubist-link">
-            <span className="text-xl md:text-2xl font-bold text-accent-foreground bg-accent border-2 border-foreground px-3 py-1 tracking-[0.12em]">
+            <span className="cta-elevated-on-hover inline-block text-xl md:text-2xl font-bold text-accent-foreground bg-accent border-2 border-foreground px-3 py-1 tracking-[0.12em]">
               MICHAEL ZICK
             </span>
           </Link>

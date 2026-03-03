@@ -60,13 +60,13 @@ export default function Index() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Link to="/courses">
-                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg w-full sm:w-auto">
+                <Button className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-6 text-lg w-full sm:w-auto">
                   Explore Programs
                   <ChevronRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
               <a href="https://calendly.com" target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-6 text-lg w-full sm:w-auto">
+                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg w-full sm:w-auto">
                   Book a Free Session
                 </Button>
               </a>
@@ -169,7 +169,7 @@ export default function Index() {
                 </Button>
               </a>
               <Link to="/courses">
-                <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-6 text-lg w-full sm:w-auto">
+                <Button className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-6 text-lg w-full sm:w-auto">
                   Browse Programs
                 </Button>
               </Link>

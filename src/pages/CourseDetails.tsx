@@ -47,7 +47,7 @@ export default function CourseDetails() {
             <h1 className="text-3xl font-bold text-foreground mb-4">Program Not Found</h1>
             <p className="text-xl text-muted-foreground mb-8">We couldn't find the program you're looking for.</p>
             <Link to="/courses">
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">Browse Programs</Button>
+              <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">Browse Programs</Button>
             </Link>
           </div>
         </div>

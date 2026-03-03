@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <Link to="/" className="flex items-center space-x-2 mb-6">
-              <span className="text-lg font-bold text-accent-foreground tracking-[0.12em] uppercase bg-accent border-2 border-foreground px-3 py-1 inline-block">
+              <span className="cta-elevated-on-hover text-lg font-bold text-accent-foreground tracking-[0.12em] uppercase bg-accent border-2 border-foreground px-3 py-1 inline-block">
                 MICHAEL ZICK
               </span>
             </Link>
