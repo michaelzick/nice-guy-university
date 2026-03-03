@@ -37,10 +37,8 @@ export default function Navbar() {
   }, [location]);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled
-        ? 'bg-background/95 backdrop-blur-sm border-b-2 border-foreground py-3'
-        : 'bg-background/90 border-b-2 border-foreground py-4'
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 glass-nav border-b-2 border-foreground ${
+      isScrolled ? 'py-3' : 'py-4'
     }`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
@@ -146,7 +144,7 @@ export default function Navbar() {
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden bg-card border-t-2 border-foreground py-4 px-4 absolute w-full fade-in">
+        <div className="md:hidden glass-nav border-t-2 border-foreground py-4 px-4 absolute w-full fade-in">
           <nav className="flex flex-col space-y-3">
             <Link to="/courses" className="cubist-link text-foreground hover:text-primary font-bold uppercase tracking-[0.08em] py-2 border-2 border-foreground px-3">
               Programs

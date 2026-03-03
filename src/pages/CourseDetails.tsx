@@ -86,7 +86,7 @@ export default function CourseDetails() {
                   <div className="flex items-center">
                     <div className="flex">
                       {Array(5).fill(0).map((_, i) => (
-                        <Star key={i} className={`w-4 h-4 ${i < Math.round(course.rating) ? 'text-yellow-500 fill-yellow-500' : 'text-muted-foreground'}`} />
+                        <Star key={i} className={`w-4 h-4 ${i < Math.round(course.rating) ? 'text-accent fill-accent' : 'text-muted-foreground'}`} />
                       ))}
                     </div>
                     <span className="ml-2 font-medium">{course.rating}</span>
@@ -215,7 +215,7 @@ export default function CourseDetails() {
                           <p className="text-muted-foreground mb-4">Nice Guy Recovery Coach</p>
                           <div className="flex items-center flex-wrap gap-4 mb-4">
                             <div className="flex items-center text-muted-foreground">
-                              <Star className="w-4 h-4 text-yellow-500 fill-yellow-500 mr-1" />
+                              <Star className="w-4 h-4 text-accent fill-accent mr-1" />
                               <span>4.8 Rating</span>
                             </div>
                             <div className="flex items-center text-muted-foreground">

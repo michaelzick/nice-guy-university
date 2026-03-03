@@ -4,70 +4,70 @@
 
 @layer base {
   :root {
-    --background: 47 61% 92%;
-    --foreground: 214 28% 11%;
+    --background: 209 23% 20%;
+    --foreground: 0 0% 95%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 214 28% 11%;
+    --card: 209 23% 16%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 214 28% 11%;
+    --popover: 209 23% 16%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 7 89% 56%;
+    --primary: 211 100% 45%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 209 65% 22%;
-    --secondary-foreground: 54 80% 94%;
+    --secondary: 209 23% 14%;
+    --secondary-foreground: 0 0% 90%;
 
-    --muted: 44 42% 86%;
-    --muted-foreground: 214 16% 28%;
+    --muted: 209 15% 22%;
+    --muted-foreground: 210 10% 65%;
 
-    --accent: 47 100% 52%;
-    --accent-foreground: 214 28% 11%;
+    --accent: 47 96% 51%;
+    --accent-foreground: 214 28% 8%;
 
     --destructive: 350 75% 45%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 28% 11%;
-    --input: 214 28% 11%;
-    --ring: 7 89% 56%;
+    --border: 0 0% 95%;
+    --input: 0 0% 95%;
+    --ring: 211 100% 45%;
 
     --radius: 0rem;
 
-    --mz-blue: 209 65% 22%;
+    --mz-blue: 209 23% 28%;
     --mz-slate: 214 28% 11%;
     --mz-charcoal: 214 18% 8%;
-    --mz-warm: 22 85% 52%;
+    --mz-warm: 211 100% 65%;
   }
 
   .dark {
-    --background: 214 27% 10%;
-    --foreground: 48 53% 90%;
+    --background: 214 28% 7%;
+    --foreground: 0 0% 94%;
 
-    --card: 214 27% 14%;
-    --card-foreground: 48 53% 90%;
+    --card: 209 23% 14%;
+    --card-foreground: 0 0% 94%;
 
-    --popover: 214 27% 14%;
-    --popover-foreground: 48 53% 90%;
+    --popover: 209 23% 14%;
+    --popover-foreground: 0 0% 94%;
 
-    --primary: 7 89% 56%;
+    --primary: 211 100% 45%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 209 57% 26%;
-    --secondary-foreground: 52 80% 90%;
+    --secondary: 209 23% 18%;
+    --secondary-foreground: 0 0% 90%;
 
-    --muted: 214 20% 20%;
-    --muted-foreground: 47 26% 76%;
+    --muted: 209 15% 20%;
+    --muted-foreground: 210 10% 60%;
 
-    --accent: 47 95% 55%;
-    --accent-foreground: 214 27% 12%;
+    --accent: 47 96% 51%;
+    --accent-foreground: 214 28% 7%;
 
     --destructive: 350 75% 45%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 48 53% 90%;
-    --input: 48 53% 90%;
-    --ring: 7 89% 56%;
+    --border: 0 0% 92%;
+    --input: 0 0% 92%;
+    --ring: 211 100% 45%;
   }
 }
 
@@ -94,10 +94,10 @@
     position: relative;
     letter-spacing: 0.01em;
     background-image:
-      linear-gradient(135deg, rgba(218, 42, 30, 0.08) 0%, rgba(218, 42, 30, 0.08) 50%, transparent 50%, transparent 100%),
-      linear-gradient(225deg, rgba(19, 64, 108, 0.08) 0%, rgba(19, 64, 108, 0.08) 34%, transparent 34%, transparent 100%),
-      repeating-linear-gradient(0deg, transparent 0 31px, rgba(18, 32, 44, 0.12) 31px 32px),
-      repeating-linear-gradient(90deg, transparent 0 31px, rgba(18, 32, 44, 0.12) 31px 32px);
+      linear-gradient(135deg, rgba(0, 113, 227, 0.07) 0%, rgba(0, 113, 227, 0.07) 50%, transparent 50%, transparent 100%),
+      linear-gradient(225deg, rgba(56, 70, 89, 0.22) 0%, rgba(56, 70, 89, 0.22) 34%, transparent 34%, transparent 100%),
+      repeating-linear-gradient(0deg, transparent 0 31px, rgba(255, 255, 255, 0.04) 31px 32px),
+      repeating-linear-gradient(90deg, transparent 0 31px, rgba(255, 255, 255, 0.04) 31px 32px);
   }
 
   body::before,
@@ -113,7 +113,7 @@
     left: -10vw;
     width: 58vw;
     height: 50vh;
-    background: hsla(var(--primary), 0.18);
+    background: rgba(0, 113, 227, 0.22);
     clip-path: polygon(6% 4%, 96% 9%, 76% 52%, 100% 88%, 14% 100%, 0 44%);
   }
 
@@ -122,7 +122,7 @@
     bottom: -16vh;
     width: 52vw;
     height: 48vh;
-    background: hsla(var(--secondary), 0.16);
+    background: rgba(56, 70, 89, 0.30);
     clip-path: polygon(0 10%, 84% 0, 100% 62%, 72% 100%, 9% 88%);
   }
 
@@ -160,13 +160,42 @@
 }
 
 @layer components {
+  /* Glass surface — cards, panels */
+  .glass {
+    background: rgba(42, 55, 72, 0.55) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  /* Heavier glass — navbar */
+  .glass-nav {
+    background: rgba(28, 38, 54, 0.88) !important;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  /* Subtle glass — hero/section overlays */
+  .glass-section {
+    background: rgba(42, 55, 72, 0.35) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* Rainbow gradient border — featured elements (from michaelzick.com) */
+  .rainbow-border {
+    background:
+      linear-gradient(hsl(var(--background)), hsl(var(--background))) padding-box,
+      linear-gradient(90deg, #4285f4, #34a853, #fbbc05, #ea4335, #4285f4) border-box;
+    border: 2px solid transparent !important;
+  }
+
   .elevated-on-hover {
     transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
   }
 
   .elevated-on-hover:hover {
     transform: translate(-3px, -3px);
-    box-shadow: 8px 8px 0 hsla(var(--foreground), 0.95);
+    box-shadow: 8px 8px 0 rgba(0, 113, 227, 0.5);
   }
 
   .cubist-frame {
@@ -183,6 +212,11 @@
     height: 18px;
     background: hsl(var(--accent));
     clip-path: polygon(0 0, 100% 0, 0 100%);
+  }
+
+  /* Apply glass automatically to cards and course cards */
+  .card, .course-card {
+    @apply glass;
   }
 }
 
@@ -210,7 +244,7 @@ a.cubist-link:hover,
 .course-card:hover,
 .card:hover {
   transform: translate(-3px, -3px);
-  box-shadow: 8px 8px 0 hsla(var(--foreground), 0.95);
+  box-shadow: 8px 8px 0 rgba(0, 113, 227, 0.5);
 }
 
 .course-card {
