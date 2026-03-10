@@ -107,6 +107,8 @@ export type LessonItem = {
   scormPackageUrl: string | null;
   xapiEndpoint: string | null;
   xapiActivityId: string | null;
+  content: string | null;
+  journalPrompts: string[];
   isPreview: boolean;
 };
 
@@ -145,6 +147,8 @@ export async function fetchCourseChapters(courseId: string): Promise<ChapterWith
         scormPackageUrl: l.scorm_package_url,
         xapiEndpoint: l.xapi_endpoint,
         xapiActivityId: l.xapi_activity_id,
+        content: l.content,
+        journalPrompts: l.journal_prompts ?? [],
         isPreview: l.is_preview,
       })),
   }));

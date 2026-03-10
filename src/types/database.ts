@@ -61,6 +61,8 @@ export type DbLesson = {
   scorm_package_url: string | null;
   xapi_endpoint: string | null;
   xapi_activity_id: string | null;
+  content: string | null;
+  journal_prompts: string[];
   is_preview: boolean;
   created_at: string;
 };

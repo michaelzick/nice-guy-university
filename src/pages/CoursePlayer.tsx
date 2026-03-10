@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import VideoPlayer from '@/components/player/VideoPlayer';
+import MarkdownContent from '@/components/MarkdownContent';
+import JournalPrompts from '@/components/player/JournalPrompts';
 import { useCourseBySlug, useCourseChapters } from '@/hooks/use-courses';
 import { LessonItem } from '@/lib/api/courses';
 
@@ -97,6 +99,14 @@ export default function CoursePlayer() {
                   <p className="text-muted-foreground">{currentLesson.description}</p>
                 )}
               </div>
+
+              {currentLesson.content && (
+                <div className="mt-8">
+                  <MarkdownContent content={currentLesson.content} />
+                </div>
+              )}
+
+              <JournalPrompts prompts={currentLesson.journalPrompts} />
 
               {/* Navigation */}
               <div className="flex justify-between mt-8 pt-4 border-t border-border">

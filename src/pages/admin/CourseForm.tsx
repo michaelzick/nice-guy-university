@@ -69,6 +69,8 @@ type LessonFormItem = {
   scorm_package_url: string;
   xapi_endpoint: string;
   xapi_activity_id: string;
+  content: string;
+  journal_prompts: string[];
   is_preview: boolean;
 };
 
@@ -164,6 +166,8 @@ export default function AdminCourseForm() {
           scorm_package_url: l.scormPackageUrl ?? '',
           xapi_endpoint: l.xapiEndpoint ?? '',
           xapi_activity_id: l.xapiActivityId ?? '',
+          content: l.content ?? '',
+          journal_prompts: l.journalPrompts ?? [],
           is_preview: l.isPreview,
         })),
       })));
@@ -214,6 +218,8 @@ export default function AdminCourseForm() {
           scorm_package_url: '',
           xapi_endpoint: '',
           xapi_activity_id: '',
+          content: '',
+          journal_prompts: [],
           is_preview: false,
         }],
       };
@@ -311,6 +317,8 @@ export default function AdminCourseForm() {
             scorm_package_url: l.scorm_package_url || undefined,
             xapi_endpoint: l.xapi_endpoint || undefined,
             xapi_activity_id: l.xapi_activity_id || undefined,
+            content: l.content || undefined,
+            journal_prompts: l.journal_prompts.length > 0 ? l.journal_prompts : undefined,
             is_preview: l.is_preview,
           };
 
@@ -659,6 +667,96 @@ export default function AdminCourseForm() {
                                 className="h-8 text-sm"
                               />
                             </div>
+                          </div>
+                          <div className="space-y-1">
+                            <Label className="text-xs">Lesson Script / Content (Markdown)</Label>
+                            <Textarea
+                              value={lesson.content}
+                              onChange={(e) => updateLessonField(chIdx, lIdx, 'content', e.target.value)}
+                              className="text-sm min-h-[120px]"
+                              placeholder="Full lesson script in markdown format..."
+                              rows={8}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label className="text-xs">Journal Prompts</Label>
+                            <div className="flex gap-2">
+                              <Input
+                                className="h-8 text-sm"
+                                placeholder="Add a journal prompt"
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    const val = (e.target as HTMLInputElement).value.trim();
+                                    if (val) {
+                                      setChapters(prev => {
+                                        const updated = [...prev];
+                                        updated[chIdx] = {
+                                          ...updated[chIdx],
+                                          lessons: updated[chIdx].lessons.map((l, i) =>
+                                            i === lIdx ? { ...l, journal_prompts: [...l.journal_prompts, val] } : l
+                                          ),
+                                        };
+                                        return updated;
+                                      });
+                                      (e.target as HTMLInputElement).value = '';
+                                    }
+                                  }
+                                }}
+                              />
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                className="h-8 text-xs"
+                                onClick={(e) => {
+                                  const input = (e.currentTarget as HTMLElement).previousElementSibling as HTMLInputElement;
+                                  const val = input.value.trim();
+                                  if (val) {
+                                    setChapters(prev => {
+                                      const updated = [...prev];
+                                      updated[chIdx] = {
+                                        ...updated[chIdx],
+                                        lessons: updated[chIdx].lessons.map((l, i) =>
+                                          i === lIdx ? { ...l, journal_prompts: [...l.journal_prompts, val] } : l
+                                        ),
+                                      };
+                                      return updated;
+                                    });
+                                    input.value = '';
+                                  }
+                                }}
+                              >
+                                Add
+                              </Button>
+                            </div>
+                            {lesson.journal_prompts.length > 0 && (
+                              <ul className="space-y-1 mt-1">
+                                {lesson.journal_prompts.map((prompt, pIdx) => (
+                                  <li key={pIdx} className="flex items-center gap-2 text-xs text-muted-foreground">
+                                    <span className="flex-grow">{pIdx + 1}. {prompt}</span>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setChapters(prev => {
+                                          const updated = [...prev];
+                                          updated[chIdx] = {
+                                            ...updated[chIdx],
+                                            lessons: updated[chIdx].lessons.map((l, i) =>
+                                              i === lIdx ? { ...l, journal_prompts: l.journal_prompts.filter((_, pi) => pi !== pIdx) } : l
+                                            ),
+                                          };
+                                          return updated;
+                                        });
+                                      }}
+                                      className="text-destructive hover:text-destructive/80"
+                                    >
+                                      <Trash2 className="h-3 w-3" />
+                                    </button>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
                           </div>
                           <div className="flex items-center gap-2">
                             <Switch

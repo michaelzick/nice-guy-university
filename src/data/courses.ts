@@ -238,6 +238,36 @@ export const courses: Course[] = [
       "Date from abundance, not desperation",
       "Recognize red flags and honor your standards"
     ]
+  },
+  {
+    id: "course-9",
+    title: "Breaking Self-Limiting Beliefs with Women",
+    slug: "breaking-self-limiting-beliefs-with-women",
+    instructor: "Michael Zick",
+    category: "self-worth-identity",
+    level: "All Levels",
+    price: 147,
+    salePrice: 97,
+    rating: 4.9,
+    ratingCount: 0,
+    studentsCount: 0,
+    duration: "5h 30m",
+    lectureCount: 10,
+    description: "Every man carries a set of invisible scripts about women — stories he tells himself before he even opens his mouth. \"She's out of my league.\" \"She'll reject me and it'll prove I'm worthless.\" \"A woman like her only dates billionaires.\" These are Self-Limiting Beliefs (SLBs) and Negative Predictors (NPs), and they run your love life from the shadows. This course exposes them, traces them to their origins, dismantles the logic behind each one, and gives you a concrete system for replacing fear-based beliefs with evidence-based confidence.",
+    shortDescription: "Expose and dismantle the invisible beliefs sabotaging your confidence with women.",
+    thumbnailUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d",
+    featured: true,
+    bestseller: false,
+    lastUpdated: "March 2026",
+    language: "English",
+    topics: ["Self-Limiting Beliefs", "Negative Predictors", "Confidence", "Approaching Women", "Rejection", "Mindset", "Dating Psychology"],
+    whatYouWillLearn: [
+      "Identify the specific self-limiting beliefs running your interactions with women",
+      "Trace each belief back to its origin so it loses its power",
+      "Dismantle the most common SLBs men carry about attraction and rejection",
+      "Build an evidence-based belief system rooted in reality, not fear",
+      "Create a daily practice that keeps your beliefs grounded and your confidence real"
+    ]
   }
 ];
 

@@ -87,6 +87,8 @@ export async function createLesson(lesson: {
   scorm_package_url?: string;
   xapi_endpoint?: string;
   xapi_activity_id?: string;
+  content?: string;
+  journal_prompts?: string[];
   is_preview?: boolean;
 }) {
   const { data, error } = await supabase.from('lessons').insert(lesson).select().single();
