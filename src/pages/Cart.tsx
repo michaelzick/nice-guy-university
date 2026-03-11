@@ -63,14 +63,15 @@ export default function Cart() {
     setIsCheckingOut(true);
     try {
       await redirectToCheckout(courseIds);
-    } catch {
+    } catch (error) {
       toast({
         title: "Checkout failed",
-        description: "Something went wrong. Please try again.",
+        description: error instanceof Error ? error.message : "Something went wrong. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsCheckingOut(false);
     }
-    setIsCheckingOut(false);
   };
 
   if (isLoading && cart.length > 0) {

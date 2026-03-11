@@ -12,12 +12,38 @@ type AuthContextType = {
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
   signUp: (email: string, password: string, firstName: string, lastName: string) => Promise<{ error: string | null }>;
   signInWithMagicLink: (email: string) => Promise<{ error: string | null }>;
+  requestPasswordReset: (email: string) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
   updatePassword: (newPassword: string) => Promise<{ error: string | null }>;
   updateProfile: (updates: { firstName?: string; lastName?: string; avatarUrl?: string }) => Promise<{ error: string | null }>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const DEV_AUTH_ORIGIN = 'http://127.0.0.1:8080';
+
+function getAuthRedirectUrl(path: string) {
+  const baseUrl = import.meta.env.DEV ? DEV_AUTH_ORIGIN : window.location.origin;
+  return new URL(path, baseUrl).toString();
+}
+
+function normalizeRole(role: unknown) {
+  return typeof role === 'string' ? role.trim().toLowerCase() : '';
+}
+
+function getMetadataRole(user: User | null) {
+  if (!user) return '';
+
+  const roleCandidates = [
+    user.app_metadata?.role,
+    user.app_metadata?.user_role,
+    user.user_metadata?.role,
+    user.user_metadata?.user_role,
+  ];
+
+  return roleCandidates
+    .map(normalizeRole)
+    .find(Boolean) ?? '';
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -48,35 +74,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } as Profile;
   };
 
+  const syncSessionState = async (nextSession: Session | null) => {
+    setSession(nextSession);
+    setUser(nextSession?.user ?? null);
+
+    if (!nextSession?.user) {
+      setProfile(null);
+      setIsLoading(false);
+      return;
+    }
+
+    const nextProfile = await fetchProfile(nextSession.user.id);
+    setProfile((currentProfile) => {
+      if (nextProfile) return nextProfile;
+      if (currentProfile?.id === nextSession.user.id) return currentProfile;
+      return null;
+    });
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     const initializeAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      setSession(session);
-      setUser(session?.user ?? null);
-
-      if (session?.user) {
-        const p = await fetchProfile(session.user.id);
-        setProfile(p);
-      } else {
-        setProfile(null);
-      }
-
-      setIsLoading(false);
+      await syncSessionState(session);
     };
 
     initializeAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        if (session?.user) {
-          const p = await fetchProfile(session.user.id);
-          setProfile(p);
-        } else {
-          setProfile(null);
-        }
-        setIsLoading(false);
+        await syncSessionState(session);
       }
     );
 
@@ -89,16 +116,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signUp = async (email: string, password: string, firstName: string, lastName: string) => {
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          first_name: firstName,
+          last_name: lastName,
+        },
+      },
+    });
     if (error) return { error: error.message };
 
     if (data.user) {
       const { error: profileError } = await supabase
         .from('profiles')
-        .insert({
+        .upsert({
           id: data.user.id,
           first_name: firstName,
           last_name: lastName,
+        }, {
+          onConflict: 'id',
         });
 
       if (profileError) {
@@ -110,7 +148,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signInWithMagicLink = async (email: string) => {
-    const { error } = await supabase.auth.signInWithOtp({ email });
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: getAuthRedirectUrl('/login'),
+      },
+    });
+    return { error: error?.message ?? null };
+  };
+
+  const requestPasswordReset = async (email: string) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: getAuthRedirectUrl('/reset-password'),
+    });
     return { error: error?.message ?? null };
   };
 
@@ -155,9 +205,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const normalizedRole = typeof profile?.role === 'string'
-    ? profile.role.trim().toLowerCase()
-    : '';
+  const normalizedProfileRole = normalizeRole(profile?.role);
+  const normalizedMetadataRole = getMetadataRole(user);
+  const isAdmin = normalizedProfileRole === 'admin' || normalizedMetadataRole === 'admin';
 
   return (
     <AuthContext.Provider
@@ -166,10 +216,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         session,
         profile,
         isLoading,
-        isAdmin: normalizedRole === 'admin',
+        isAdmin,
         signIn,
         signUp,
         signInWithMagicLink,
+        requestPasswordReset,
         signOut,
         updatePassword,
         updateProfile,

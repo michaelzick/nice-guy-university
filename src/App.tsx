@@ -20,6 +20,7 @@ import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 import CoursePlayer from "./pages/CoursePlayer";
 import MyPrograms from "./pages/MyPrograms";
+import ResetPassword from "./pages/ResetPassword";
 import CheckoutSuccess from "./pages/CheckoutSuccess";
 import CheckoutCancel from "./pages/CheckoutCancel";
 import AdminLayout from "./pages/admin/AdminLayout";
@@ -49,6 +50,7 @@ const App = () => (
                 <Route path="/about" element={<About />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/checkout/success" element={<CheckoutSuccess />} />
                 <Route path="/checkout/cancel" element={<CheckoutCancel />} />
                 <Route path="/learn/:courseSlug/:lessonId?" element={
