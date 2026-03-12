@@ -12,7 +12,7 @@ export default function Footer() {
           <div>
             <Link to="/" className="flex items-center space-x-2 mb-6">
               <span className="cta-elevated-on-hover text-lg font-bold text-accent-foreground tracking-[0.12em] uppercase bg-accent border-2 border-foreground px-3 py-1 inline-block">
-                MICHAEL ZICK
+                NICE GUY UNIVERSITY
               </span>
             </Link>
             <p className="text-secondary-foreground/85 mb-6 font-medium">
@@ -79,7 +79,7 @@ export default function Footer() {
         
         <div className="border-t-2 border-foreground mt-12 pt-8">
           <p className="text-secondary-foreground/85 text-center text-sm font-semibold uppercase tracking-[0.06em]">
-            © {new Date().getFullYear()} Michael Zick Coaching. All rights reserved.
+            © {new Date().getFullYear()} Nice Guy University. All rights reserved.
           </p>
         </div>
       </div>
