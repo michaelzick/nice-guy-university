@@ -268,6 +268,36 @@ export const courses: Course[] = [
       "Build an evidence-based belief system rooted in reality, not fear",
       "Create a daily practice that keeps your beliefs grounded and your confidence real"
     ]
+  },
+  {
+    id: "course-10",
+    title: "How to Speak Womanese",
+    slug: "how-to-speak-womanese",
+    instructor: "Michael Zick",
+    category: "relationship-skills",
+    level: "All Levels",
+    price: 147,
+    salePrice: 97,
+    rating: 4.9,
+    ratingCount: 0,
+    studentsCount: 0,
+    duration: "5h 00m",
+    lectureCount: 9,
+    description: "Do you ever feel like you and women are speaking two entirely different languages? That's because you are. \"Womanese\" doesn't run on pure logic; it runs on emotional subcommunication and safety testing. In this course, we decode the specific phrases men misunderstand—like \"I'm fine,\" \"You always,\" and \"Whatever\"—and show you how to respond calmly instead of getting triggered. We also break down exactly why women use \"shit tests\" and how they \"poke the bear\" when they actually want you to lead and initiate intimacy.",
+    shortDescription: "Decode subcommunication, testing dynamics, and intimacy cues while staying calm and grounded.",
+    thumbnailUrl: "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
+    featured: true,
+    bestseller: false,
+    lastUpdated: "March 2026",
+    language: "English",
+    topics: ["Communication", "Relationship Skills", "Dating Dynamics", "Shit Tests", "Emotional Regulation", "Masculine Leadership", "Intimacy"],
+    whatYouWillLearn: [
+      "Translate emotionally loaded phrases without arguing the facts",
+      "Identify compliance, congruence, and fitness tests in real time",
+      "Stay calm and grounded under pressure instead of getting reactive",
+      "Distinguish friction from flirtation without forcing the moment",
+      "Lead clearly while respecting reciprocity and consent"
+    ]
   }
 ];
 

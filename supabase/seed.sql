@@ -801,9 +801,773 @@ That's freedom. Not the absence of old beliefs, but the ability to act in spite 
   4. **Community/Accountability:** SLBs thrive in isolation; speak them to other men
 - **Realistic expectations:** Good weeks and bad weeks are normal — the relationship to beliefs changes, not the beliefs themselves
 - **Freedom:** Not the absence of SLBs, but the ability to act in spite of them$$,
-  ARRAY[
+ARRAY[
     'Create your personal SLB Maintenance Plan: When will you do your weekly inventory? Where will you keep your evidence journal? Who is your accountability contact? Write this out as a concrete, scheduled commitment.',
     'Write a letter to your future self for the day when the old beliefs come roaring back. What do you want to remember? What evidence should you revisit? What would you tell yourself in that moment?',
     'Looking back over this entire course, what is the single most important thing you''ve learned about yourself and your beliefs? How will you carry that forward?'
+  ]
+);
+
+-- ============================================================
+-- Course 10: How to Speak Womanese
+-- ============================================================
+INSERT INTO courses (id, title, slug, instructor, category, level, price, sale_price, rating, rating_count, students_count, duration, lecture_count, description, short_description, thumbnail_url, featured, bestseller, last_updated, language, topics, what_you_will_learn, published)
+VALUES (
+  '00000000-0000-0000-0000-000000000010',
+  'How to Speak Womanese',
+  'how-to-speak-womanese',
+  'Michael Zick',
+  'relationship-skills',
+  'All Levels',
+  147,
+  97,
+  4.9,
+  0,
+  0,
+  '5h 00m',
+  9,
+  $$Do you ever feel like you and women are speaking two entirely different languages? That's because you are. "Womanese" doesn't run on pure logic; it runs on emotional subcommunication and safety testing. In this course, we decode the specific phrases men misunderstand—like "I'm fine," "You always," and "Whatever"—and show you how to respond calmly instead of getting triggered. We also break down exactly why women use "shit tests" and how they "poke the bear" when they actually want you to lead and initiate intimacy.$$,
+  'Decode subcommunication, testing dynamics, and intimacy cues while staying calm and grounded.',
+  'https://images.unsplash.com/photo-1469474968028-56623f02e42e',
+  true,
+  false,
+  'March 2026',
+  'English',
+  ARRAY['Communication', 'Relationship Skills', 'Dating Dynamics', 'Shit Tests', 'Emotional Regulation', 'Masculine Leadership', 'Intimacy'],
+  ARRAY['Translate emotionally loaded phrases without arguing the facts', 'Identify compliance, congruence, and fitness tests in real time', 'Stay calm and grounded under pressure instead of getting reactive', 'Distinguish friction from flirtation without forcing the moment', 'Lead clearly while respecting reciprocity and consent'],
+  true
+);
+
+-- Chapters for Course 10
+INSERT INTO chapters (id, course_id, title, description, sort_order) VALUES
+  ('10000000-0000-0000-0000-000000000012', '00000000-0000-0000-0000-000000000010', 'Decoding the Negative: What She Says vs. What She Means', 'Decode emotionally loaded phrases so you can address the feeling without arguing the wording.', 0),
+  ('10000000-0000-0000-0000-000000000013', '00000000-0000-0000-0000-000000000010', 'Understanding Shit Tests', 'Understand why testing happens and how to stay composed through compliance, congruence, and fitness tests.', 1),
+  ('10000000-0000-0000-0000-000000000014', '00000000-0000-0000-0000-000000000010', 'Poking the Bear', 'Differentiate friction from flirtation and lead with calm, consent-centered escalation when interest is reciprocal.', 2);
+
+-- ============================================================
+-- Lessons for Chapter 1: Decoding the Negative
+-- ============================================================
+
+-- Lesson 1: "I'm Fine" and "Nothing's Wrong"
+INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_seconds, video_source_type, video_url, is_preview, content, journal_prompts) VALUES (
+  '20000000-0000-0000-0000-000000000111',
+  '10000000-0000-0000-0000-000000000012',
+  '"I''m Fine" and "Nothing''s Wrong"',
+  'Understand why these phrases usually hide activated emotion and how to stay present without getting reactive.',
+  0,
+  1800,
+  'youtube',
+  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  true,
+  $$## Full Script
+
+Welcome to How to Speak Womanese. We are starting with one of the oldest phrases in the book: "I'm fine." Closely related to it is "Nothing's wrong." Every man has heard one of those lines while looking at a face, a tone, and a body that clearly said the opposite.
+
+Here is the first principle: **when the words and the emotional signal conflict, do not answer the words only.** If you respond to "I'm fine" as if nothing is happening, you will miss the actual conversation. The actual conversation is not about the sentence. It is about the emotional state underneath the sentence.
+
+Most women do not say "I'm fine" because they love being confusing. They say it because they are activated and not yet organized. They feel hurt, disappointed, anxious, or disconnected, but they do not yet want to hand you the clean, vulnerable truth. Sometimes they are checking whether you can feel the shift without being spoon-fed. Sometimes they are buying time because they do not yet trust that honesty will be handled well. Sometimes they are hoping you care enough to stay present, but not so needy that you collapse into panic.
+
+That is why the two most common male mistakes both fail.
+
+**Mistake one is picking a fight.** You hear "I'm fine," you know it is false, and you come in hot. "No you're not. Just say what you mean." Now she feels both upset and pressured. Your need to get clarity immediately becomes the dominant energy in the room. That kills safety.
+
+**Mistake two is disappearing.** You take the words literally, back off completely, and act like you see nothing. Sometimes that looks like passive withdrawal. Sometimes it looks like punishing distance: "Fine, if you don't want to talk, whatever." Now she feels alone with the emotion and unsupported by the man in front of her.
+
+Grounded masculine presence sits between those two extremes. You do not attack. You do not abandon. You stay.
+
+What does that sound like in real life?
+
+- "You seem off. I'm here."
+- "I can feel something changed. Let's not do the pretend nothing thing."
+- "Okay, maybe you are not ready to talk yet, but something is bothering you. When you are ready, I'm here."
+
+Notice what is happening in those responses. You are naming reality without escalating it. You are not pretending the shift is not there. You are also not demanding instant emotional labor from her. That is leadership.
+
+Now, leadership here does not mean chasing. If she truly wants a little space, honor that. But do it in a way that keeps the bridge intact. "Take ten minutes. We'll come back to it." That is very different from storming off or going cold. The difference is intention. One creates re-entry. The other creates distance.
+
+The reason this matters so much is that women often experience connection through emotional attunement. If she has to flatten the truth, tidy the feeling, and present it in perfect logic before you can handle it, she will not feel led. She will feel like she has to manage your nervous system before she can share her own.
+
+That does not mean you reward passive-aggressive behavior. It means you translate the signal correctly. The translation is not "She is irrational." The translation is "She is activated, she does not yet have the clean language for it, and she needs steadiness more than argument."
+
+Your job is simple:
+
+1. Notice the incongruence.
+2. Slow your own body down.
+3. Name what you see without accusation.
+4. Offer an opening.
+5. Stay self-respecting if she needs a beat before she talks.
+
+If you can do that, a lot of tension dissolves before it becomes conflict. Instead of getting hooked by the phrase, you respond to the person. That is the first step in learning Womanese.
+
+---
+
+## Quick-Reference Outline
+
+- "I'm fine" and "Nothing's wrong" usually signal activated emotion, not literal calm.
+- The mistake is responding only to the sentence instead of the emotional reality.
+- Wrong move 1: argue and force immediate clarity.
+- Wrong move 2: withdraw, punish, or pretend nothing changed.
+- Better move: name the shift, stay calm, offer an opening, and keep the bridge intact.
+- Leadership here means presence without pressure and care without chasing.
+- If she needs space, create re-entry instead of distance.$$,
+  ARRAY[
+    'Write down three real situations where you heard "I''m fine" or "Nothing''s wrong" and reacted badly. What did you do: argue, withdraw, or over-pursue?',
+    'Create two grounded response lines you can use the next time you feel emotional incongruence instead of taking the words literally.',
+    'What happens inside your body when someone is upset with you? Describe the urge you feel most strongly: fix, defend, disappear, or pressure.'
+  ]
+);
+
+-- Lesson 2: The Language of Extremes
+INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_seconds, video_source_type, video_url, is_preview, content, journal_prompts) VALUES (
+  '20000000-0000-0000-0000-000000000112',
+  '10000000-0000-0000-0000-000000000012',
+  'The Language of Extremes',
+  'Learn why emotional language comes out as hyperbole and how to respond to the feeling underneath it.',
+  1,
+  1920,
+  'youtube',
+  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  false,
+  $$## Full Script
+
+Let's talk about another phrase that drives men crazy: "You always..." and "You never..."
+
+She says, "You never listen to me." Your brain instantly pulls up evidence. "That is not true. I listened yesterday. I listened last week. I literally asked you three questions this morning." Now you are in court, building a case, while she is in an emotional experience trying to communicate impact.
+
+This is why arguing the facts almost always makes things worse.
+
+When a woman uses extreme language, she is usually not giving you a spreadsheet. She is describing the weight of a pattern as she feels it in that moment. Emotional language compresses. It uses intensity to communicate experience. "Always" often means "often enough that I feel it." "Never" often means "not in the way I need right now."
+
+That does not make the language technically accurate. It makes it emotionally meaningful.
+
+Men get trapped here because we think precision is the highest good in the moment. It is not. **Connection is the higher priority before precision.** If she feels missed and you respond like a defense attorney, she will only increase the charge. Why? Because she now has two problems: the original hurt and the fact that you are defending yourself instead of understanding her.
+
+Here is the translation.
+
+- "You always make everything about work" often means, "I do not feel prioritized."
+- "You never listen" often means, "I do not feel felt."
+- "You always shut down" often means, "I feel alone when conflict shows up."
+
+Once you hear the actual message, your response changes. Instead of saying, "That is not true," you can say:
+
+- "Okay, you are feeling deprioritized. Tell me where it landed that way."
+- "I hear that you are feeling unheard. Slow it down and show me what I missed."
+- "You are saying you feel alone when tension comes up. I want to understand that."
+
+Notice what you are not doing. You are not agreeing with the literal exaggeration. You are also not getting hypnotized by it. You are translating it into the underlying emotional complaint.
+
+Now, there is nuance here. Sometimes the extreme language is unfair. Sometimes it is sloppy. Sometimes it is genuinely disrespectful. But if you try to correct the language before you address the feeling, you will rarely get anywhere productive. Lead with understanding, then come back to accuracy if needed.
+
+That might sound like this: "I get that you feel dismissed. That matters. And once we get through this, I also want us to speak accurately because 'always' and 'never' make real repair harder." That is a grounded response. You are not surrendering reality. You are sequencing it correctly.
+
+The deeper reason this matters is that emotional moments are not logic tests. They are regulation tests. Can you hear charged language without becoming charged yourself? Can you stay stable enough to listen for what is being said underneath what is being said?
+
+If you can, you become far more trustworthy. She does not have to escalate the volume to get your attention because she learns you can hear the signal sooner. That alone will change the tone of a relationship.
+
+So remember: when you hear the language of extremes, do not ask, "Is that literally true?" Ask, "What pain is this language trying to point at?" Answer that, and you are speaking Womanese instead of fighting with subtitles.
+
+---
+
+## Quick-Reference Outline
+
+- "Always" and "never" are usually emotional compression, not literal math.
+- Arguing accuracy too early moves the conversation into defense instead of connection.
+- Translate the exaggeration into the underlying complaint: unheard, deprioritized, alone, dismissed.
+- Validate the feeling first, then return to precision later if needed.
+- Grounded leadership means hearing the signal without getting captured by the wording.
+- The real test is emotional regulation, not verbal debate.$$,
+  ARRAY[
+    'Write down three extreme phrases that hook you fast: "you always," "you never," or similar. What do you usually defend instead of hearing?',
+    'For each phrase, translate it into the underlying emotional message. What might the person actually be trying to say?',
+    'Write a two-sentence response you can use in the future that validates the feeling first and corrects the exaggeration later.'
+  ]
+);
+
+-- Lesson 3: Dismissive Agreements
+INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_seconds, video_source_type, video_url, is_preview, content, journal_prompts) VALUES (
+  '20000000-0000-0000-0000-000000000113',
+  '10000000-0000-0000-0000-000000000012',
+  'Dismissive Agreements',
+  'Spot false compliance, stop asking for permission, and lead with clarity when "whatever" is not literal.',
+  2,
+  1980,
+  'youtube',
+  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  false,
+  $$## Full Script
+
+Now we move into one of the most confusing categories for men: dismissive agreements.
+
+"Sure, go ahead."
+"I don't care."
+"Whatever."
+
+On paper those look like permission. In reality, many times they are not permission at all. They are emotionally loaded statements delivered in a flat wrapper. The wrapper says yes. The energy says no, or at least "I am not happy and I want to see what you do with that."
+
+The weak move is to pretend the wrapper is the whole message because that gives you plausible deniability later. "Well, you said it was fine." That response might win the courtroom. It loses the relationship dynamic.
+
+Here is what is often happening underneath those phrases. She does care, but she does not want to manage your choice for you. She does not want to play your mother. She wants to see whether you can read the room, take ownership, and move decisively without collapsing into permission-seeking.
+
+Many men get stuck because they outsource their leadership. They ask for approval for every move. "Is it okay if I go?" "Are you cool with this?" "Should I do that?" There is a place for collaboration, of course. But constant permission-seeking communicates uncertainty. It says, "Please regulate my decision for me so I do not have to risk displeasing you."
+
+Dismissive agreements expose that pattern immediately.
+
+The grounded move is to respond to both layers at once. Hear the emotional content. Then own your choice.
+
+For example:
+
+- "You do care. I can hear that. I am still going to dinner with the guys, and we can talk when I get back."
+- "You are not thrilled with this. Got it. I am going to make the call and own it."
+- "If you have a real preference, say it clearly. If not, I am going to lead this one."
+
+That is not aggression. That is clarity.
+
+Notice the balance. You are not becoming a robot who bulldozes her input. If she has a real concern, listen to it. If the concern is valid, adapt. But if the dynamic is her throwing out ambiguous resistance and you folding every time, attraction and respect both drop. Somebody has to be able to carry weight in the interaction.
+
+This is especially true when the issue is small but emotionally loaded. Where to go. What time to leave. Whether to continue the date. Whether to stay another hour or head home. The less secure man keeps polling the room. The grounded man reads the room, considers the information, and makes a clean choice.
+
+There is another side of this lesson too: do not manipulate with fake indifference yourself. If you want something, say it directly. You cannot resent a woman for "whatever" while you are doing your own version of covert contracts. Mature communication requires clarity from both sides.
+
+So the real translation of dismissive agreements is this: **do not hide behind the literal words, and do not throw your agency away.** Hear the emotional resistance. Stay calm. Invite honesty. Then decide like a man who can tolerate a little tension.
+
+That is how you stop asking for permission and start leading without becoming controlling.
+
+---
+
+## Quick-Reference Outline
+
+- "Sure, go ahead," "I don't care," and "Whatever" often contain emotional resistance under surface compliance.
+- Pretending the literal wrapper is all that matters creates plausible deniability, not leadership.
+- The deeper issue is often permission-seeking and fear of displeasing her.
+- Better response: acknowledge the energy, invite clarity, then own your choice.
+- Leadership is not bulldozing. It is reading the room, tolerating tension, and deciding cleanly.
+- Do not use fake indifference yourself; directness is required on both sides.$$,
+  ARRAY[
+    'List three situations where you asked for permission when what you really needed was to make a decision and own it.',
+    'Write a script for how you can acknowledge emotional resistance without handing away your agency.',
+    'Where do you use your own version of fake indifference or vague communication? Write down one area where you need to be more direct.'
+  ]
+);
+
+-- ============================================================
+-- Lessons for Chapter 2: Understanding Shit Tests
+-- ============================================================
+
+-- Lesson 4: What Is a Shit Test?
+INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_seconds, video_source_type, video_url, is_preview, content, journal_prompts) VALUES (
+  '20000000-0000-0000-0000-000000000114',
+  '10000000-0000-0000-0000-000000000013',
+  'What Is a Shit Test?',
+  'Define testing as a search for safety and strength, and understand why emotional reactivity weakens trust.',
+  0,
+  2100,
+  'youtube',
+  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  false,
+  $$## Full Script
+
+Now we get to the phrase men obsess over: "shit test."
+
+I want to clean this up immediately, because a lot of men hear that term and go sideways. They imagine that every challenge from a woman is manipulation, hostility, or some kind of game. That interpretation makes men paranoid, reactive, and weird. It also guarantees they fail the very dynamic they are trying to understand.
+
+A better definition is this: **a shit test is a moment where your emotional steadiness, confidence, or congruence gets lightly challenged to see whether it is real.** Sometimes that challenge is conscious. Often it is not. Often it is simply part of how attraction and trust get calibrated in real time.
+
+Why would this happen?
+
+Because words are cheap. Plenty of men say strong things. Plenty of men present themselves as grounded, decisive, and calm. The question is whether that steadiness survives contact with friction. If a little teasing, resistance, or challenge knocks you off center, the signal she receives is simple: "This man is more fragile than he sounds."
+
+That is the trust issue underneath the test.
+
+If she can move you with one sarcastic comment, one social challenge, one playful jab, or one emotionally loaded remark, then your center is not actually yours. It belongs to the room. It belongs to her mood. It belongs to circumstances. That does not feel safe.
+
+So no, most tests are not about cruelty. They are about calibration.
+
+Now, this does not mean every woman is testing every man all the time. It also does not mean every bad behavior should be reframed as a test. If someone is consistently disrespectful, manipulative, or chaotic, the move is not to "pass." The move is to set a boundary or leave. Mature men do not stay in toxic dynamics to prove a point.
+
+But in a healthy or potentially healthy interaction, small tests are normal. She might tease your confidence. She might challenge your stated plan. She might disagree with your frame and watch what you do. She might see whether you become needy, defensive, apologetic, or angry.
+
+This is why the worst reaction to a test is overreaction.
+
+Men fail tests in predictable ways:
+
+- They become defensive and start explaining themselves.
+- They become butthurt and emotionally collapse.
+- They become aggressive and try to dominate.
+- They overcompensate with fake alpha posturing.
+
+All four responses communicate the same thing: "I am not settled in myself."
+
+The pass is much simpler than men think. Stay in your body. Keep your tone clean. Do not rush to prove yourself. Do not hand your state away. If correction is needed, make it cleanly. If humor fits, use humor. If the challenge is nothing, let it pass. If it crosses a line, set a boundary.
+
+The deeper truth is that women are not only testing your words. They are testing your nervous system.
+
+Can you stay calm when there is pressure?
+Can you stay playful without becoming a clown?
+Can you stay firm without becoming harsh?
+Can you stay present without getting hooked?
+
+Those are adult capacities. They are attractive because they create safety, clarity, and polarity all at once.
+
+So from this point forward, stop treating the term like some mystical dating trick. Translate it into something useful: a moment where your inner state is being checked against your outer presentation. If the two match, trust rises. If they do not, trust drops.
+
+That is all a shit test really is.
+
+---
+
+## Quick-Reference Outline
+
+- A shit test is a challenge to your steadiness, confidence, or congruence.
+- The underlying issue is calibration: are your words backed by a stable nervous system?
+- Most tests are not cruelty; they are small trust checks inside attraction and relationship dynamics.
+- Overreaction fails the test faster than the content of the challenge itself.
+- Not every bad behavior is a test; repeated disrespect still requires boundaries or exit.
+- The real question is whether your inner state matches your outer presentation.$$,
+  ARRAY[
+    'Write down your current definition of a shit test. Where have you turned the term into paranoia, resentment, or a reason to mistrust women?',
+    'Think of three moments when you got challenged and lost your center. What exactly happened in your body and behavior?',
+    'What does grounded congruence look like for you in practice: tone, posture, pacing, and word choice? Describe it clearly.'
+  ]
+);
+
+-- Lesson 5: The Most Common Types of Tests
+INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_seconds, video_source_type, video_url, is_preview, content, journal_prompts) VALUES (
+  '20000000-0000-0000-0000-000000000115',
+  '10000000-0000-0000-0000-000000000013',
+  'The Most Common Types of Tests',
+  'Learn the difference between compliance, congruence, and fitness tests with practical examples.',
+  1,
+  2040,
+  'youtube',
+  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  false,
+  $$## Full Script
+
+Now that you understand the function of a shit test, let's get practical. The easiest way to stay grounded is to recognize the category of challenge in front of you. Not every test is the same, and your response should match what is actually happening.
+
+The three categories you need most are **compliance tests, congruence tests, and fitness tests.**
+
+**1. Compliance Tests**
+
+A compliance test asks, "Will you abandon yourself just to keep me comfortable?"
+
+This can look small:
+
+- "Stay longer," when you already said you were leaving.
+- "Cancel your plans," to prove that she matters more.
+- "Text me right now," when you are busy and she knows it.
+
+The surface issue is the request. The deeper issue is whether you have a backbone. If you fold instantly because you are afraid of displeasing her, you may think you are being loving. What you are actually teaching is that your boundaries are negotiable under emotional pressure.
+
+Passing a compliance test does not mean being rigid. It means you do not betray yourself to buy harmony. You can be warm and still say, "No, I am heading out. I will see you tomorrow."
+
+**2. Congruence Tests**
+
+A congruence test asks, "Are your values real when they get challenged?"
+
+Maybe you say you are not into drama, then you get pulled into a circular emotional argument for an hour. Maybe you say you are a direct man, but when tension shows up you start hedging and softening everything you mean. Maybe you say you are done with casual ambiguity, but when you like her enough you tolerate it anyway.
+
+Congruence tests reveal whether your identity is situational. She is not only hearing your statements. She is watching whether they survive discomfort.
+
+This is one of the biggest reasons men lose respect in relationships. Not because their values were wrong, but because those values vanished under pressure.
+
+**3. Fitness Tests**
+
+A fitness test asks, "How do you handle pressure, teasing, social challenge, or slight destabilization?"
+
+This is often the playful category. She teases you about your outfit. She questions whether you can handle her. She makes a joke at your expense in front of other people. She pushes a little just to see whether you get rattled.
+
+The content is less important than your state. Do you shrink? Do you overreact? Do you suddenly start peacocking? Or do you stay relaxed and answer from a place of ease?
+
+Fitness tests matter because attraction is strongly tied to perceived emotional strength. Not performative aggression. Not macho theater. Actual composure.
+
+Now here is the nuance: the same behavior can contain more than one test. A request to cancel your plans might be compliance and congruence at the same time. Public teasing might be fitness and congruence if you have claimed to be hard to shake. Real life is messy. The point is not to categorize perfectly. The point is to notice what is being pressured in you.
+
+Ask yourself:
+
+- Is this pressuring my boundaries?
+- Is this pressuring my stated values?
+- Is this pressuring my composure?
+
+That question alone will help you respond intelligently instead of emotionally.
+
+Also remember: not every disagreement is a test. Sometimes she is simply expressing a preference. Sometimes she is genuinely hurt. Sometimes she needs repair, not calibration. Men get stupid when they label every emotional moment as a test. That keeps you detached and suspicious. Stay human. Stay nuanced.
+
+But when it is a test, knowing the type keeps you from fumbling. You stop taking it personally and start reading the dynamic accurately.
+
+---
+
+## Quick-Reference Outline
+
+- Compliance tests pressure your boundaries: will you abandon yourself to keep peace?
+- Congruence tests pressure your values: are your words still true under discomfort?
+- Fitness tests pressure your composure: can you stay relaxed under teasing or challenge?
+- Many real moments mix categories, so focus on what is being pressured in you.
+- Not every disagreement is a test; some moments require empathy and repair instead of calibration.
+- The key question: is this pressuring my boundaries, values, or composure?$$,
+  ARRAY[
+    'Review your last five tense interactions with women and label them: compliance, congruence, fitness, or not a test at all.',
+    'Where do you most often fold: boundaries, values, or composure? Write down the exact pattern.',
+    'Create one example response for each type of test so you are not improvising from anxiety in the moment.'
+  ]
+);
+
+-- Lesson 6: How to Respond
+INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_seconds, video_source_type, video_url, is_preview, content, journal_prompts) VALUES (
+  '20000000-0000-0000-0000-000000000116',
+  '10000000-0000-0000-0000-000000000013',
+  'How to Respond',
+  'Use humor, non-reactivity, or boundaries depending on the challenge while keeping a calm frame.',
+  2,
+  2160,
+  'youtube',
+  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  false,
+  $$## Full Script
+
+Now let's get to the part men care about most: what do you actually do when a test shows up?
+
+You need three core responses in your toolkit: **Amuse and Amplify, Ignore, and Set a Boundary.**
+
+These are not tricks. They are expressions of state. The move only works if your nervous system matches it.
+
+### 1. Amuse and Amplify
+
+This works best for light, playful, low-stakes tests. The energy is teasing, not hostile. She pokes, you stay loose, and you respond with a little humor that shows you are not threatened.
+
+Example:
+
+She says, "You probably use that line on every girl."
+
+Instead of defending, you smile and say, "Only on the ones wearing shoes."
+
+Or she says, "You could never handle me."
+
+You respond, "That is fair. I was hoping for an easier side quest."
+
+The goal is not to become a comedian. The goal is to show that you are not rattled. Humor works because it keeps the energy light while communicating inner stability.
+
+### 2. Ignore
+
+Some tests deserve no oxygen at all. If the challenge is tiny and obviously bait, the strongest move can be to simply keep moving. Continue the conversation. Continue the plan. Continue your energy.
+
+This is where many men talk themselves into failure. They think every jab needs a response. It does not. If you bite every hook, you communicate that you are easy to steer.
+
+Ignoring is powerful when the test is minor and your non-reaction says everything. She notices that the dart did not land.
+
+But be careful: ignoring is not sulking, freezing, or passive aggression. It is relaxed non-importance.
+
+### 3. Set a Boundary
+
+When the challenge crosses into genuine disrespect, repeated pressure, or a demand that violates your standards, do not joke and do not disappear. Set a clean boundary.
+
+That sounds like:
+
+- "Do not speak to me like that."
+- "I am not doing that."
+- "If this keeps going in that tone, I am out."
+- "You can disagree with me. You cannot be disrespectful."
+
+Short. Clean. No TED Talk.
+
+This is where a lot of men fail because they explain too much. The more you over-explain a boundary, the more it sounds like you are seeking permission to have it. State it once. Then follow through if necessary.
+
+### How to Choose the Right Response
+
+Ask three questions:
+
+1. Is the energy playful or sharp?
+2. Is the challenge small or meaningful?
+3. Is there still goodwill in the interaction?
+
+If it is playful and low stakes, amuse and amplify.
+If it is tiny and not worth oxygen, ignore.
+If it is disrespectful or repeated, set a boundary.
+
+The biggest mistake is mismatching the response. Men go hard when lightness would have passed, or they joke when seriousness is needed. That is why calibration matters.
+
+### Your State Matters More Than Your Script
+
+Here is the uncomfortable truth: the line is not the magic. The state is the magic.
+
+You can say the perfect boundary line with shaky energy and it will land weak. You can say a simple sentence with total calm and it lands strong. Women are always reading more than your words. They are reading pace, tone, eye contact, posture, and whether you seem internally split.
+
+So when a test lands, slow down first. Breathe once. Relax your jaw. Drop your shoulders. Then respond. That half-second of regulation will save you from dozens of dumb reactions.
+
+And remember this: you are not trying to "win." You are trying to remain yourself under pressure. That is the whole game.
+
+---
+
+## Quick-Reference Outline
+
+- Three core responses: Amuse and Amplify, Ignore, Set a Boundary.
+- Use humor for playful, low-stakes tests.
+- Ignore minor bait when non-reaction communicates strength better than words.
+- Set a boundary for genuine disrespect, repeated pressure, or violations of standards.
+- Match the response to the energy: playful vs sharp, small vs meaningful, goodwill vs erosion.
+- The line matters less than the state delivering it: slow down, regulate, then respond.$$,
+  ARRAY[
+    'Write one playful response, one non-reactive response, and one boundary response that sound natural in your own voice.',
+    'Which mistake do you make most often: overreacting, over-explaining, or trying to be funny when a boundary is needed?',
+    'The next time you feel challenged, what physical cue will remind you to regulate first before you speak?'
+  ]
+);
+
+-- ============================================================
+-- Lessons for Chapter 3: Poking the Bear
+-- ============================================================
+
+-- Lesson 7: The Difference Between Testing and Poking
+INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_seconds, video_source_type, video_url, is_preview, content, journal_prompts) VALUES (
+  '20000000-0000-0000-0000-000000000117',
+  '10000000-0000-0000-0000-000000000014',
+  'The Difference Between Testing and Poking',
+  'Learn to separate real disrespect from playful tension so you do not misread attraction as conflict.',
+  0,
+  1800,
+  'youtube',
+  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  false,
+  $$## Full Script
+
+Now we enter a more nuanced part of the conversation: the difference between testing and what I am calling "poking the bear."
+
+Both can look like friction. Both can involve teasing, resistance, challenge, or a little heat. But they are not the same thing, and confusing them creates a lot of bad outcomes.
+
+**Testing** is usually about checking your center. It asks, "Are you solid?"
+
+**Poking** is often more playful and more charged. It asks, "Can you meet me here? Can you hold this intensity without collapsing, over-talking, or becoming timid?"
+
+In other words, a test checks your frame. A poke can be a bid for polarity.
+
+This is where men go wrong in two different directions.
+
+One man misreads every spark of friction as disrespect and becomes cold, moralizing, or punitive. He kills the play instantly.
+
+Another man assumes every challenge is flirtation and starts escalating when the moment is not actually safe, mutual, or sexual. He becomes pushy and tone-deaf.
+
+Both men are not reading. They are projecting.
+
+So what does playful poking usually look like?
+
+- She teases you but keeps leaning in.
+- She challenges you with a smile and then re-engages quickly.
+- She throws a little attitude, but her eyes, body, and energy stay warm.
+- She creates tension, then stays in it with you instead of withdrawing.
+
+That last part matters. Real playful tension usually includes **continued participation**. She does not just throw a grenade and disappear. She stays engaged in the exchange.
+
+What does it look like when it is not playful?
+
+- Her tone is sharp and closed.
+- Her body turns away or stiffens.
+- She looks uncomfortable, not energized.
+- She withdraws after the friction instead of leaning in.
+- There is no warmth underneath it, only irritation or contempt.
+
+That is not a cue to "lead harder." That is a cue to slow down, clarify, or set a boundary depending on the moment.
+
+Here is the principle I want you to remember: **playful friction is not blanket consent.** It is not permission to overpower, assume, or force the moment forward. It is simply a sign that more energy may be welcome if it stays attuned and mutual.
+
+When you sense a poke, the mature response is not to get verbally busy. It is to become more present. Less explaining. Less nervous chatter. More eye contact. More steadiness. More ability to hold tension without scrambling to discharge it.
+
+Sometimes that means playful banter back. Sometimes it means a slower tone and a cleaner lead. Sometimes it means saying less and letting the moment breathe.
+
+But if you are not sure what it is, use the safest and strongest rule: **ambiguity means do not force escalation.** Stay grounded, keep reading, and let the next cue tell you more.
+
+That rule alone will save you from most of the dumb mistakes men make in dating.
+
+Testing and poking both reveal the same thing in you: whether you can tolerate tension without losing judgment. That is the actual skill we are building.
+
+---
+
+## Quick-Reference Outline
+
+- Testing checks your center; playful poking can be a bid for polarity and stronger presence.
+- Misreading every challenge as disrespect kills play.
+- Misreading every challenge as flirtation creates pushy, tone-deaf escalation.
+- Playful poking usually includes warmth, eye contact, re-engagement, and continued participation.
+- Closed body language, sharp tone, withdrawal, or discomfort are signs to slow down, clarify, or boundary.
+- Playful friction is never blanket consent; ambiguity means do not force the moment.$$,
+  ARRAY[
+    'Think of one situation you misread as disrespect that may actually have been playful tension. What cues did you miss?',
+    'Think of one situation you treated as flirtation when it was actually closed or unclear. What signs told the truth that you ignored?',
+    'Write your personal rule for handling ambiguity so you stay grounded instead of impulsive.'
+  ]
+);
+
+-- Lesson 8: Recognizing the Signs
+INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_seconds, video_source_type, video_url, is_preview, content, journal_prompts) VALUES (
+  '20000000-0000-0000-0000-000000000118',
+  '10000000-0000-0000-0000-000000000014',
+  'Recognizing the Signs',
+  'Read reciprocal interest accurately and treat ambiguity as a cue to slow down rather than push harder.',
+  1,
+  1920,
+  'youtube',
+  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  false,
+  $$## Full Script
+
+If you are going to stay grounded around intimacy, you need to get good at reading signals without fantasy, fear, or wishful thinking.
+
+Many men are bad at this in both directions. The timid man misses obvious green lights because he is terrified of getting it wrong. The overeager man invents green lights because he wants the moment to be something it is not.
+
+The skill is accurate attunement.
+
+Let's start with signs of **reciprocal interest**:
+
+- She keeps returning eye contact instead of breaking away and staying away.
+- She stays physically close when she could easily create distance.
+- She touches you and the touch feels intentional, not accidental.
+- She responds positively when you lead the logistics of the interaction.
+- She teases or challenges, then smiles, softens, or re-engages.
+- Her body remains open and responsive instead of frozen or collapsed.
+
+Those signs do not mean "go as far as you want." They mean the moment may be open and you can continue reading it with more confidence.
+
+Now let's talk about the signals men ignore when they want something badly.
+
+Signs to slow down or stop include:
+
+- She leans away, steps back, or creates space.
+- Her smile looks polite instead of warm.
+- Her responses become short, flat, or delayed.
+- She stops touching back.
+- Her body goes rigid.
+- She seems to tolerate rather than participate.
+- She says yes with words but no with energy.
+
+That last one matters a lot. Verbal compliance without real participation is not the green light men think it is. You are not looking for technical permission. You are looking for mutuality.
+
+This is why I keep saying: **ambiguity means slow down.**
+
+Not because slowing down is weak. Slowing down is what a regulated man does when the signal gets unclear. It gives the moment room to become more obvious instead of forcing a decision through pressure.
+
+Sometimes slowing down means dropping the intensity and going back to conversation. Sometimes it means a simple check-in:
+
+- "You good?"
+- "Come here if you want to."
+- "If you are not feeling it, no problem."
+
+Men often worry that clear check-ins kill tension. Insecure check-ins do. Grounded check-ins do not. When the invitation is calm and unattached, it actually increases safety and often increases attraction because she feels you are both leading and paying attention.
+
+The bigger point is that recognizing the signs is not about decoding women like mind readers. It is about telling the truth about what is in front of you. No fantasy. No projection. No "maybe if I push a little more."
+
+If the signs are green, proceed slowly and let her meet you there.
+If the signs are mixed, reduce pressure and read again.
+If the signs are closed, stop.
+
+That is what mature masculine energy looks like around intimacy: not guessing wildly, not freezing, not forcing. Reading, leading, and adjusting in real time.
+
+---
+
+## Quick-Reference Outline
+
+- Reciprocal interest shows up in repeated engagement, closeness, warmth, and active participation.
+- Warning signs include leaning away, rigidity, polite energy, short responses, and lack of reciprocation.
+- Verbal compliance without real participation is not the standard; mutuality is.
+- Ambiguity means slow down, reduce pressure, and read again.
+- Grounded check-ins can preserve tension while increasing safety.
+- Accurate attunement beats fantasy and wishful thinking every time.$$,
+  ARRAY[
+    'Write down the green lights you reliably miss because of fear and the red flags you tend to ignore because of desire.',
+    'Describe what real mutuality looks like to you in body language, pacing, and responsiveness.',
+    'Create three calm check-in lines you can use that feel clear and masculine instead of needy or apologetic.'
+  ]
+);
+
+-- Lesson 9: Escalating with Calm, Masculine Energy
+INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_seconds, video_source_type, video_url, is_preview, content, journal_prompts) VALUES (
+  '20000000-0000-0000-0000-000000000119',
+  '10000000-0000-0000-0000-000000000014',
+  'Escalating with Calm, Masculine Energy',
+  'Lead intimacy with direction, reciprocity, and immediate respect for hesitation or unclear consent.',
+  2,
+  2280,
+  'youtube',
+  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  false,
+  $$## Full Script
+
+Now we bring everything together.
+
+How do you escalate intimacy without getting flustered, permission-seeking, or pushy?
+
+The answer is simpler than most men think: **slow down, lead clearly, and require reciprocity.**
+
+That is calm masculine energy.
+
+Weak escalation is frantic. It asks too many anxious questions, moves too fast, and uses momentum to avoid feeling vulnerable.
+
+Bad escalation is forceful. It assumes attraction where there is only ambiguity. It treats hesitation like a hurdle to overcome. It keeps going when participation drops.
+
+Grounded escalation is none of those things. It brings direction to the moment while staying fully responsive to the other person's signals.
+
+Start with presence. Before you touch more, say more, or move the interaction forward, get in your body. Slow your breathing. Relax your face. Stop talking so much. Attraction often dies in male over-explaining. When the moment has charge, let the charge exist.
+
+Then lead one step at a time.
+
+Leadership can sound like:
+
+- "Come here."
+- "Let's go somewhere quieter."
+- "Sit with me."
+- "I want to kiss you."
+
+Those lines work when they come from calm certainty, not from frantic performance. You are not dumping the decision on her. You are offering direction. Then you watch whether she meets you there.
+
+That part is crucial. **Reciprocity is the green light.**
+
+If she moves closer, opens up, touches back, stays engaged, and clearly participates, the moment is alive. If she hesitates, stiffens, turns away, goes flat, or gives you uncertain energy, the right move is to slow down immediately.
+
+Sometimes slowing down means pausing and giving space.
+Sometimes it means asking clearly: "You good?" or "Do you want this?"
+Sometimes it means stopping entirely and shifting the energy back to conversation.
+
+This does not make you less masculine. It makes you trustworthy.
+
+A lot of men learned a terrible model of leadership: be relentless, push through resistance, and treat hesitation like part of the game. That is not leadership. That is insecurity plus entitlement. Mature masculine presence does not need to force a yes. It can handle a no, a not yet, or a maybe.
+
+In fact, the ability to handle those answers cleanly is part of what makes your energy strong. When she can feel that you are not trying to extract something from her, intimacy gets safer. And when intimacy gets safer, real desire has room to breathe.
+
+There is also a subtle but important point here about permission. Men often swing between two extremes. They either become pushy and assume too much, or they become so timid and approval-seeking that every step feels nervous and disconnected.
+
+The middle path is clear invitation plus responsive attunement.
+
+You can be direct without being coercive.
+You can be confident without being careless.
+You can be sexual without being disconnected from consent.
+
+The template looks like this:
+
+1. Read the room honestly.
+2. Lead one clean step.
+3. Watch for real participation.
+4. If participation increases, continue slowly.
+5. If participation becomes unclear, pause and clarify.
+6. If participation drops, stop cleanly and without resentment.
+
+That last part matters. If your warmth vanishes the second she is unsure, then your earlier confidence was conditional. It was a performance designed to get an outcome. Real groundedness remains grounded even when the answer is no.
+
+That is what women can trust. Not the loudest man. Not the most aggressive man. The man who can hold desire, direction, and self-control at the same time.
+
+So when she "pokes the bear," do not think your job is to overwhelm her. Your job is to meet the energy with presence, direction, and attunement. If it is mutual, the moment deepens. If it is not, you know how to slow down or stop without losing yourself.
+
+That is how you lead intimacy like a grounded man.
+
+---
+
+## Quick-Reference Outline
+
+- Calm masculine escalation = slow down, lead clearly, require reciprocity.
+- Weak escalation is frantic; bad escalation is forceful. Grounded escalation is directional and responsive.
+- Lead one step at a time with clear invitations instead of anxious over-explaining.
+- Reciprocity is the green light: participation, warmth, closeness, and active engagement.
+- Ambiguity or hesitation means pause, clarify, or stop. Do not push through uncertainty.
+- Trustworthy masculine energy can handle no, not yet, and maybe without resentment.$$,
+  ARRAY[
+    'Write down the difference between your old model of escalation and the consent-centered model from this lesson.',
+    'What specific signs tell you to continue, pause, or stop when intimacy begins to build? Make your own three-column list.',
+    'How do you usually react internally to hesitation or rejection? What would grounded leadership look like instead?'
   ]
 );
