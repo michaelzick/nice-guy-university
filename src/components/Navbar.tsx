@@ -55,19 +55,19 @@ export default function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2 cubist-link">
-            <span className="cta-elevated-on-hover inline-block text-xl md:text-2xl font-bold text-accent-foreground bg-accent border-2 border-foreground px-3 py-1 tracking-[0.12em]">
+            <span className="cta-elevated-on-hover inline-block text-xl md:text-2xl font-bold text-accent-foreground bg-accent border-2 border-foreground px-3 py-1 tracking-[0.03em]">
               NICE GUY UNIVERSITY
             </span>
           </Link>
 
           <nav className="hidden md:flex items-center space-x-5">
-            <Link to="/courses" className="cubist-link text-foreground hover:text-primary transition-colors font-bold uppercase tracking-[0.08em] border-b-2 border-transparent hover:border-foreground pb-1">
+            <Link to="/courses" className="cubist-link text-foreground hover:text-primary transition-colors font-bold uppercase tracking-[0.03em] border-b-2 border-transparent hover:border-foreground pb-1">
               Programs
             </Link>
-            <Link to="/about" className="cubist-link text-foreground hover:text-primary transition-colors font-bold uppercase tracking-[0.08em] border-b-2 border-transparent hover:border-foreground pb-1">
+            <Link to="/about" className="cubist-link text-foreground hover:text-primary transition-colors font-bold uppercase tracking-[0.03em] border-b-2 border-transparent hover:border-foreground pb-1">
               About
             </Link>
-            <Link to="/resources" className="cubist-link text-foreground hover:text-primary transition-colors font-bold uppercase tracking-[0.08em] border-b-2 border-transparent hover:border-foreground pb-1">
+            <Link to="/resources" className="cubist-link text-foreground hover:text-primary transition-colors font-bold uppercase tracking-[0.03em] border-b-2 border-transparent hover:border-foreground pb-1">
               Resources
             </Link>
             <a href="https://calendly.com" target="_blank" rel="noopener noreferrer">
@@ -95,12 +95,12 @@ export default function Navbar() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56 border-2 border-foreground bg-card">
-                  <div className="px-2 py-1.5 text-sm font-bold uppercase tracking-[0.06em]">
+                  <div className="px-2 py-1.5 text-sm font-bold uppercase tracking-[0.04em]">
                     {profile?.firstName} {profile?.lastName}
                   </div>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link to="/my-programs" className="flex items-center cursor-pointer uppercase tracking-[0.05em] font-semibold">
+                    <Link to="/my-programs" className="flex items-center cursor-pointer uppercase tracking-[0.03em] font-semibold">
                       <BookOpen className="mr-2 h-4 w-4" />
                       My Programs
                     </Link>
@@ -110,7 +110,7 @@ export default function Navbar() {
                       <DropdownMenuSeparator />
                       {adminRoutes.map(({ to, label, icon: Icon }) => (
                         <DropdownMenuItem asChild key={to}>
-                          <Link to={to} className="flex items-center cursor-pointer uppercase tracking-[0.05em] font-semibold">
+                          <Link to={to} className="flex items-center cursor-pointer uppercase tracking-[0.03em] font-semibold">
                             <Icon className="mr-2 h-4 w-4" />
                             {label}
                           </Link>
@@ -124,7 +124,7 @@ export default function Navbar() {
                       event.preventDefault();
                       void handleSignOut();
                     }}
-                    className="cursor-pointer uppercase tracking-[0.05em] font-semibold"
+                    className="cursor-pointer uppercase tracking-[0.03em] font-semibold"
                   >
                     <LogOut className="mr-2 h-4 w-4" />
                     {isSigningOut ? 'Signing Out...' : 'Sign Out'}
@@ -167,18 +167,18 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className="md:hidden glass-nav border-t-2 border-foreground py-4 px-4 absolute w-full fade-in">
           <nav className="flex flex-col space-y-3">
-            <Link to="/courses" className="cubist-link text-foreground hover:text-primary font-bold uppercase tracking-[0.08em] py-2 border-2 border-foreground px-3">
+            <Link to="/courses" className="cubist-link text-foreground hover:text-primary font-bold uppercase tracking-[0.03em] py-2 border-2 border-foreground px-3">
               Programs
             </Link>
-            <Link to="/about" className="cubist-link text-foreground hover:text-primary font-bold uppercase tracking-[0.08em] py-2 border-2 border-foreground px-3">
+            <Link to="/about" className="cubist-link text-foreground hover:text-primary font-bold uppercase tracking-[0.03em] py-2 border-2 border-foreground px-3">
               About
             </Link>
-            <Link to="/resources" className="cubist-link text-foreground hover:text-primary font-bold uppercase tracking-[0.08em] py-2 border-2 border-foreground px-3">
+            <Link to="/resources" className="cubist-link text-foreground hover:text-primary font-bold uppercase tracking-[0.03em] py-2 border-2 border-foreground px-3">
               Resources
             </Link>
             {user ? (
               <>
-                <Link to="/my-programs" className="cubist-link text-foreground hover:text-primary font-bold uppercase tracking-[0.08em] py-2 border-2 border-foreground px-3">
+                <Link to="/my-programs" className="cubist-link text-foreground hover:text-primary font-bold uppercase tracking-[0.03em] py-2 border-2 border-foreground px-3">
                   My Programs
                 </Link>
                 {isAdmin && (
@@ -187,7 +187,7 @@ export default function Navbar() {
                       Admin
                     </p>
                     {adminRoutes.map(({ to, label }) => (
-                      <Link key={to} to={to} className="cubist-link text-foreground hover:text-primary font-bold uppercase tracking-[0.08em] py-2 border-2 border-foreground px-3">
+                      <Link key={to} to={to} className="cubist-link text-foreground hover:text-primary font-bold uppercase tracking-[0.03em] py-2 border-2 border-foreground px-3">
                         {label}
                       </Link>
                     ))}
@@ -203,7 +203,7 @@ export default function Navbar() {
                 </Button>
               </>
             ) : (
-              <Link to="/login" className="cubist-link text-foreground hover:text-primary font-bold uppercase tracking-[0.08em] py-2 border-2 border-foreground px-3">
+              <Link to="/login" className="cubist-link text-foreground hover:text-primary font-bold uppercase tracking-[0.03em] py-2 border-2 border-foreground px-3">
                 Sign In
               </Link>
             )}

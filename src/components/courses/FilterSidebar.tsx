@@ -32,10 +32,10 @@ export default function FilterSidebar({
       <div className="bg-card border-2 border-foreground overflow-hidden sticky top-24 cubist-frame">
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="font-bold text-foreground uppercase tracking-[0.08em]">Filters</h2>
+            <h2 className="font-bold text-foreground tracking-[0.02em]">Filters</h2>
             {hasFilters() && (
               <button 
-                className="text-muted-foreground hover:text-primary text-sm font-bold uppercase tracking-[0.06em]"
+                className="text-muted-foreground hover:text-primary text-sm font-bold tracking-normal"
                 onClick={clearFilters}
               >
                 Clear All
@@ -46,7 +46,7 @@ export default function FilterSidebar({
           <Accordion type="multiple" defaultValue={['levels', 'categories', 'price']} className="w-full">
             <AccordionItem value="levels" className="border-b-0">
               <AccordionTrigger className="py-3 hover:no-underline">
-                <span className="font-bold uppercase tracking-[0.06em] text-foreground">Level</span>
+                <span className="font-bold uppercase tracking-[0.04em] text-foreground">Level</span>
               </AccordionTrigger>
               <AccordionContent>
                 <div className="space-y-2">
@@ -58,7 +58,7 @@ export default function FilterSidebar({
                         onCheckedChange={() => toggleLevel(level)}
                         className="mr-2 border-2 border-foreground data-[state=checked]:bg-primary data-[state=checked]:border-foreground"
                       />
-                      <label htmlFor={`${idPrefix}level-${level}`} className="text-sm text-foreground/85 cursor-pointer font-medium uppercase tracking-[0.04em]">
+                      <label htmlFor={`${idPrefix}level-${level}`} className="text-sm text-foreground/85 cursor-pointer font-medium tracking-normal">
                         {level}
                       </label>
                     </div>
@@ -69,7 +69,7 @@ export default function FilterSidebar({
             
             <AccordionItem value="categories" className="border-b-0">
               <AccordionTrigger className="py-3 hover:no-underline">
-                <span className="font-bold uppercase tracking-[0.06em] text-foreground">Category</span>
+                <span className="font-bold uppercase tracking-[0.04em] text-foreground">Category</span>
               </AccordionTrigger>
               <AccordionContent>
                 <div className="space-y-2">
@@ -81,7 +81,7 @@ export default function FilterSidebar({
                         onCheckedChange={() => toggleCategory(category.id)}
                         className="mr-2 border-2 border-foreground data-[state=checked]:bg-primary data-[state=checked]:border-foreground"
                       />
-                      <label htmlFor={`${idPrefix}category-${category.id}`} className="text-sm text-foreground/85 cursor-pointer font-medium uppercase tracking-[0.04em]">
+                      <label htmlFor={`${idPrefix}category-${category.id}`} className="text-sm text-foreground/85 cursor-pointer font-medium tracking-normal">
                         {category.label}
                       </label>
                     </div>
@@ -92,7 +92,7 @@ export default function FilterSidebar({
             
             <AccordionItem value="price" className="border-b-0">
               <AccordionTrigger className="py-3 hover:no-underline">
-                <span className="font-bold uppercase tracking-[0.06em] text-foreground">Price</span>
+                <span className="font-bold uppercase tracking-[0.04em] text-foreground">Price</span>
               </AccordionTrigger>
               <AccordionContent>
                 <div className="space-y-2">
@@ -103,7 +103,7 @@ export default function FilterSidebar({
                         onCheckedChange={() => setPriceRange([0, 500])}
                         className="mr-2 border-2 border-foreground data-[state=checked]:bg-primary data-[state=checked]:border-foreground"
                       />
-                      <label htmlFor={`${idPrefix}price-all`} className="text-sm text-foreground/85 cursor-pointer font-medium uppercase tracking-[0.04em]">
+                      <label htmlFor={`${idPrefix}price-all`} className="text-sm text-foreground/85 cursor-pointer font-medium tracking-normal">
                         All Prices
                       </label>
                     </div>
@@ -114,7 +114,7 @@ export default function FilterSidebar({
                         onCheckedChange={() => setPriceRange([0, 0])}
                         className="mr-2 border-2 border-foreground data-[state=checked]:bg-primary data-[state=checked]:border-foreground"
                       />
-                      <label htmlFor={`${idPrefix}price-free`} className="text-sm text-foreground/85 cursor-pointer font-medium uppercase tracking-[0.04em]">
+                      <label htmlFor={`${idPrefix}price-free`} className="text-sm text-foreground/85 cursor-pointer font-medium tracking-normal">
                         Free
                       </label>
                     </div>
@@ -125,7 +125,7 @@ export default function FilterSidebar({
                         onCheckedChange={() => setPriceRange(priceRange[0] > 0 ? [0, 500] : [0.01, 500])}
                         className="mr-2 border-2 border-foreground data-[state=checked]:bg-primary data-[state=checked]:border-foreground"
                       />
-                      <label htmlFor={`${idPrefix}price-paid`} className="text-sm text-foreground/85 cursor-pointer font-medium uppercase tracking-[0.04em]">
+                      <label htmlFor={`${idPrefix}price-paid`} className="text-sm text-foreground/85 cursor-pointer font-medium tracking-normal">
                         Paid
                       </label>
                     </div>
@@ -136,7 +136,7 @@ export default function FilterSidebar({
                         onCheckedChange={() => setPriceRange([0, 50])}
                         className="mr-2 border-2 border-foreground data-[state=checked]:bg-primary data-[state=checked]:border-foreground"
                       />
-                      <label htmlFor={`${idPrefix}price-under-50`} className="text-sm text-foreground/85 cursor-pointer font-medium uppercase tracking-[0.04em]">
+                      <label htmlFor={`${idPrefix}price-under-50`} className="text-sm text-foreground/85 cursor-pointer font-medium tracking-normal">
                         Under $50
                       </label>
                     </div>
@@ -147,7 +147,7 @@ export default function FilterSidebar({
                         onCheckedChange={() => setPriceRange([50, 100])}
                         className="mr-2 border-2 border-foreground data-[state=checked]:bg-primary data-[state=checked]:border-foreground"
                       />
-                      <label htmlFor={`${idPrefix}price-50-100`} className="text-sm text-foreground/85 cursor-pointer font-medium uppercase tracking-[0.04em]">
+                      <label htmlFor={`${idPrefix}price-50-100`} className="text-sm text-foreground/85 cursor-pointer font-medium tracking-normal">
                         $50 - $100
                       </label>
                     </div>
@@ -158,7 +158,7 @@ export default function FilterSidebar({
                         onCheckedChange={() => setPriceRange([100, 500])}
                         className="mr-2 border-2 border-foreground data-[state=checked]:bg-primary data-[state=checked]:border-foreground"
                       />
-                      <label htmlFor={`${idPrefix}price-100-plus`} className="text-sm text-foreground/85 cursor-pointer font-medium uppercase tracking-[0.04em]">
+                      <label htmlFor={`${idPrefix}price-100-plus`} className="text-sm text-foreground/85 cursor-pointer font-medium tracking-normal">
                         $100+
                       </label>
                     </div>
@@ -170,13 +170,13 @@ export default function FilterSidebar({
           {!isDesktop && (
             <div className="mt-4 flex justify-between">
               <button 
-                className="flex-1 mr-2 px-4 py-2 border-2 border-foreground text-foreground font-bold uppercase tracking-[0.06em] bg-muted"
+                className="flex-1 mr-2 px-4 py-2 border-2 border-foreground text-foreground font-bold uppercase tracking-[0.04em] bg-muted"
                 onClick={clearFilters}
               >
                 Clear All
               </button>
               <button 
-                className="flex-1 ml-2 px-4 py-2 bg-primary hover:bg-primary/85 text-primary-foreground border-2 border-foreground font-bold uppercase tracking-[0.06em]"
+                className="flex-1 ml-2 px-4 py-2 bg-primary hover:bg-primary/85 text-primary-foreground border-2 border-foreground font-bold tracking-normal"
                 onClick={onFilterClose}
               >
                 Apply Filters

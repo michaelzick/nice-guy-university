@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <Link to="/" className="flex items-center space-x-2 mb-6">
-              <span className="cta-elevated-on-hover whitespace-nowrap text-base lg:text-sm xl:text-base font-bold text-accent-foreground tracking-[0.08em] uppercase bg-accent border-2 border-foreground px-3 py-1 inline-block">
+              <span className="cta-elevated-on-hover whitespace-nowrap text-base lg:text-sm xl:text-base font-bold text-accent-foreground tracking-[0.03em] uppercase bg-accent border-2 border-foreground px-3 py-1 inline-block">
                 NICE GUY UNIVERSITY
               </span>
             </Link>
@@ -21,25 +21,25 @@ export default function Footer() {
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold text-secondary-foreground mb-6 tracking-[0.08em]">Programs</h3>
+            <h3 className="text-lg font-semibold text-secondary-foreground mb-6 tracking-[0.03em]">Programs</h3>
             <ul className="space-y-4">
               <li>
-                <Link to="/courses" className="cubist-link text-secondary-foreground/85 hover:text-accent transition-colors uppercase font-semibold tracking-[0.05em]">
+                <Link to="/courses" className="cubist-link text-secondary-foreground/85 hover:text-accent transition-colors uppercase font-semibold tracking-[0.03em]">
                   All Programs
                 </Link>
               </li>
               <li>
-                <Link to="/course/complete-nice-guy-recovery-system" className="cubist-link text-secondary-foreground/85 hover:text-accent transition-colors uppercase font-semibold tracking-[0.05em]">
+                <Link to="/course/complete-nice-guy-recovery-system" className="cubist-link text-secondary-foreground/85 hover:text-accent transition-colors uppercase font-semibold tracking-[0.03em]">
                   Nice Guy Recovery
                 </Link>
               </li>
               <li>
-                <Link to="/course/boundaries-communication-masterclass" className="cubist-link text-secondary-foreground/85 hover:text-accent transition-colors uppercase font-semibold tracking-[0.05em]">
+                <Link to="/course/boundaries-communication-masterclass" className="cubist-link text-secondary-foreground/85 hover:text-accent transition-colors uppercase font-semibold tracking-[0.03em]">
                   Boundaries & Communication
                 </Link>
               </li>
               <li>
-                <Link to="/course/relationship-frame-workshop" className="cubist-link text-secondary-foreground/85 hover:text-accent transition-colors uppercase font-semibold tracking-[0.05em]">
+                <Link to="/course/relationship-frame-workshop" className="cubist-link text-secondary-foreground/85 hover:text-accent transition-colors uppercase font-semibold tracking-[0.03em]">
                   Relationship Skills
                 </Link>
               </li>
@@ -47,25 +47,25 @@ export default function Footer() {
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold text-secondary-foreground mb-6 tracking-[0.08em]">Resources</h3>
+            <h3 className="text-lg font-semibold text-secondary-foreground mb-6 tracking-[0.03em]">Resources</h3>
             <ul className="space-y-4">
               <li>
-                <Link to="/resources" className="cubist-link text-secondary-foreground/85 hover:text-accent transition-colors uppercase font-semibold tracking-[0.05em]">
+                <Link to="/resources" className="cubist-link text-secondary-foreground/85 hover:text-accent transition-colors uppercase font-semibold tracking-[0.03em]">
                   Guides & Articles
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="cubist-link text-secondary-foreground/85 hover:text-accent transition-colors uppercase font-semibold tracking-[0.05em]">
+                <Link to="/about" className="cubist-link text-secondary-foreground/85 hover:text-accent transition-colors uppercase font-semibold tracking-[0.03em]">
                   About Michael
                 </Link>
               </li>
               <li>
-                <a href="https://calendly.com" target="_blank" rel="noopener noreferrer" className="cubist-link text-secondary-foreground/85 hover:text-accent transition-colors uppercase font-semibold tracking-[0.05em]">
+                <a href="https://calendly.com" target="_blank" rel="noopener noreferrer" className="cubist-link text-secondary-foreground/85 hover:text-accent transition-colors uppercase font-semibold tracking-[0.03em]">
                   Book a Free Session
                 </a>
               </li>
               <li>
-                <a href="https://www.michaelzick.com" target="_blank" rel="noopener noreferrer" className="cubist-link text-secondary-foreground/85 hover:text-accent transition-colors uppercase font-semibold tracking-[0.05em]">
+                <a href="https://www.michaelzick.com" target="_blank" rel="noopener noreferrer" className="cubist-link text-secondary-foreground/85 hover:text-accent transition-colors uppercase font-semibold tracking-[0.03em]">
                   Main Website
                 </a>
               </li>
@@ -73,7 +73,7 @@ export default function Footer() {
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold text-secondary-foreground mb-6 tracking-[0.08em]">Contact</h3>
+            <h3 className="text-lg font-semibold text-secondary-foreground mb-6 tracking-[0.03em]">Contact</h3>
             <p className="text-secondary-foreground/85 mb-4 font-medium">Ready to start your recovery? Reach out.</p>
             <div className="flex items-center space-x-3 mb-4 border-2 border-foreground bg-background text-foreground px-3 py-2 w-fit">
               <Mail className="h-5 w-5 text-primary" />
@@ -83,7 +83,7 @@ export default function Footer() {
         </div>
         
         <div className="border-t-2 border-foreground mt-12 pt-8">
-          <p className="text-secondary-foreground/85 text-center text-sm font-semibold uppercase tracking-[0.06em]">
+          <p className="text-secondary-foreground/85 text-center text-sm font-semibold uppercase tracking-[0.04em]">
             © {new Date().getFullYear()} Nice Guy University. All rights reserved.
           </p>
         </div>

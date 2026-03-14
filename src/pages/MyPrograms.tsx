@@ -31,7 +31,7 @@ export default function MyPrograms() {
               <div className="inline-flex items-center justify-center w-20 h-20 bg-muted border-2 border-foreground mb-6">
                 <BookOpen className="h-10 w-10 text-muted-foreground" />
               </div>
-              <h2 className="text-2xl font-bold text-foreground mb-4">No programs yet</h2>
+              <h2 className="text-2xl font-bold text-foreground mb-4">No Programs Yet</h2>
               <p className="text-muted-foreground mb-8 max-w-md mx-auto">
                 You haven't enrolled in any programs yet. Browse our catalog to get started.
               </p>

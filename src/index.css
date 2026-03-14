@@ -88,7 +88,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Trebuchet MS", "Franklin Gothic Medium", "Arial Narrow", sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
@@ -132,9 +132,9 @@
   h4,
   h5,
   h6 {
-    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    font-family: 'Oswald', 'Arial Narrow', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.02em;
   }
 
   section {

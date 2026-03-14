@@ -46,7 +46,7 @@ export default function CourseCard({ course, className }: CourseCardProps) {
       
       <div className="p-5">
         <div className="flex justify-between items-start mb-2">
-          <span className="text-xs font-bold text-primary uppercase tracking-[0.08em]">
+          <span className="text-xs font-bold text-primary uppercase tracking-[0.05em]">
             {categoryLabel}
           </span>
           <div className="flex items-center">
@@ -57,7 +57,7 @@ export default function CourseCard({ course, className }: CourseCardProps) {
         </div>
         
         <Link to={`/course/${course.slug}`} className="block">
-          <h3 className="font-bold text-card-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors uppercase tracking-[0.03em]">
+          <h3 className="font-bold text-card-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors tracking-[0.01em]">
             {course.title}
           </h3>
         </Link>

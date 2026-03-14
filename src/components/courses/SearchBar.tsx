@@ -14,7 +14,7 @@ export default function SearchBar({ searchQuery, setSearchQuery }: SearchBarProp
       <Input 
         type="text"
         placeholder="Search programs..." 
-        className="pl-10 font-semibold uppercase tracking-[0.04em]"
+        className="pl-10 font-semibold tracking-normal"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
