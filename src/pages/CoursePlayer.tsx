@@ -69,7 +69,7 @@ export default function CoursePlayer() {
     <div className="min-h-screen bg-background flex flex-col">
       <SEOHead title={course?.title || "Course Player"} description="Course player" noIndex />
       {/* Top bar */}
-      <div className="bg-secondary border-b-2 border-foreground px-4 py-3">
+      <div className="bg-secondary border-b border-border px-4 py-3">
         <div className="flex items-center justify-between max-w-screen-2xl mx-auto">
           <div className="flex items-center gap-4">
             <Link to={`/course/${courseSlug}`}>
@@ -127,15 +127,15 @@ export default function CoursePlayer() {
               </div>
             </>
           ) : (
-            <div className="aspect-video bg-muted border-2 border-foreground flex items-center justify-center">
+            <div className="aspect-video bg-muted flex items-center justify-center">
               <p className="text-muted-foreground">No lessons available yet.</p>
             </div>
           )}
         </div>
 
         {/* Sidebar */}
-        <div className="w-full lg:w-96 border-t-2 lg:border-t-0 lg:border-l-2 border-foreground bg-card">
-          <div className="p-4 border-b-2 border-foreground">
+        <div className="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-border bg-card">
+          <div className="p-4 border-b border-border">
             <h3 className="font-bold text-card-foreground flex items-center gap-2">
               <BookOpen className="h-4 w-4" />
               Course Content
