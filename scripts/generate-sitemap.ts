@@ -12,11 +12,14 @@
 import { createClient } from "@supabase/supabase-js";
 import { writeFileSync } from "fs";
 import { resolve } from "path";
+import { loadEnv } from "vite";
 
-const SITE_URL = process.env.VITE_SITE_URL || "https://michaelzick.com";
+const env = loadEnv(process.env.NODE_ENV ?? "production", process.cwd(), "");
 
-const supabaseUrl = process.env.VITE_SUPABASE_URL;
-const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
+const SITE_URL = process.env.VITE_SITE_URL || env.VITE_SITE_URL || "https://michaelzick.com";
+
+const supabaseUrl = process.env.VITE_SUPABASE_URL || env.VITE_SUPABASE_URL;
+const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || env.VITE_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
   console.warn(

@@ -38,7 +38,11 @@ export default function Login() {
   const [resetLinkSent, setResetLinkSent] = useState(false);
 
   const from = (location.state as { from?: string })?.from || "/";
-  const showLocalMailInbox = import.meta.env.DEV && import.meta.env.VITE_SUPABASE_URL?.includes("127.0.0.1:55321");
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL ?? "";
+  const localMailInboxUrl = import.meta.env.VITE_SUPABASE_INBUCKET_URL;
+  const showLocalMailInbox = import.meta.env.DEV
+    && /^(http:\/\/)(127\.0\.0\.1|localhost):\d+$/.test(supabaseUrl)
+    && Boolean(localMailInboxUrl);
 
   const passwordForm = useForm<PasswordFormData>({
     resolver: zodResolver(passwordSchema),
@@ -259,12 +263,12 @@ export default function Login() {
                   <AlertDescription>
                     Local Supabase auth emails are captured at{" "}
                     <a
-                      href="http://127.0.0.1:55324"
+                      href={localMailInboxUrl}
                       target="_blank"
                       rel="noreferrer"
                       className="font-medium text-primary underline underline-offset-4"
                     >
-                      http://127.0.0.1:55324
+                      {localMailInboxUrl}
                     </a>
                     .
                   </AlertDescription>
