@@ -104,7 +104,7 @@ export default function Cart() {
               <div className="inline-flex items-center justify-center w-20 h-20 bg-muted border-2 border-foreground mb-6">
                 <ShoppingCart className="h-10 w-10 text-muted-foreground" />
               </div>
-              <h2 className="text-2xl font-bold text-foreground mb-4">No programs selected</h2>
+              <h2 className="text-2xl font-bold text-foreground mb-4">No Programs Selected</h2>
               <p className="text-muted-foreground mb-8 max-w-md mx-auto">
                 Browse our coaching programs and start your recovery journey.
               </p>
@@ -120,7 +120,7 @@ export default function Cart() {
                 <div className="bg-card border-2 border-foreground overflow-hidden cubist-frame">
                   <div className="p-6 pb-3">
                     <div className="flex justify-between items-center mb-4">
-                      <h2 className="text-xl font-bold text-card-foreground uppercase tracking-[0.06em]">Selected Programs</h2>
+                      <h2 className="text-xl font-bold text-card-foreground tracking-[0.01em]">Selected Programs</h2>
                       <Button
                         variant="ghost"
                         size="sm"

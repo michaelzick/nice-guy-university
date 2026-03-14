@@ -36,7 +36,7 @@ export default function ResourcesPage() {
           ) : resources.length === 0 ? (
             <div className="text-center py-20">
               <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <h2 className="text-xl font-bold text-foreground mb-2">Resources coming soon</h2>
+              <h2 className="text-xl font-bold text-foreground mb-2">Resources Coming Soon</h2>
               <p className="text-muted-foreground">
                 Check back soon for in-depth guides on Nice Guy recovery topics.
               </p>

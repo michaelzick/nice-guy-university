@@ -30,7 +30,7 @@ export default function ActiveFilters({
   
   return (
     <div className="mt-4 flex flex-wrap gap-2 items-center">
-      <span className="text-sm text-muted-foreground mr-2 font-bold uppercase tracking-[0.06em]">Active filters:</span>
+      <span className="text-sm text-muted-foreground mr-2 font-bold uppercase tracking-[0.04em]">Active filters:</span>
       
       {selectedLevels.map(level => (
         <Badge 

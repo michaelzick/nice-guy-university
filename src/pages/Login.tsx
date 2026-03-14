@@ -84,7 +84,7 @@ export default function Login() {
       toast({ title: "Failed to send link", description: error, variant: "destructive" });
     } else {
       setMagicLinkSent(true);
-      toast({ title: "Check your email", description: "We sent you a magic link to sign in." });
+      toast({ title: "Check Your Email", description: "We sent you a magic link to sign in." });
     }
   };
 
@@ -97,7 +97,7 @@ export default function Login() {
       toast({ title: "Failed to send reset link", description: error, variant: "destructive" });
     } else {
       setResetLinkSent(true);
-      toast({ title: "Check your email", description: "We sent you a password reset link." });
+      toast({ title: "Check Your Email", description: "We sent you a password reset link." });
     }
   };
 
@@ -181,7 +181,7 @@ export default function Login() {
                   {magicLinkSent ? (
                     <div className="text-center py-6">
                       <Mail className="h-12 w-12 text-primary mx-auto mb-4" />
-                      <h3 className="text-lg font-semibold text-foreground mb-2">Check your email</h3>
+                      <h3 className="text-lg font-semibold text-foreground mb-2">Check Your Email</h3>
                       <p className="text-muted-foreground mb-4">
                         We sent a magic link to your email. Click the link to sign in.
                       </p>
@@ -219,7 +219,7 @@ export default function Login() {
                   {resetLinkSent ? (
                     <div className="text-center py-6">
                       <Mail className="h-12 w-12 text-primary mx-auto mb-4" />
-                      <h3 className="text-lg font-semibold text-foreground mb-2">Check your email</h3>
+                      <h3 className="text-lg font-semibold text-foreground mb-2">Check Your Email</h3>
                       <p className="text-muted-foreground mb-4">
                         We sent you a password reset link. Open it to choose a new password.
                       </p>

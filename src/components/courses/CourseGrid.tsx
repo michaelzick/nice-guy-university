@@ -43,7 +43,7 @@ export default function CourseGrid({ isLoading, courses, clearFilters }: CourseG
   
   return (
     <div>
-      <p className="text-sm text-muted-foreground mb-6 font-semibold uppercase tracking-[0.05em]">
+      <p className="text-sm text-muted-foreground mb-6 font-semibold tracking-normal">
         Showing {courses.length} {courses.length === 1 ? 'course' : 'courses'}
       </p>
       

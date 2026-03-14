@@ -168,7 +168,7 @@ export default function CourseDetails() {
                         <h3 className="text-xl font-bold text-foreground mb-4">Topics Covered</h3>
                         <div className="flex flex-wrap gap-2">
                           {course.topics.map((topic, index) => (
-                            <div key={index} className="bg-muted text-muted-foreground border-2 border-foreground py-1 px-4 text-sm font-semibold uppercase tracking-[0.05em]">
+                            <div key={index} className="bg-muted text-muted-foreground border-2 border-foreground py-1 px-4 text-sm font-semibold uppercase tracking-[0.03em]">
                               {topic}
                             </div>
                           ))}
@@ -212,7 +212,7 @@ export default function CourseDetails() {
                                               <PlayCircle className="h-5 w-5 text-muted-foreground mr-3" />
                                               <span className="text-foreground">{lesson.title}</span>
                                               {lesson.isPreview && (
-                                                <span className="ml-2 text-xs bg-primary/10 text-primary px-2 py-0.5 border-2 border-primary uppercase tracking-[0.05em]">Preview</span>
+                                                <span className="ml-2 text-xs bg-primary/10 text-primary px-2 py-0.5 border-2 border-primary uppercase tracking-[0.03em]">Preview</span>
                                               )}
                                             </div>
                                             {lesson.durationSeconds > 0 && (

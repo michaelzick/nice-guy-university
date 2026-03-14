@@ -89,7 +89,7 @@ export default function CoursesPage() {
                 <div className="md:hidden bg-card border-2 border-foreground overflow-hidden mb-6 fade-in cubist-frame">
                   <div className="p-4">
                     <div className="flex justify-between items-center mb-4">
-                      <h2 className="font-bold text-card-foreground uppercase tracking-[0.08em]">Filters</h2>
+                      <h2 className="font-bold text-card-foreground tracking-[0.02em]">Filters</h2>
                       <button
                         className="text-muted-foreground hover:text-destructive"
                         onClick={() => setFilterOpen(false)}
