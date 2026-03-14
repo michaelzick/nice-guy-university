@@ -54,7 +54,7 @@ export default function About() {
           <div className="container mx-auto text-center max-w-4xl">
             <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">About</p>
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Michael Zick
+              Nice Guy University
             </h1>
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
               Nice Guy Recovery Coach helping men break free from approval addiction, build authentic relationships, and live from their own values.

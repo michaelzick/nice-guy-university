@@ -56,7 +56,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2 cubist-link">
             <span className="cta-elevated-on-hover inline-block text-xl md:text-2xl font-bold text-accent-foreground bg-accent border-2 border-foreground px-3 py-1 tracking-[0.12em]">
-              MICHAEL ZICK
+              NICE GUY UNIVERSITY
             </span>
           </Link>
 
