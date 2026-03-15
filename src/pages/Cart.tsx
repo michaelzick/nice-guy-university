@@ -112,7 +112,7 @@ export default function Cart() {
       <SEOHead title="Cart" description="Your selected programs" noIndex />
       <Navbar />
 
-      <main className={`flex-grow mobile-shell pt-32 ${cartItems.length > 0 ? 'pb-32 md:pb-16' : 'pb-16'}`}>
+      <main className={`flex-grow mobile-shell pt-32 ${cartItems.length > 0 ? 'mobile-bottom-bar-offset md:pb-16' : 'pb-16'}`}>
         <div className="container mx-auto content-stack">
           <div className="mb-8 fade-in">
             <h1 className="text-3xl font-bold text-foreground mb-2">Your Programs</h1>
@@ -406,7 +406,7 @@ export default function Cart() {
         </div>
       )}
 
-      <div className={cartItems.length > 0 ? 'pb-24 md:pb-0' : ''}>
+      <div className={cartItems.length > 0 ? 'mobile-bottom-bar-offset md:pb-0' : ''}>
         <Footer />
       </div>
     </div>

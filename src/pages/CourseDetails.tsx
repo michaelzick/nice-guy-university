@@ -104,7 +104,7 @@ export default function CourseDetails() {
       ])} />
       <Navbar />
 
-      <main className="flex-grow overflow-x-hidden pt-20 pb-28 lg:pb-0">
+      <main className="mobile-bottom-bar-offset flex-grow overflow-x-hidden pt-20 lg:pb-0">
         <div className="bg-secondary py-12 text-secondary-foreground">
           <div className="container mx-auto mobile-shell content-stack">
             <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(320px,1fr)]">
@@ -446,7 +446,9 @@ export default function CourseDetails() {
         </div>
       </div>
 
-      <Footer />
+      <div className="mobile-bottom-bar-offset lg:pb-0">
+        <Footer />
+      </div>
     </div>
   );
 }
