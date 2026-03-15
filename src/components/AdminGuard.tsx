@@ -8,7 +8,7 @@ export default function AdminGuard({ children }: { children: ReactNode }) {
 
   if (isLoading || (user && isProfileLoading)) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background px-4">
+      <div className="mobile-shell min-h-screen flex items-center justify-center bg-background">
         <div className="flex items-center gap-3 text-muted-foreground">
           <Loader2 className="h-5 w-5 animate-spin" />
           <span className="font-medium uppercase tracking-[0.05em]">Loading Admin</span>

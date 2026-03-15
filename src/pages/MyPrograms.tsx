@@ -15,7 +15,7 @@ export default function MyPrograms() {
       <SEOHead title="My Programs" description="Your enrolled programs" noIndex />
       <Navbar />
 
-      <main className="flex-grow pt-32 pb-16 px-4">
+      <main className="flex-grow mobile-shell pb-16 pt-32">
         <div className="container mx-auto">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-foreground mb-2">My Programs</h1>
@@ -42,7 +42,7 @@ export default function MyPrograms() {
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
               {enrollments.map((enrollment: any) => {
                 const course = enrollment.courses;
                 if (!course) return null;
@@ -56,7 +56,7 @@ export default function MyPrograms() {
                         className="absolute inset-0 w-full h-full object-cover"
                       />
                     </div>
-                    <CardContent className="p-6">
+                    <CardContent className="p-4 sm:p-6">
                       <h3 className="font-bold text-card-foreground mb-2">{course.title}</h3>
                       <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
                         {course.short_description}

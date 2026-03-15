@@ -86,10 +86,10 @@ export default function ResourceDetail() {
       <Navbar />
 
       <main className="flex-grow pt-32 pb-16">
-        <article className="px-4">
-          <div className="container mx-auto max-w-4xl">
+        <article className="mobile-shell">
+          <div className="container mx-auto max-w-4xl content-stack">
             {/* Breadcrumb */}
-            <nav className="flex items-center text-sm mb-8">
+            <nav className="mb-8 flex flex-wrap items-center gap-y-1 text-sm">
               <Link to="/" className="text-muted-foreground hover:text-primary">Home</Link>
               <span className="mx-2 text-muted-foreground">&rsaquo;</span>
               <Link to="/resources" className="text-muted-foreground hover:text-primary">Resources</Link>
@@ -107,7 +107,7 @@ export default function ResourceDetail() {
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
                 {resource.title}
               </h1>
-              <div className="flex items-center text-muted-foreground">
+              <div className="flex flex-wrap items-center text-muted-foreground">
                 <span>By {resource.author}</span>
                 <span className="mx-3">&bull;</span>
                 <span>Nice Guy Recovery Coach</span>
@@ -120,31 +120,31 @@ export default function ResourceDetail() {
             </div>
 
             {/* CTA */}
-            <div className="bg-card p-8 mb-12">
+            <div className="mb-12 bg-card p-4 sm:p-6 md:p-8">
               <h2 className="text-2xl font-bold text-card-foreground mb-4">
                 Ready to Put This Into Practice?
               </h2>
               <p className="text-muted-foreground mb-6">
                 Reading is a good start, but lasting change requires structured work. Explore the coaching programs designed to break these patterns for good.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col gap-4 sm:flex-row">
                 {resource.relatedCourseSlug ? (
-                  <Link to={`/course/${resource.relatedCourseSlug}`}>
-                    <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg">
+                  <Link to={`/course/${resource.relatedCourseSlug}`} className="w-full sm:w-auto">
+                    <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
                       View Recommended Program
                       <ChevronRight className="ml-2 h-5 w-5" />
                     </Button>
                   </Link>
                 ) : (
-                  <Link to="/courses">
-                    <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg">
+                  <Link to="/courses" className="w-full sm:w-auto">
+                    <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
                       Explore Programs
                       <ChevronRight className="ml-2 h-5 w-5" />
                     </Button>
                   </Link>
                 )} 
-                <Link to="/coaches">
-                  <Button variant="outline" className="px-8 py-6 text-lg">
+                <Link to="/coaches" className="w-full sm:w-auto">
+                  <Button variant="outline" className="w-full">
                     Meet Our Coaches
                   </Button>
                 </Link>

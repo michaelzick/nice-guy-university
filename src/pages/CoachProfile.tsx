@@ -38,7 +38,7 @@ export default function CoachProfile() {
     return (
       <div className="min-h-screen flex flex-col">
         <Navbar />
-        <div className="flex-grow flex items-center justify-center px-4">
+        <div className="mobile-shell flex-grow flex items-center justify-center">
           <div className="max-w-xl bg-card p-10">
             <h1 className="text-3xl font-bold text-card-foreground mb-4">Coach Not Found</h1>
             <p className="text-muted-foreground mb-6">We could not find the coach profile you were looking for.</p>
@@ -79,7 +79,7 @@ export default function CoachProfile() {
       <Navbar />
 
       <main className="flex-grow pb-16 pt-28 md:pt-32">
-        <section className="px-4 py-12 bg-muted">
+        <section className="bg-muted py-12 mobile-shell">
           <div className="container mx-auto">
             <div className="grid items-start gap-8 lg:grid-cols-[minmax(280px,360px)_minmax(0,1fr)] lg:gap-10">
               <div className="max-w-sm overflow-hidden bg-card lg:max-w-none">
@@ -103,13 +103,13 @@ export default function CoachProfile() {
                 <div className="flex flex-col sm:flex-row gap-4 mb-8">
                   {coach.bookingUrl && (
                     <a href={coach.bookingUrl} target="_blank" rel="noopener noreferrer">
-                      <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg w-full sm:w-auto">
+                      <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 sm:w-auto">
                         Book with {coach.firstName}
                       </Button>
                     </a>
                   )}
-                  <Link to="/courses">
-                    <Button className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-6 text-lg w-full sm:w-auto">
+                  <Link to="/courses" className="w-full sm:w-auto">
+                    <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto">
                       Browse Programs
                       <ChevronRight className="ml-2 h-5 w-5" />
                     </Button>
@@ -138,7 +138,7 @@ export default function CoachProfile() {
           </div>
         </section>
 
-        <section className="px-4 py-20 bg-background">
+        <section className="bg-background py-20 mobile-shell">
           <div className="container mx-auto max-w-5xl">
             <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">Bio</p>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8">How {coach.firstName} works</h2>
@@ -153,7 +153,7 @@ export default function CoachProfile() {
         </section>
 
         {coach.philosophy.length > 0 && (
-          <section className="px-4 py-20 bg-muted">
+          <section className="bg-muted py-20 mobile-shell">
             <div className="container mx-auto">
               <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">Philosophy</p>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-10">The principles behind the work</h2>
@@ -161,7 +161,7 @@ export default function CoachProfile() {
                 {coach.philosophy.map((item) => {
                   const Icon = getCoachIcon(item.icon);
                   return (
-                    <div key={item.title} className="bg-card p-8">
+                    <div key={item.title} className="bg-card p-4 sm:p-6 lg:p-8">
                       <div className="w-12 h-12 bg-primary/10 flex items-center justify-center mb-4">
                         <Icon className="h-6 w-6 text-primary" />
                       </div>
@@ -176,13 +176,13 @@ export default function CoachProfile() {
         )}
 
         {coach.testimonials.length > 0 && (
-          <section className="px-4 py-20 bg-background">
+          <section className="bg-background py-20 mobile-shell">
             <div className="container mx-auto">
               <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">Client Results</p>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-10">What men say after the work starts landing</h2>
               <div className="grid gap-6 md:grid-cols-2">
                 {coach.testimonials.map((testimonial) => (
-                  <div key={`${testimonial.name}-${testimonial.text.slice(0, 20)}`} className="bg-card p-8">
+                  <div key={`${testimonial.name}-${testimonial.text.slice(0, 20)}`} className="bg-card p-4 sm:p-6 lg:p-8">
                     <Star className="h-8 w-8 text-primary/30 mb-4" />
                     <p className="text-muted-foreground text-lg leading-relaxed mb-6">"{testimonial.text}"</p>
                     <p className="font-bold text-card-foreground">{testimonial.name}</p>
@@ -193,7 +193,7 @@ export default function CoachProfile() {
           </section>
         )}
 
-        <section className="px-4 py-20 bg-muted">
+        <section className="bg-muted py-20 mobile-shell">
           <div className="container mx-auto">
             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-10">
               <div>
@@ -220,7 +220,7 @@ export default function CoachProfile() {
           </div>
         </section>
 
-        <section className="px-4 py-20 bg-secondary text-secondary-foreground">
+        <section className="bg-secondary py-20 text-secondary-foreground mobile-shell">
           <div className="container mx-auto">
             <div className="max-w-4xl">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">If this is your coach, start acting.</h2>
@@ -230,13 +230,13 @@ export default function CoachProfile() {
               <div className="flex flex-col sm:flex-row gap-4">
                 {coach.bookingUrl && (
                   <a href={coach.bookingUrl} target="_blank" rel="noopener noreferrer">
-                    <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg w-full sm:w-auto">
+                    <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 sm:w-auto">
                       Book with {coach.firstName}
                     </Button>
                   </a>
                 )}
-                <Link to="/courses">
-                  <Button className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-6 text-lg w-full sm:w-auto">
+                <Link to="/courses" className="w-full sm:w-auto">
+                  <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto">
                     Browse Programs
                   </Button>
                 </Link>

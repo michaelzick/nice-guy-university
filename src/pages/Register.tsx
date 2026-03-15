@@ -54,8 +54,8 @@ export default function Register() {
       <SEOHead title="Create Account" description="Create a Nice Guy University account" noIndex />
       <Navbar />
 
-      <main className="flex-grow pt-32 pb-16 px-4 bg-muted">
-        <div className="container mx-auto max-w-md">
+      <main className="mobile-shell flex-grow bg-muted pt-32 pb-16">
+        <div className="container mx-auto max-w-md content-stack">
           <div className="text-center mb-8">
             <Link to="/" className="inline-flex items-center space-x-2 mb-6">
               <span className="text-2xl font-bold text-foreground tracking-tight">
@@ -66,7 +66,7 @@ export default function Register() {
             <p className="text-muted-foreground">Get started with your recovery journey</p>
           </div>
 
-          <Card>
+          <Card className="content-stack">
             <CardHeader>
               <CardTitle>Sign Up</CardTitle>
               <CardDescription>Create your account to access coaching programs</CardDescription>

@@ -76,7 +76,7 @@ export default function HowItWorks() {
       <Navbar />
 
       <main className="flex-grow pt-32 pb-16">
-        <section className="px-4 py-16 bg-muted">
+        <section className="bg-muted py-16 mobile-shell">
           <div className="container mx-auto">
             <div className="max-w-5xl">
               <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">How It Works</p>
@@ -87,13 +87,13 @@ export default function HowItWorks() {
                 Nice Guy University brings together coaches and programs built around the same outcome: less shame, fewer covert contracts, stronger standards, and more honest action in your real life.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/coaches">
-                  <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg w-full sm:w-auto">
+                <Link to="/coaches" className="w-full sm:w-auto">
+                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 sm:w-auto">
                     Meet Our Coaches
                   </Button>
                 </Link>
-                <Link to="/courses">
-                  <Button className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-6 text-lg w-full sm:w-auto">
+                <Link to="/courses" className="w-full sm:w-auto">
+                  <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto">
                     Browse Programs
                     <ChevronRight className="ml-2 h-5 w-5" />
                   </Button>
@@ -103,7 +103,7 @@ export default function HowItWorks() {
           </div>
         </section>
 
-        <section className="px-4 py-20 bg-background">
+        <section className="bg-background py-20 mobile-shell">
           <div className="container mx-auto">
             <div className="max-w-4xl mb-12">
               <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">The Process</p>
@@ -115,7 +115,7 @@ export default function HowItWorks() {
 
             <div className="grid gap-6 md:grid-cols-3">
               {steps.map(({ title, description, icon: Icon }, index) => (
-                <div key={title} className="bg-card p-8 elevated-on-hover">
+                <div key={title} className="bg-card p-4 elevated-on-hover sm:p-6 lg:p-8">
                   <p className="text-sm font-bold uppercase tracking-[0.08em] text-primary mb-4">
                     Step {index + 1}
                   </p>
@@ -130,7 +130,7 @@ export default function HowItWorks() {
           </div>
         </section>
 
-        <section className="px-4 py-20 bg-muted">
+        <section className="bg-muted py-20 mobile-shell">
           <div className="container mx-auto">
             <div className="max-w-4xl mb-12">
               <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">Core Work</p>
@@ -142,7 +142,7 @@ export default function HowItWorks() {
 
             <div className="grid gap-6 lg:grid-cols-3">
               {pillars.map(({ title, description, icon: Icon }) => (
-                <div key={title} className="bg-card p-8">
+                <div key={title} className="bg-card p-4 sm:p-6 lg:p-8">
                   <div className="w-12 h-12 bg-primary/10 flex items-center justify-center mb-4">
                     <Icon className="h-6 w-6 text-primary" />
                   </div>
@@ -154,7 +154,7 @@ export default function HowItWorks() {
           </div>
         </section>
 
-        <section className="px-4 py-20 bg-background">
+        <section className="bg-background py-20 mobile-shell">
           <div className="container mx-auto max-w-4xl">
             <div className="text-center mb-12">
               <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">Platform FAQ</p>
@@ -164,10 +164,10 @@ export default function HowItWorks() {
             <Accordion type="single" collapsible className="w-full">
               {faqs.map((faq, index) => (
                 <AccordionItem key={faq.question} value={`faq-${index}`} className="mb-4 overflow-hidden bg-card">
-                  <AccordionTrigger className="px-6 py-4 hover:bg-muted text-left">
+                  <AccordionTrigger className="px-4 py-4 text-left hover:bg-muted sm:px-6">
                     <span className="font-bold text-foreground">{faq.question}</span>
                   </AccordionTrigger>
-                  <AccordionContent className="px-6 pb-4">
+                  <AccordionContent className="px-4 pb-4 sm:px-6">
                     <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
                   </AccordionContent>
                 </AccordionItem>
@@ -176,7 +176,7 @@ export default function HowItWorks() {
           </div>
         </section>
 
-        <section className="px-4 py-20 bg-secondary text-secondary-foreground">
+        <section className="bg-secondary py-20 text-secondary-foreground mobile-shell">
           <div className="container mx-auto">
             <div className="max-w-4xl">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">Start where the pain is loudest.</h2>
@@ -184,13 +184,13 @@ export default function HowItWorks() {
                 You do not need another round of passive insight. Pick the coach, choose the program, and start acting differently.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/coaches">
-                  <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg w-full sm:w-auto">
+                <Link to="/coaches" className="w-full sm:w-auto">
+                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 sm:w-auto">
                     Meet Our Coaches
                   </Button>
                 </Link>
-                <Link to="/courses">
-                  <Button className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-6 text-lg w-full sm:w-auto">
+                <Link to="/courses" className="w-full sm:w-auto">
+                  <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto">
                     Browse Programs
                   </Button>
                 </Link>

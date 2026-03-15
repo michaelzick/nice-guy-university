@@ -19,22 +19,22 @@ const NotFound = () => {
     <div className="min-h-screen flex flex-col bg-background">
       <SEOHead title="Page Not Found" description="The page you're looking for doesn't exist" noIndex />
       <Navbar />
-      <main className="flex flex-1 items-center justify-center px-4 pb-16 pt-32">
-        <div className="max-w-xl bg-card p-10 text-center">
+      <main className="mobile-shell flex flex-1 items-center justify-center pb-16 pt-32">
+        <div className="content-stack max-w-xl bg-card p-6 text-center sm:p-10">
           <h1 className="mb-4 text-4xl font-bold">404</h1>
           <p className="mb-4 text-xl text-muted-foreground">Oops! Page not found</p>
           <p className="mb-8 text-muted-foreground">
             The page at <span className="font-medium text-foreground">{location.pathname}</span> does not exist.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Link to="/">
-              <Button>Return Home</Button>
+            <Link to="/" className="w-full sm:w-auto">
+              <Button className="w-full">Return Home</Button>
             </Link>
-            <Link to="/courses">
-              <Button variant="outline">Browse Programs</Button>
+            <Link to="/courses" className="w-full sm:w-auto">
+              <Button variant="outline" className="w-full">Browse Programs</Button>
             </Link>
-            <Link to="/coaches">
-              <Button variant="outline">Meet Our Coaches</Button>
+            <Link to="/coaches" className="w-full sm:w-auto">
+              <Button variant="outline" className="w-full">Meet Our Coaches</Button>
             </Link>
           </div>
         </div>

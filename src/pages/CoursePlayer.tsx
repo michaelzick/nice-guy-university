@@ -186,7 +186,7 @@ export default function CoursePlayer() {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <Navbar />
-        <div className="flex flex-1 items-center justify-center px-4 pt-20">
+        <div className="mobile-shell flex flex-1 items-center justify-center pt-20">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
       </div>
@@ -197,7 +197,7 @@ export default function CoursePlayer() {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <Navbar />
-        <div className="flex flex-1 items-center justify-center px-4 pt-20">
+        <div className="mobile-shell flex flex-1 items-center justify-center pt-20">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-foreground mb-4">Program Not Found</h1>
             <Link to="/courses">
@@ -216,7 +216,7 @@ export default function CoursePlayer() {
 
       <main className="flex min-w-0 flex-1 flex-col pt-20">
         {/* Top bar */}
-        <div className="border-b border-border bg-secondary px-4 py-3">
+        <div className="mobile-shell border-b border-border bg-secondary py-3">
           <div className="mx-auto flex max-w-screen-2xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex min-w-0 items-center gap-2 sm:gap-4">
               <Link to={`/course/${courseSlug}`} className="shrink-0">
@@ -243,7 +243,7 @@ export default function CoursePlayer() {
                   variant="outline"
                   size="sm"
                   aria-label="Open course content"
-                  className="min-w-[10rem] justify-center border-border bg-background px-3 text-xs text-foreground hover:border-primary/50 hover:bg-secondary hover:text-foreground active:bg-muted sm:text-sm lg:hidden"
+                  className="w-full justify-center border-border bg-background px-3 text-xs text-foreground hover:border-primary/50 hover:bg-secondary hover:text-foreground active:bg-muted sm:min-w-[10rem] sm:w-auto sm:text-sm lg:hidden"
                   onClick={() => setMobileCourseMenuOpen(true)}
                 >
                   <Menu className="h-4 w-4 mr-2" />
@@ -274,7 +274,7 @@ export default function CoursePlayer() {
         {/* Main content */}
         <div className="flex flex-1 flex-col lg:flex-row">
           {/* Video area */}
-          <div className="min-w-0 flex-grow p-4 lg:p-8">
+          <div className="min-w-0 flex-grow p-2 sm:p-4 lg:p-8">
             {currentLesson ? (
               <>
                 <VideoPlayer lesson={currentLesson} />
@@ -299,18 +299,18 @@ export default function CoursePlayer() {
                 {/* Navigation */}
                 <div className="mt-8 flex flex-col gap-3 border-t border-border pt-4 sm:flex-row sm:items-center sm:justify-between">
                   {prevLesson ? (
-                    <Button variant="outline" onClick={() => navigateToLesson(prevLesson)}>
+                    <Button variant="outline" className="w-full sm:w-auto" onClick={() => navigateToLesson(prevLesson)}>
                       <ChevronLeft className="h-4 w-4 mr-2" />
                       Previous
                     </Button>
                   ) : <div />}
                   {nextLesson ? (
-                    <Button onClick={() => navigateToLesson(nextLesson)}>
+                    <Button className="w-full sm:w-auto" onClick={() => navigateToLesson(nextLesson)}>
                       Next
                       <ChevronRight className="h-4 w-4 ml-2" />
                     </Button>
                   ) : (
-                    <Button onClick={() => void handleCompleteCourse()} disabled={isCompletingCourse}>
+                    <Button className="w-full sm:w-auto" onClick={() => void handleCompleteCourse()} disabled={isCompletingCourse}>
                       {isCompletingCourse ? (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       ) : (

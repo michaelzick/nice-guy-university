@@ -83,8 +83,8 @@ export default function CheckoutSuccess() {
     <div className="min-h-screen flex flex-col">
       <SEOHead title="Checkout Success" description="Your purchase was successful" noIndex />
       <Navbar />
-      <main className="flex-grow pt-32 pb-16 px-4">
-        <div className="container mx-auto max-w-lg text-center">
+      <main className="mobile-shell flex-grow pt-32 pb-16">
+        <div className="container mx-auto max-w-lg content-stack text-center">
           {status === 'loading' ? (
             <>
               <div className="inline-flex items-center justify-center w-20 h-20 bg-muted mb-6">
@@ -104,14 +104,14 @@ export default function CheckoutSuccess() {
               <p className="text-muted-foreground mb-8">
                 {errorMessage}
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/cart">
-                  <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+              <div className="flex flex-col justify-center gap-4 sm:flex-row">
+                <Link to="/cart" className="w-full sm:w-auto">
+                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
                     Return to Cart
                   </Button>
                 </Link>
-                <Link to="/my-programs">
-                  <Button variant="outline">Check My Programs</Button>
+                <Link to="/my-programs" className="w-full sm:w-auto">
+                  <Button variant="outline" className="w-full">Check My Programs</Button>
                 </Link>
               </div>
             </>
@@ -124,14 +124,14 @@ export default function CheckoutSuccess() {
               <p className="text-muted-foreground mb-8">
                 Thank you for your purchase. You now have access to your programs. Start learning right away!
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/my-programs">
-                  <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+              <div className="flex flex-col justify-center gap-4 sm:flex-row">
+                <Link to="/my-programs" className="w-full sm:w-auto">
+                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
                     Go to My Programs
                   </Button>
                 </Link>
-                <Link to="/courses">
-                  <Button variant="outline">Browse More Programs</Button>
+                <Link to="/courses" className="w-full sm:w-auto">
+                  <Button variant="outline" className="w-full">Browse More Programs</Button>
                 </Link>
               </div>
             </>

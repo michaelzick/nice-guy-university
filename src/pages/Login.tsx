@@ -106,7 +106,7 @@ export default function Login() {
       <SEOHead title="Sign In" description="Sign in to Nice Guy University" noIndex />
       <Navbar />
 
-      <main className="flex-grow pt-32 pb-16 px-4 bg-muted">
+      <main className="flex-grow mobile-shell bg-muted pb-16 pt-32">
         <div className="container mx-auto max-w-md">
           <div className="text-center mb-8">
             <Link to="/" className="inline-flex items-center space-x-2 mb-6">

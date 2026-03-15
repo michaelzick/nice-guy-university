@@ -9,7 +9,7 @@ interface SearchBarProps {
 
 export default function SearchBar({ searchQuery, setSearchQuery }: SearchBarProps) {
   return (
-    <div className="relative flex-grow">
+    <div className="relative content-stack flex-grow">
       <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
       <Input 
         type="text"

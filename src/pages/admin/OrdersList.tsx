@@ -85,102 +85,188 @@ export default function AdminOrdersList() {
       <h1 className="text-3xl font-bold text-foreground mb-8">Orders</h1>
 
       <Card>
-        <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Order ID</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Courses</TableHead>
-                <TableHead>Amount</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {orders.map((order: AdminOrder) => {
-                const isRefundingOrder = refundMutation.isPending && refundMutation.variables === order.id;
+        <CardContent className="p-4 md:p-0">
+          <div className="space-y-4 md:hidden">
+            {orders.map((order: AdminOrder) => {
+              const isRefundingOrder = refundMutation.isPending && refundMutation.variables === order.id;
 
-                return (
-                  <TableRow key={order.id}>
-                    <TableCell className="font-mono text-sm">
-                      {order.id.slice(0, 8)}...
-                    </TableCell>
-                    <TableCell>
-                      {new Date(order.created_at).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell>
-                      <div className="space-y-1">
+              return (
+                <Card key={order.id}>
+                  <CardContent className="space-y-4 p-4">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="content-stack">
+                        <p className="font-mono text-sm text-card-foreground">{order.id.slice(0, 8)}...</p>
+                        <p className="mt-1 text-xs uppercase tracking-[0.08em] text-muted-foreground">
+                          {new Date(order.created_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <Badge className={statusColors[order.status] ?? statusColors.pending}>
+                        {order.status}
+                      </Badge>
+                    </div>
+
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">Courses</p>
+                      <div className="mt-2 space-y-1">
                         {order.order_items?.map((item) => (
-                          <p key={item.id} className="text-sm">
+                          <p key={item.id} className="text-sm text-card-foreground">
                             {item.courses?.title ?? 'Unknown Course'}
                           </p>
                         ))}
                       </div>
-                    </TableCell>
-                    <TableCell className="font-medium">
-                      {formatCurrency(Number(order.amount_total))}
-                    </TableCell>
-                    <TableCell>
-                      <Badge className={statusColors[order.status] ?? statusColors.pending}>
-                        {order.status}
-                      </Badge>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3 text-sm">
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">Amount</p>
+                        <p className="mt-1 font-medium text-card-foreground">{formatCurrency(Number(order.amount_total))}</p>
+                      </div>
                       {order.refunded_at && (
-                        <p className="mt-2 text-xs text-muted-foreground">
-                          {new Date(order.refunded_at).toLocaleString()}
-                        </p>
+                        <div>
+                          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">Refunded</p>
+                          <p className="mt-1 text-xs text-muted-foreground">{new Date(order.refunded_at).toLocaleString()}</p>
+                        </div>
                       )}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {canRefundOrder(order) ? (
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button
-                              variant="outline"
-                              size="sm"
+                    </div>
+
+                    {canRefundOrder(order) ? (
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="outline" className="w-full" disabled={refundMutation.isPending}>
+                            {isRefundingOrder ? 'Refunding...' : 'Refund Order'}
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Refund this order?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This will issue a full refund of {formatCurrency(Number(order.amount_total))}
+                              {' '}through Stripe and immediately revoke access to every program in this order.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => refundMutation.mutate(order.id)}
+                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                               disabled={refundMutation.isPending}
                             >
-                              Refund
-                            </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Refund this order?</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                This will issue a full refund of {formatCurrency(Number(order.amount_total))}
-                                {' '}through Stripe and immediately revoke access to every program in this order.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction
-                                onClick={() => refundMutation.mutate(order.id)}
-                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                              {isRefundingOrder ? 'Refunding...' : 'Refund Order'}
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">
+                        {order.status === 'refunded' ? 'Refunded' : 'No actions available'}
+                      </p>
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })}
+            {orders.length === 0 && (
+              <p className="py-8 text-center text-muted-foreground">No orders yet.</p>
+            )}
+          </div>
+
+          <div className="hidden md:block">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Order ID</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Courses</TableHead>
+                  <TableHead>Amount</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {orders.map((order: AdminOrder) => {
+                  const isRefundingOrder = refundMutation.isPending && refundMutation.variables === order.id;
+
+                  return (
+                    <TableRow key={order.id}>
+                      <TableCell className="font-mono text-sm">
+                        {order.id.slice(0, 8)}...
+                      </TableCell>
+                      <TableCell>
+                        {new Date(order.created_at).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell>
+                        <div className="space-y-1">
+                          {order.order_items?.map((item) => (
+                            <p key={item.id} className="text-sm">
+                              {item.courses?.title ?? 'Unknown Course'}
+                            </p>
+                          ))}
+                        </div>
+                      </TableCell>
+                      <TableCell className="font-medium">
+                        {formatCurrency(Number(order.amount_total))}
+                      </TableCell>
+                      <TableCell>
+                        <Badge className={statusColors[order.status] ?? statusColors.pending}>
+                          {order.status}
+                        </Badge>
+                        {order.refunded_at && (
+                          <p className="mt-2 text-xs text-muted-foreground">
+                            {new Date(order.refunded_at).toLocaleString()}
+                          </p>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {canRefundOrder(order) ? (
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button
+                                variant="outline"
+                                size="sm"
                                 disabled={refundMutation.isPending}
                               >
-                                {isRefundingOrder ? 'Refunding...' : 'Refund Order'}
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      ) : order.status === 'refunded' ? (
-                        <span className="text-sm text-muted-foreground">Refunded</span>
-                      ) : (
-                        <span className="text-sm text-muted-foreground">-</span>
-                      )}
+                                Refund
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Refund this order?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This will issue a full refund of {formatCurrency(Number(order.amount_total))}
+                                  {' '}through Stripe and immediately revoke access to every program in this order.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => refundMutation.mutate(order.id)}
+                                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                  disabled={refundMutation.isPending}
+                                >
+                                  {isRefundingOrder ? 'Refunding...' : 'Refund Order'}
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        ) : order.status === 'refunded' ? (
+                          <span className="text-sm text-muted-foreground">Refunded</span>
+                        ) : (
+                          <span className="text-sm text-muted-foreground">-</span>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+                {orders.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={6} className="py-8 text-center text-muted-foreground">
+                      No orders yet.
                     </TableCell>
                   </TableRow>
-                );
-              })}
-              {orders.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
-                    No orders yet.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
     </div>

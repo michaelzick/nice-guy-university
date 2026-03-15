@@ -52,7 +52,7 @@ export default function CoursesPage() {
       )}
       <Navbar />
 
-      <main className="flex-grow pt-32 pb-16 px-4">
+      <main className="flex-grow mobile-shell pb-16 pt-32">
         <div className="container mx-auto">
           <div className="mb-8 fade-in">
             <h1 className="text-3xl font-bold text-foreground mb-2">Programs</h1>

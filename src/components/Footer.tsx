@@ -7,8 +7,8 @@ export default function Footer() {
     <footer className="bg-secondary pt-16 pb-12 relative overflow-hidden">
       <div className="absolute -left-[1.4rem] top-0 h-[4.9rem] w-[4.9rem] bg-accent" style={{ clipPath: 'polygon(0 0, 100% 0, 0 100%)' }} />
       <div className="absolute -right-10 bottom-0 z-10 hidden h-36 w-36 bg-primary md:block" style={{ clipPath: 'polygon(0 22%, 100% 0, 82% 100%, 12% 80%)' }} />
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="container mx-auto mobile-shell">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <div>
             <Link to="/" className="flex items-center space-x-2 mb-6">
               <span className="cta-elevated-on-hover whitespace-nowrap text-base lg:text-sm xl:text-base font-bold text-accent-foreground tracking-[0.03em] uppercase bg-accent px-3 py-1 inline-block">
@@ -75,9 +75,9 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold text-secondary-foreground mb-6 tracking-[0.03em]">Contact</h3>
             <p className="text-secondary-foreground/85 mb-4 font-medium">Questions about the platform or a program? Reach out.</p>
-            <div className="flex items-center space-x-3 mb-4 bg-background text-foreground px-3 py-2 w-fit">
+            <div className="mb-4 flex w-full max-w-full items-center space-x-3 bg-background px-3 py-2 text-foreground sm:w-fit">
               <Mail className="h-5 w-5 text-primary" />
-              <span className="font-semibold">coach@michaelzick.com</span>
+              <span className="min-w-0 break-all font-semibold">coach@michaelzick.com</span>
             </div>
           </div>
         </div>

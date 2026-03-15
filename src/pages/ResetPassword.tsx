@@ -82,9 +82,9 @@ export default function ResetPassword() {
       <div className="min-h-screen flex flex-col">
         <Navbar />
 
-        <main className="flex-grow pt-32 pb-16 px-4 bg-muted">
-          <div className="container mx-auto max-w-md">
-            <Card>
+        <main className="mobile-shell flex-grow bg-muted pt-32 pb-16">
+          <div className="container mx-auto max-w-md content-stack">
+            <Card className="content-stack">
               <CardContent className="py-12 flex flex-col items-center gap-4">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 <p className="text-center text-muted-foreground">
@@ -109,8 +109,8 @@ export default function ResetPassword() {
       <SEOHead title="Reset Password" description="Reset your password" noIndex />
       <Navbar />
 
-      <main className="flex-grow pt-32 pb-16 px-4 bg-muted">
-        <div className="container mx-auto max-w-md">
+      <main className="mobile-shell flex-grow bg-muted pt-32 pb-16">
+        <div className="container mx-auto max-w-md content-stack">
           <div className="text-center mb-8">
             <Link to="/" className="inline-flex items-center space-x-2 mb-6">
               <span className="text-2xl font-bold text-foreground tracking-tight">
@@ -121,7 +121,7 @@ export default function ResetPassword() {
             <p className="text-muted-foreground">Choose a new password for your account</p>
           </div>
 
-          <Card>
+          <Card className="content-stack">
             <CardHeader>
               <CardTitle>Create a New Password</CardTitle>
               <CardDescription>The reset link signed you in securely. Enter your new password below.</CardDescription>
@@ -134,7 +134,7 @@ export default function ResetPassword() {
                   <p className="text-muted-foreground mb-4">
                     Your password has been reset. You can continue into the app now.
                   </p>
-                  <Button onClick={() => navigate("/my-programs", { replace: true })}>
+                  <Button className="w-full sm:w-auto" onClick={() => navigate("/my-programs", { replace: true })}>
                     Go to My Programs
                   </Button>
                 </div>

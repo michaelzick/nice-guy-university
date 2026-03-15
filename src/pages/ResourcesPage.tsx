@@ -17,7 +17,7 @@ export default function ResourcesPage() {
       />
       <Navbar />
 
-      <main className="flex-grow px-4 pb-16 pt-28 md:pt-32">
+      <main className="flex-grow mobile-shell pb-16 pt-28 md:pt-32">
         <div className="container mx-auto max-w-5xl">
           <div className="mb-12 fade-in">
             <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-2">Resources</p>
@@ -47,7 +47,7 @@ export default function ResourcesPage() {
                 <Link
                   key={resource.id}
                   to={`/resources/${resource.slug}`}
-                  className="block bg-card p-6 hover:border-primary transition-colors elevated-on-hover"
+                  className="elevated-on-hover block bg-card p-4 transition-colors hover:border-primary sm:p-6"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">

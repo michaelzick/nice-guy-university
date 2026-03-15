@@ -72,7 +72,7 @@ export default function Index() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative flex min-h-[72vh] items-center overflow-hidden px-4 pb-24 pt-32 sm:min-h-[36rem]">
+      <section className="relative flex min-h-[72vh] items-center overflow-hidden mobile-shell pb-24 pt-32 sm:min-h-[36rem]">
         <img
           src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80"
           alt="Mountain landscape representing the journey of personal growth and Nice Guy recovery"
@@ -92,14 +92,14 @@ export default function Index() {
               Nice Guy University connects you with coaches and programs designed to break shame, approval addiction, weak boundaries, and the patterns keeping you stuck.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Link to="/courses">
-                <Button className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-6 text-lg w-full sm:w-auto">
+              <Link to="/courses" className="w-full sm:w-auto">
+                <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto">
                   Browse Programs
                   <ChevronRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Link to="/coaches">
-                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg w-full sm:w-auto">
+              <Link to="/coaches" className="w-full sm:w-auto">
+                <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 sm:w-auto">
                   Meet Our Coaches
                 </Button>
               </Link>
@@ -109,7 +109,7 @@ export default function Index() {
       </section>
 
       {/* The Recovery Framework */}
-      <section className="py-20 px-4 bg-background">
+      <section className="bg-background py-20 mobile-shell">
         <div className="container mx-auto">
           <div className="text-center max-w-4xl mx-auto mb-16">
             <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">
@@ -125,7 +125,7 @@ export default function Index() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {framework.map((item) => (
-              <div key={item.step} className="relative p-8 bg-card hover:border-primary transition-all duration-300 group elevated-on-hover">
+              <div key={item.step} className="group elevated-on-hover relative bg-card p-4 transition-all duration-300 hover:border-primary sm:p-6 lg:p-8">
                 <span className="text-5xl font-bold text-primary/20 group-hover:text-primary/40 transition-colors">{item.step}</span>
                 <h3 className="text-xl font-bold text-card-foreground mt-4 mb-3">{item.title}</h3>
                 <p className="text-muted-foreground">{item.description}</p>
@@ -136,7 +136,7 @@ export default function Index() {
       </section>
 
       {/* Featured Programs */}
-      <section className="bg-muted px-4 pb-14 pt-20 md:pb-20">
+      <section className="bg-muted mobile-shell pb-14 pt-20 md:pb-20">
         <div className="container mx-auto">
           <div className="flex justify-between items-end mb-12">
             <div>
@@ -157,7 +157,7 @@ export default function Index() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 px-4 bg-muted">
+      <section className="bg-muted py-20 mobile-shell">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
             <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">
@@ -171,10 +171,10 @@ export default function Index() {
           <Accordion type="single" collapsible className="w-full">
             {homeFAQs.map((faq, index) => (
               <AccordionItem key={index} value={`faq-${index}`} className="mb-4 overflow-hidden bg-card">
-                <AccordionTrigger className="px-6 py-4 hover:bg-muted text-left">
+                <AccordionTrigger className="px-4 py-4 text-left hover:bg-muted sm:px-6">
                   <span className="font-bold text-foreground">{faq.question}</span>
                 </AccordionTrigger>
-                <AccordionContent className="px-6 pb-4">
+                <AccordionContent className="px-4 pb-4 sm:px-6">
                   <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
                 </AccordionContent>
               </AccordionItem>
@@ -184,7 +184,7 @@ export default function Index() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative overflow-hidden px-4 pb-20 pt-14 md:pt-20">
+      <section className="relative overflow-hidden mobile-shell pb-20 pt-14 md:pt-20">
         <img
           src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1920&q=80"
           alt="Forest landscape symbolizing clarity and new beginnings after breaking free from people-pleasing patterns"
@@ -201,13 +201,13 @@ export default function Index() {
               Start with the pain point that is costing you the most. Then do the work until your behavior changes, not just your vocabulary.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/coaches">
-                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg w-full sm:w-auto">
+              <Link to="/coaches" className="w-full sm:w-auto">
+                <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 sm:w-auto">
                   Meet Our Coaches
                 </Button>
               </Link>
-              <Link to="/courses">
-                <Button className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-6 text-lg w-full sm:w-auto">
+              <Link to="/courses" className="w-full sm:w-auto">
+                <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto">
                   Browse Programs
                 </Button>
               </Link>

@@ -127,7 +127,7 @@ export default function AdminSettings() {
             </CardHeader>
             <CardContent className="space-y-6">
               {/* Avatar */}
-              <div className="flex items-center gap-6">
+              <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
                 <div className="relative">
                   <div className="h-20 w-20 bg-muted flex items-center justify-center overflow-hidden">
                     {profile?.avatarUrl ? (
@@ -137,10 +137,10 @@ export default function AdminSettings() {
                     )}
                   </div>
                 </div>
-                <div>
+                <div className="w-full space-y-2 sm:w-auto">
                   <Label htmlFor="avatar-upload" className="cursor-pointer">
                     <Button variant="outline" size="sm" asChild disabled={avatarUploading}>
-                      <span>
+                      <span className="w-full justify-center sm:w-auto">
                         {avatarUploading ? (
                           <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                         ) : (
@@ -195,7 +195,7 @@ export default function AdminSettings() {
                 <Button
                   type="submit"
                   disabled={profileForm.formState.isSubmitting}
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 sm:w-auto"
                 >
                   {profileForm.formState.isSubmitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
                   Save Changes
@@ -212,7 +212,7 @@ export default function AdminSettings() {
               <CardDescription>Update your password to keep your account secure.</CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={passwordForm.handleSubmit(onPasswordSubmit)} className="space-y-4 max-w-md">
+              <form onSubmit={passwordForm.handleSubmit(onPasswordSubmit)} className="max-w-md space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="newPassword">New Password</Label>
                   <Input
@@ -240,7 +240,7 @@ export default function AdminSettings() {
                 <Button
                   type="submit"
                   disabled={passwordForm.formState.isSubmitting}
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 sm:w-auto"
                 >
                   {passwordForm.formState.isSubmitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
                   Update Password

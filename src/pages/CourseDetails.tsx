@@ -105,8 +105,8 @@ export default function CourseDetails() {
       <Navbar />
 
       <main className="flex-grow overflow-x-hidden pt-20 pb-28 lg:pb-0">
-        <div className="bg-secondary text-secondary-foreground py-12">
-          <div className="container mx-auto px-4">
+        <div className="bg-secondary py-12 text-secondary-foreground">
+          <div className="container mx-auto mobile-shell">
             <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(320px,1fr)]">
               <div className="min-w-0 fade-in">
                 <div className="mb-4 flex flex-wrap items-center text-sm">
@@ -156,7 +156,7 @@ export default function CourseDetails() {
                   </div>
                 </div>
 
-                <div className="mt-8 bg-background p-6 text-foreground">
+                <div className="mt-8 bg-background p-4 text-foreground sm:p-6">
                   <Tabs defaultValue="overview">
                     <TabsList className="mb-8 grid h-auto w-full grid-cols-3 bg-muted p-1">
                       <TabsTrigger value="overview" className="min-w-0 whitespace-normal px-2 py-3 text-[11px] leading-tight sm:text-sm">
@@ -277,7 +277,7 @@ export default function CourseDetails() {
                         </div>
                       </div>
 
-                      <div className="bg-muted p-6 mb-8">
+                      <div className="mb-8 bg-muted p-4 sm:p-6">
                         <h3 className="text-xl font-bold text-foreground mb-4">
                           About {coach?.firstName ?? coachDisplayName.split(' ')[0]}
                         </h3>
@@ -310,7 +310,7 @@ export default function CourseDetails() {
                     />
                   </div>
 
-                  <div className="p-6">
+                  <div className="p-4 sm:p-6">
                     <div className="flex items-center justify-between mb-4">
                       {course.salePrice ? (
                         <div className="flex items-center">
@@ -323,15 +323,15 @@ export default function CourseDetails() {
                     </div>
 
                     {isInCart(course.id) ? (
-                      <Link to="/cart" className="w-full">
-                        <Button variant="outline" className="w-full mb-3 border-primary text-primary hover:bg-primary/10 py-6">
+                      <Link to="/cart" className="block w-full">
+                        <Button variant="outline" className="mb-3 w-full border-primary text-primary hover:bg-primary/10">
                           <ShoppingCart className="mr-2 h-5 w-5" />
                           Go to Cart
                         </Button>
                       </Link>
                     ) : (
                       <Button
-                        className="w-full mb-3 bg-primary hover:bg-primary/90 text-primary-foreground py-6"
+                        className="mb-3 w-full bg-primary text-primary-foreground hover:bg-primary/90"
                         onClick={() => addToCart(course.id)}
                       >
                         Enroll Now
@@ -365,7 +365,7 @@ export default function CourseDetails() {
                     </div>
                   </div>
                 </div>
-                <div className="bg-card p-6">
+                <div className="bg-card p-4 sm:p-6">
                   <h3 className="text-lg font-bold text-card-foreground mb-4">Program Details</h3>
                   <ul className="space-y-4">
                     <li className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
@@ -398,9 +398,9 @@ export default function CourseDetails() {
         {/* Related Programs */}
         {relatedCourses.length > 0 && (
           <section className="py-12 bg-muted">
-            <div className="container mx-auto px-4">
+            <div className="container mx-auto mobile-shell">
               <h2 className="text-2xl font-bold text-foreground mb-8">Related Programs</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 sm:gap-6">
                 {relatedCourses.map((relatedCourse, index) => (
                   <CourseCard
                     key={relatedCourse.id}
@@ -414,7 +414,7 @@ export default function CourseDetails() {
         )}
       </main>
 
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur lg:hidden">
+      <div className="mobile-shell fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur lg:hidden">
         <div className="mx-auto flex max-w-5xl items-center gap-3">
           <div className="min-w-0 flex-1">
             <p className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">Program Price</p>

@@ -25,14 +25,14 @@ export default function AdminLayout() {
 
   const renderSidebar = (className = '') => (
     <div className={`flex h-full flex-col bg-card ${className}`.trim()}>
-      <div className="border-b border-border p-6">
+      <div className="border-b border-border p-4 sm:p-6">
         <Link to="/" className="flex items-center gap-2">
           <span className="text-lg font-bold tracking-tight text-foreground">NICE GUY UNIVERSITY</span>
         </Link>
         <p className="mt-1 text-xs uppercase tracking-[0.08em] text-muted-foreground">Admin Dashboard</p>
       </div>
 
-      <nav className="flex-1 space-y-1 overflow-y-auto p-4">
+      <nav className="flex-1 space-y-1 overflow-y-auto p-3 sm:p-4">
         {navItems.map((item) => {
           const isActive = item.exact
             ? location.pathname === item.to
@@ -52,7 +52,7 @@ export default function AdminLayout() {
         })}
       </nav>
 
-      <div className="mt-auto border-t border-border p-4">
+      <div className="mt-auto border-t border-border p-3 sm:p-4">
         <Link to="/">
           <Button variant="ghost" size="sm" className="w-full justify-start text-muted-foreground">
             <ChevronLeft className="mr-1 h-4 w-4" />
@@ -70,7 +70,7 @@ export default function AdminLayout() {
       </aside>
 
       <div className="flex min-h-screen min-w-0 flex-1 flex-col">
-        <div className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-card/95 px-4 py-3 backdrop-blur lg:hidden">
+        <div className="mobile-shell sticky top-0 z-30 flex items-center justify-between border-b border-border bg-card/95 py-3 backdrop-blur lg:hidden">
           <div>
             <p className="text-xs uppercase tracking-[0.08em] text-muted-foreground">Admin</p>
             <h1 className="text-lg font-bold text-foreground">{currentNavItem?.label ?? 'Dashboard'}</h1>
@@ -93,8 +93,8 @@ export default function AdminLayout() {
           </Sheet>
         </div>
 
-        <main className="min-w-0 flex-1 overflow-auto p-4 sm:p-6 lg:p-8">
-          <div className="mx-auto max-w-7xl">
+        <main className="mobile-shell min-w-0 flex-1 overflow-auto py-4 sm:py-6 lg:px-8 lg:py-8">
+          <div className="mx-auto max-w-7xl content-stack">
             <Outlet />
           </div>
         </main>

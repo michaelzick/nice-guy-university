@@ -25,7 +25,7 @@ export default function CourseCard({ course, className }: CourseCardProps) {
   const categoryLabel = course.category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
   return (
-    <div className={cn("course-card group bg-card overflow-hidden transition-all duration-300", className)}>
+    <div className={cn("course-card content-stack group overflow-hidden bg-card transition-all duration-300", className)}>
       <Link to={`/course/${course.slug}`} className="block relative pb-[56.25%] overflow-hidden">
         <img 
           src={`${course.thumbnailUrl}?auto=format&fit=crop&w=800&q=80`}
@@ -44,12 +44,12 @@ export default function CourseCard({ course, className }: CourseCardProps) {
         )}
       </Link>
       
-      <div className="p-5">
-        <div className="flex justify-between items-start mb-2">
+      <div className="p-4 sm:p-5">
+        <div className="mb-2 flex items-start justify-between gap-3">
           <span className="text-xs font-bold text-primary uppercase tracking-[0.05em]">
             {categoryLabel}
           </span>
-          <div className="flex items-center">
+          <div className="flex shrink-0 items-center">
             <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
             <span className="text-sm font-medium text-card-foreground ml-1">{course.rating}</span>
             <span className="text-xs text-muted-foreground ml-1">({course.ratingCount})</span>
@@ -73,9 +73,9 @@ export default function CourseCard({ course, className }: CourseCardProps) {
           <span>{course.lectureCount} lessons</span>
         </div>
         
-        <div className="flex items-center justify-between mb-4">
+        <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <span className="text-sm text-muted-foreground">By {course.instructor}</span>
-          <div className="flex items-center">
+          <div className="flex items-center sm:justify-end">
             {course.salePrice ? (
               <>
                 <span className="text-sm font-bold text-card-foreground">
@@ -95,7 +95,7 @@ export default function CourseCard({ course, className }: CourseCardProps) {
         
         <div className="mt-auto">
           {isInCart(course.id) ? (
-            <Link to="/cart" className="w-full">
+            <Link to="/cart" className="block w-full">
               <Button variant="outline" className="w-full border-border text-foreground hover:bg-accent">
                 <ShoppingCart className="w-4 h-4 mr-2" />
                 View in Cart

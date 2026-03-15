@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
@@ -269,6 +270,39 @@ export default function AdminCourseForm() {
     });
   };
 
+  const addJournalPrompt = (chapterIndex: number, lessonIndex: number, value: string) => {
+    const nextPrompt = value.trim();
+    if (!nextPrompt) return;
+
+    setChapters(prev => {
+      const updated = [...prev];
+      updated[chapterIndex] = {
+        ...updated[chapterIndex],
+        lessons: updated[chapterIndex].lessons.map((lesson, index) =>
+          index === lessonIndex
+            ? { ...lesson, journal_prompts: [...lesson.journal_prompts, nextPrompt] }
+            : lesson
+        ),
+      };
+      return updated;
+    });
+  };
+
+  const removeJournalPrompt = (chapterIndex: number, lessonIndex: number, promptIndex: number) => {
+    setChapters(prev => {
+      const updated = [...prev];
+      updated[chapterIndex] = {
+        ...updated[chapterIndex],
+        lessons: updated[chapterIndex].lessons.map((lesson, index) =>
+          index === lessonIndex
+            ? { ...lesson, journal_prompts: lesson.journal_prompts.filter((_, currentPromptIndex) => currentPromptIndex !== promptIndex) }
+            : lesson
+        ),
+      };
+      return updated;
+    });
+  };
+
   const onSubmit = async (data: CourseFormData) => {
     setIsSaving(true);
     try {
@@ -356,512 +390,570 @@ export default function AdminCourseForm() {
     );
   }
 
+  const saveLabel = isEditing ? 'Save Changes' : 'Create Course';
+
+  const renderDetailsFields = () => (
+    <div className="space-y-6">
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="space-y-2">
+          <Label>Title</Label>
+          <Input {...form.register('title')} placeholder="Course title" />
+          {form.formState.errors.title && (
+            <p className="text-sm text-destructive">{form.formState.errors.title.message}</p>
+          )}
+        </div>
+        <div className="space-y-2">
+          <Label>Slug</Label>
+          <Input {...form.register('slug')} placeholder="course-slug" />
+        </div>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-3">
+        <div className="space-y-2">
+          <Label>Coach</Label>
+          <Select
+            value={form.watch('coach_id') ?? 'unassigned'}
+            onValueChange={(value) => form.setValue('coach_id', value === 'unassigned' ? null : value)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select coach" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="unassigned">Unassigned</SelectItem>
+              {coaches.map((coach) => (
+                <SelectItem key={coach.id} value={coach.id}>
+                  {coach.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-2">
+          <Label>Category</Label>
+          <Select value={form.watch('category')} onValueChange={(v) => form.setValue('category', v)}>
+            <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="nice-guy-recovery">Nice Guy Recovery</SelectItem>
+              <SelectItem value="relationship-skills">Relationship Skills</SelectItem>
+              <SelectItem value="boundaries-communication">Boundaries & Communication</SelectItem>
+              <SelectItem value="self-worth-identity">Self-Worth & Identity</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-2">
+          <Label>Level</Label>
+          <Select value={form.watch('level')} onValueChange={(v) => form.setValue('level', v)}>
+            <SelectTrigger><SelectValue placeholder="Select level" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Beginner">Beginner</SelectItem>
+              <SelectItem value="Intermediate">Intermediate</SelectItem>
+              <SelectItem value="Advanced">Advanced</SelectItem>
+              <SelectItem value="All Levels">All Levels</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label>Short Description</Label>
+        <Input {...form.register('short_description')} placeholder="Brief course description" />
+      </div>
+
+      <div className="space-y-2">
+        <Label>Full Description</Label>
+        <Textarea {...form.register('description')} placeholder="Detailed course description" rows={5} />
+      </div>
+
+      <div className="space-y-2">
+        <Label>Thumbnail URL</Label>
+        <Input {...form.register('thumbnail_url')} placeholder="https://..." />
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-3">
+        <div className="space-y-2">
+          <Label>Price ($)</Label>
+          <Input type="number" step="0.01" {...form.register('price')} />
+        </div>
+        <div className="space-y-2">
+          <Label>Sale Price ($)</Label>
+          <Input type="number" step="0.01" {...form.register('sale_price')} placeholder="Optional" />
+        </div>
+        <div className="space-y-2">
+          <Label>Duration</Label>
+          <Input {...form.register('duration')} placeholder="e.g. 8h 30m" />
+        </div>
+      </div>
+
+      <Separator />
+
+      <div className="space-y-2">
+        <Label>Topics</Label>
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <Input
+            value={topicInput}
+            onChange={(e) => setTopicInput(e.target.value)}
+            placeholder="Add a topic"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                if (topicInput.trim()) {
+                  setTopics(prev => [...prev, topicInput.trim()]);
+                  setTopicInput('');
+                }
+              }
+            }}
+          />
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full sm:w-auto"
+            onClick={() => {
+              if (topicInput.trim()) {
+                setTopics(prev => [...prev, topicInput.trim()]);
+                setTopicInput('');
+              }
+            }}
+          >
+            Add
+          </Button>
+        </div>
+        <div className="mt-2 flex flex-wrap gap-2">
+          {topics.map((topic, index) => (
+            <span key={index} className="flex items-center gap-1 bg-muted px-3 py-1 text-sm text-muted-foreground">
+              <span className="break-words">{topic}</span>
+              <button
+                type="button"
+                onClick={() => setTopics(prev => prev.filter((_, currentIndex) => currentIndex !== index))}
+                className="hover:text-destructive"
+              >
+                &times;
+              </button>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label>What You'll Learn</Label>
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <Input
+            value={learnInput}
+            onChange={(e) => setLearnInput(e.target.value)}
+            placeholder="Add a learning outcome"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                if (learnInput.trim()) {
+                  setWhatYouWillLearn(prev => [...prev, learnInput.trim()]);
+                  setLearnInput('');
+                }
+              }
+            }}
+          />
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full sm:w-auto"
+            onClick={() => {
+              if (learnInput.trim()) {
+                setWhatYouWillLearn(prev => [...prev, learnInput.trim()]);
+                setLearnInput('');
+              }
+            }}
+          >
+            Add
+          </Button>
+        </div>
+        <ul className="mt-2 space-y-2">
+          {whatYouWillLearn.map((item, index) => (
+            <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
+              <span className="flex-grow break-words">{item}</span>
+              <button
+                type="button"
+                onClick={() => setWhatYouWillLearn(prev => prev.filter((_, currentIndex) => currentIndex !== index))}
+                className="text-destructive hover:text-destructive/80"
+              >
+                <Trash2 className="h-3 w-3" />
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+
+  const renderContentFields = () => (
+    <div className="space-y-6">
+      {chapters.map((chapter, chapterIndex) => (
+        <Card key={`${chapter.id ?? 'chapter'}-${chapterIndex}`} className="bg-background/20">
+          <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-2">
+              <GripVertical className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-lg">Chapter {chapterIndex + 1}</CardTitle>
+            </div>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full text-destructive hover:text-destructive sm:w-auto"
+              onClick={() => removeChapter(chapterIndex)}
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              Remove Chapter
+            </Button>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <Label>Chapter Title</Label>
+                <Input
+                  value={chapter.title}
+                  onChange={(e) => updateChapterField(chapterIndex, 'title', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Description</Label>
+                <Input
+                  value={chapter.description}
+                  onChange={(e) => updateChapterField(chapterIndex, 'description', e.target.value)}
+                  placeholder="Optional"
+                />
+              </div>
+            </div>
+
+            <Separator />
+
+            <div className="space-y-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <h4 className="text-sm font-medium text-foreground">Lessons</h4>
+                <Button type="button" variant="outline" className="w-full sm:w-auto" onClick={() => addLesson(chapterIndex)}>
+                  <Plus className="mr-2 h-4 w-4" />
+                  Add Lesson
+                </Button>
+              </div>
+
+              {chapter.lessons.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No lessons yet. Add the first lesson for this chapter.</p>
+              ) : (
+                chapter.lessons.map((lesson, lessonIndex) => (
+                  <div key={`${lesson.id ?? 'lesson'}-${lessonIndex}`} className="space-y-3 border border-border p-4">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                      <span className="text-sm font-medium text-muted-foreground">Lesson {lessonIndex + 1}</span>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full text-destructive hover:text-destructive sm:w-auto"
+                        onClick={() => removeLesson(chapterIndex, lessonIndex)}
+                      >
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        Remove Lesson
+                      </Button>
+                    </div>
+
+                    <div className="grid gap-3 md:grid-cols-2">
+                      <div className="space-y-1">
+                        <Label className="text-xs">Title</Label>
+                        <Input
+                          value={lesson.title}
+                          onChange={(e) => updateLessonField(chapterIndex, lessonIndex, 'title', e.target.value)}
+                          className="text-sm"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <Label className="text-xs">Video Source</Label>
+                        <Select
+                          value={lesson.video_source_type}
+                          onValueChange={(value) => updateLessonField(chapterIndex, lessonIndex, 'video_source_type', value)}
+                        >
+                          <SelectTrigger className="text-sm">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="youtube">YouTube</SelectItem>
+                            <SelectItem value="vimeo">Vimeo</SelectItem>
+                            <SelectItem value="self_hosted">Self-Hosted</SelectItem>
+                            <SelectItem value="s3">S3</SelectItem>
+                            <SelectItem value="scorm">SCORM</SelectItem>
+                            <SelectItem value="xapi">xAPI</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    <div className="grid gap-3 md:grid-cols-2">
+                      {['youtube', 'vimeo', 'self_hosted', 's3', 'xapi'].includes(lesson.video_source_type) && (
+                        <div className="space-y-1">
+                          <Label className="text-xs">Video URL</Label>
+                          <Input
+                            value={lesson.video_url}
+                            onChange={(e) => updateLessonField(chapterIndex, lessonIndex, 'video_url', e.target.value)}
+                            className="text-sm"
+                            placeholder="https://..."
+                          />
+                        </div>
+                      )}
+                      {lesson.video_source_type === 'scorm' && (
+                        <div className="space-y-1">
+                          <Label className="text-xs">SCORM Package URL</Label>
+                          <Input
+                            value={lesson.scorm_package_url}
+                            onChange={(e) => updateLessonField(chapterIndex, lessonIndex, 'scorm_package_url', e.target.value)}
+                            className="text-sm"
+                            placeholder="URL to SCORM package"
+                          />
+                        </div>
+                      )}
+                      {lesson.video_source_type === 'xapi' && (
+                        <>
+                          <div className="space-y-1">
+                            <Label className="text-xs">xAPI Endpoint</Label>
+                            <Input
+                              value={lesson.xapi_endpoint}
+                              onChange={(e) => updateLessonField(chapterIndex, lessonIndex, 'xapi_endpoint', e.target.value)}
+                              className="text-sm"
+                              placeholder="LRS endpoint URL"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <Label className="text-xs">xAPI Activity ID</Label>
+                            <Input
+                              value={lesson.xapi_activity_id}
+                              onChange={(e) => updateLessonField(chapterIndex, lessonIndex, 'xapi_activity_id', e.target.value)}
+                              className="text-sm"
+                              placeholder="Activity IRI"
+                            />
+                          </div>
+                        </>
+                      )}
+                      <div className="space-y-1">
+                        <Label className="text-xs">Duration (seconds)</Label>
+                        <Input
+                          type="number"
+                          value={lesson.duration_seconds}
+                          onChange={(e) => updateLessonField(chapterIndex, lessonIndex, 'duration_seconds', Number(e.target.value))}
+                          className="text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <Label className="text-xs">Lesson Script / Content (Markdown)</Label>
+                      <Textarea
+                        value={lesson.content}
+                        onChange={(e) => updateLessonField(chapterIndex, lessonIndex, 'content', e.target.value)}
+                        className="min-h-[120px] text-sm"
+                        placeholder="Full lesson script in markdown format..."
+                        rows={8}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-xs">Journal Prompts</Label>
+                      <div className="flex flex-col gap-2 sm:flex-row">
+                        <Input
+                          className="text-sm"
+                          placeholder="Add a journal prompt"
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              e.preventDefault();
+                              const input = e.target as HTMLInputElement;
+                              addJournalPrompt(chapterIndex, lessonIndex, input.value);
+                              input.value = '';
+                            }
+                          }}
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="w-full sm:w-auto"
+                          onClick={(e) => {
+                            const input = (e.currentTarget.previousElementSibling as HTMLInputElement | null);
+                            if (!input) return;
+                            addJournalPrompt(chapterIndex, lessonIndex, input.value);
+                            input.value = '';
+                          }}
+                        >
+                          Add
+                        </Button>
+                      </div>
+                      {lesson.journal_prompts.length > 0 && (
+                        <ul className="mt-1 space-y-1">
+                          {lesson.journal_prompts.map((prompt, promptIndex) => (
+                            <li key={promptIndex} className="flex items-start gap-2 text-xs text-muted-foreground">
+                              <span className="flex-grow break-words">{promptIndex + 1}. {prompt}</span>
+                              <button
+                                type="button"
+                                onClick={() => removeJournalPrompt(chapterIndex, lessonIndex, promptIndex)}
+                                className="text-destructive hover:text-destructive/80"
+                              >
+                                <Trash2 className="h-3 w-3" />
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <Switch
+                        checked={lesson.is_preview}
+                        onCheckedChange={(value) => updateLessonField(chapterIndex, lessonIndex, 'is_preview', value)}
+                      />
+                      <Label className="text-xs">Free Preview</Label>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+
+      <Button type="button" variant="outline" className="w-full" onClick={addChapter}>
+        <Plus className="mr-2 h-4 w-4" />
+        Add Chapter
+      </Button>
+    </div>
+  );
+
+  const renderSettingsFields = () => (
+    <div className="space-y-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <Label>Published</Label>
+          <p className="text-sm text-muted-foreground">Make this course visible to students</p>
+        </div>
+        <Switch
+          checked={form.watch('published')}
+          onCheckedChange={(value) => form.setValue('published', value)}
+        />
+      </div>
+      <Separator />
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <Label>Featured</Label>
+          <p className="text-sm text-muted-foreground">Show on the homepage</p>
+        </div>
+        <Switch
+          checked={form.watch('featured')}
+          onCheckedChange={(value) => form.setValue('featured', value)}
+        />
+      </div>
+      <Separator />
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <Label>Bestseller</Label>
+          <p className="text-sm text-muted-foreground">Show bestseller badge</p>
+        </div>
+        <Switch
+          checked={form.watch('bestseller')}
+          onCheckedChange={(value) => form.setValue('bestseller', value)}
+        />
+      </div>
+    </div>
+  );
+
   return (
-    <div>
+    <div className="content-stack">
       <h1 className="text-3xl font-bold text-foreground mb-8">
         {isEditing ? 'Edit Course' : 'Create New Course'}
       </h1>
 
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Tabs defaultValue="details">
-          <TabsList className="mb-6">
-            <TabsTrigger value="details">Course Details</TabsTrigger>
-            <TabsTrigger value="content">Chapters & Lessons</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
-          </TabsList>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="content-stack pb-28 md:pb-0">
+        <div className="hidden md:block">
+          <Tabs defaultValue="details">
+            <TabsList className="mb-6 grid w-full grid-cols-3 lg:w-fit">
+              <TabsTrigger value="details">Course Details</TabsTrigger>
+              <TabsTrigger value="content">Chapters & Lessons</TabsTrigger>
+              <TabsTrigger value="settings">Settings</TabsTrigger>
+            </TabsList>
 
-          <TabsContent value="details">
-            <Card>
-              <CardHeader>
-                <CardTitle>Basic Information</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label>Title</Label>
-                    <Input {...form.register('title')} placeholder="Course title" />
-                    {form.formState.errors.title && (
-                      <p className="text-sm text-destructive">{form.formState.errors.title.message}</p>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Slug</Label>
-                    <Input {...form.register('slug')} placeholder="course-slug" />
-                  </div>
-                </div>
+            <TabsContent value="details">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Basic Information</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {renderDetailsFields()}
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-                <div className="grid gap-4 md:grid-cols-3">
-                  <div className="space-y-2">
-                    <Label>Coach</Label>
-                    <Select
-                      value={form.watch('coach_id') ?? 'unassigned'}
-                      onValueChange={(value) => form.setValue('coach_id', value === 'unassigned' ? null : value)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select coach" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="unassigned">Unassigned</SelectItem>
-                        {coaches.map((coach) => (
-                          <SelectItem key={coach.id} value={coach.id}>
-                            {coach.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Category</Label>
-                    <Select value={form.watch('category')} onValueChange={(v) => form.setValue('category', v)}>
-                      <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="nice-guy-recovery">Nice Guy Recovery</SelectItem>
-                        <SelectItem value="relationship-skills">Relationship Skills</SelectItem>
-                        <SelectItem value="boundaries-communication">Boundaries & Communication</SelectItem>
-                        <SelectItem value="self-worth-identity">Self-Worth & Identity</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2 md:col-span-1">
-                    <Label>Level</Label>
-                    <Select value={form.watch('level')} onValueChange={(v) => form.setValue('level', v)}>
-                      <SelectTrigger><SelectValue placeholder="Select level" /></SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Beginner">Beginner</SelectItem>
-                        <SelectItem value="Intermediate">Intermediate</SelectItem>
-                        <SelectItem value="Advanced">Advanced</SelectItem>
-                        <SelectItem value="All Levels">All Levels</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
+            <TabsContent value="content">
+              {renderContentFields()}
+            </TabsContent>
 
-                <div className="space-y-2">
-                  <Label>Short Description</Label>
-                  <Input {...form.register('short_description')} placeholder="Brief course description" />
-                </div>
+            <TabsContent value="settings">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Publishing Settings</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {renderSettingsFields()}
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
 
-                <div className="space-y-2">
-                  <Label>Full Description</Label>
-                  <Textarea {...form.register('description')} placeholder="Detailed course description" rows={5} />
-                </div>
+        <div className="md:hidden">
+          <Accordion type="multiple" defaultValue={['details', 'content', 'settings']} className="space-y-3">
+            <AccordionItem value="details" className="overflow-hidden border border-border bg-card">
+              <AccordionTrigger className="px-4 py-4 text-left hover:bg-muted/70 hover:no-underline">
+                <span className="font-bold uppercase tracking-[0.04em] text-foreground">Course Details</span>
+              </AccordionTrigger>
+              <AccordionContent className="px-4 pb-4 pt-0">
+                {renderDetailsFields()}
+              </AccordionContent>
+            </AccordionItem>
 
-                <div className="space-y-2">
-                  <Label>Thumbnail URL</Label>
-                  <Input {...form.register('thumbnail_url')} placeholder="https://..." />
-                </div>
+            <AccordionItem value="content" className="overflow-hidden border border-border bg-card">
+              <AccordionTrigger className="px-4 py-4 text-left hover:bg-muted/70 hover:no-underline">
+                <span className="font-bold uppercase tracking-[0.04em] text-foreground">Chapters & Lessons</span>
+              </AccordionTrigger>
+              <AccordionContent className="px-4 pb-4 pt-0">
+                {renderContentFields()}
+              </AccordionContent>
+            </AccordionItem>
 
-                <div className="grid gap-4 md:grid-cols-3">
-                  <div className="space-y-2">
-                    <Label>Price ($)</Label>
-                    <Input type="number" step="0.01" {...form.register('price')} />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Sale Price ($)</Label>
-                    <Input type="number" step="0.01" {...form.register('sale_price')} placeholder="Optional" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Duration</Label>
-                    <Input {...form.register('duration')} placeholder="e.g. 8h 30m" />
-                  </div>
-                </div>
+            <AccordionItem value="settings" className="overflow-hidden border border-border bg-card">
+              <AccordionTrigger className="px-4 py-4 text-left hover:bg-muted/70 hover:no-underline">
+                <span className="font-bold uppercase tracking-[0.04em] text-foreground">Settings</span>
+              </AccordionTrigger>
+              <AccordionContent className="px-4 pb-4 pt-0">
+                {renderSettingsFields()}
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
 
-                <Separator />
-
-                {/* Topics */}
-                <div className="space-y-2">
-                  <Label>Topics</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      value={topicInput}
-                      onChange={(e) => setTopicInput(e.target.value)}
-                      placeholder="Add a topic"
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          e.preventDefault();
-                          if (topicInput.trim()) {
-                            setTopics(prev => [...prev, topicInput.trim()]);
-                            setTopicInput('');
-                          }
-                        }
-                      }}
-                    />
-                    <Button type="button" variant="outline" onClick={() => {
-                      if (topicInput.trim()) {
-                        setTopics(prev => [...prev, topicInput.trim()]);
-                        setTopicInput('');
-                      }
-                    }}>
-                      Add
-                    </Button>
-                  </div>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {topics.map((topic, i) => (
-                      <span key={i} className="bg-muted text-muted-foreground text-sm px-3 py-1 rounded-full flex items-center gap-1">
-                        {topic}
-                        <button type="button" onClick={() => setTopics(prev => prev.filter((_, idx) => idx !== i))} className="hover:text-destructive">
-                          &times;
-                        </button>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* What You'll Learn */}
-                <div className="space-y-2">
-                  <Label>What You'll Learn</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      value={learnInput}
-                      onChange={(e) => setLearnInput(e.target.value)}
-                      placeholder="Add a learning outcome"
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          e.preventDefault();
-                          if (learnInput.trim()) {
-                            setWhatYouWillLearn(prev => [...prev, learnInput.trim()]);
-                            setLearnInput('');
-                          }
-                        }
-                      }}
-                    />
-                    <Button type="button" variant="outline" onClick={() => {
-                      if (learnInput.trim()) {
-                        setWhatYouWillLearn(prev => [...prev, learnInput.trim()]);
-                        setLearnInput('');
-                      }
-                    }}>
-                      Add
-                    </Button>
-                  </div>
-                  <ul className="space-y-1 mt-2">
-                    {whatYouWillLearn.map((item, i) => (
-                      <li key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <span className="flex-grow">{item}</span>
-                        <button type="button" onClick={() => setWhatYouWillLearn(prev => prev.filter((_, idx) => idx !== i))} className="text-destructive hover:text-destructive/80">
-                          <Trash2 className="h-3 w-3" />
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="content">
-            <div className="space-y-6">
-              {chapters.map((chapter, chIdx) => (
-                <Card key={chIdx}>
-                  <CardHeader className="flex flex-row items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <GripVertical className="h-4 w-4 text-muted-foreground" />
-                      <CardTitle className="text-lg">Chapter {chIdx + 1}</CardTitle>
-                    </div>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="text-destructive"
-                      onClick={() => removeChapter(chIdx)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid gap-4 md:grid-cols-2">
-                      <div className="space-y-2">
-                        <Label>Chapter Title</Label>
-                        <Input
-                          value={chapter.title}
-                          onChange={(e) => updateChapterField(chIdx, 'title', e.target.value)}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Description</Label>
-                        <Input
-                          value={chapter.description}
-                          onChange={(e) => updateChapterField(chIdx, 'description', e.target.value)}
-                          placeholder="Optional"
-                        />
-                      </div>
-                    </div>
-
-                    <Separator />
-
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <h4 className="text-sm font-medium text-foreground">Lessons</h4>
-                        <Button type="button" variant="outline" size="sm" onClick={() => addLesson(chIdx)}>
-                          <Plus className="h-3 w-3 mr-1" />
-                          Add Lesson
-                        </Button>
-                      </div>
-
-                      {chapter.lessons.map((lesson, lIdx) => (
-                        <div key={lIdx} className="border border-border rounded-lg p-4 space-y-3">
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium text-muted-foreground">Lesson {lIdx + 1}</span>
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="sm"
-                              className="text-destructive h-6"
-                              onClick={() => removeLesson(chIdx, lIdx)}
-                            >
-                              <Trash2 className="h-3 w-3" />
-                            </Button>
-                          </div>
-                          <div className="grid gap-3 md:grid-cols-2">
-                            <div className="space-y-1">
-                              <Label className="text-xs">Title</Label>
-                              <Input
-                                value={lesson.title}
-                                onChange={(e) => updateLessonField(chIdx, lIdx, 'title', e.target.value)}
-                                className="h-8 text-sm"
-                              />
-                            </div>
-                            <div className="space-y-1">
-                              <Label className="text-xs">Video Source</Label>
-                              <Select
-                                value={lesson.video_source_type}
-                                onValueChange={(v) => updateLessonField(chIdx, lIdx, 'video_source_type', v)}
-                              >
-                                <SelectTrigger className="h-8 text-sm">
-                                  <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="youtube">YouTube</SelectItem>
-                                  <SelectItem value="vimeo">Vimeo</SelectItem>
-                                  <SelectItem value="self_hosted">Self-Hosted</SelectItem>
-                                  <SelectItem value="s3">S3</SelectItem>
-                                  <SelectItem value="scorm">SCORM</SelectItem>
-                                  <SelectItem value="xapi">xAPI</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                          </div>
-                          <div className="grid gap-3 md:grid-cols-2">
-                            {['youtube', 'vimeo', 'self_hosted', 's3', 'xapi'].includes(lesson.video_source_type) && (
-                              <div className="space-y-1">
-                                <Label className="text-xs">Video URL</Label>
-                                <Input
-                                  value={lesson.video_url}
-                                  onChange={(e) => updateLessonField(chIdx, lIdx, 'video_url', e.target.value)}
-                                  className="h-8 text-sm"
-                                  placeholder="https://..."
-                                />
-                              </div>
-                            )}
-                            {lesson.video_source_type === 'scorm' && (
-                              <div className="space-y-1">
-                                <Label className="text-xs">SCORM Package URL</Label>
-                                <Input
-                                  value={lesson.scorm_package_url}
-                                  onChange={(e) => updateLessonField(chIdx, lIdx, 'scorm_package_url', e.target.value)}
-                                  className="h-8 text-sm"
-                                  placeholder="URL to SCORM package"
-                                />
-                              </div>
-                            )}
-                            {lesson.video_source_type === 'xapi' && (
-                              <>
-                                <div className="space-y-1">
-                                  <Label className="text-xs">xAPI Endpoint</Label>
-                                  <Input
-                                    value={lesson.xapi_endpoint}
-                                    onChange={(e) => updateLessonField(chIdx, lIdx, 'xapi_endpoint', e.target.value)}
-                                    className="h-8 text-sm"
-                                    placeholder="LRS endpoint URL"
-                                  />
-                                </div>
-                                <div className="space-y-1">
-                                  <Label className="text-xs">xAPI Activity ID</Label>
-                                  <Input
-                                    value={lesson.xapi_activity_id}
-                                    onChange={(e) => updateLessonField(chIdx, lIdx, 'xapi_activity_id', e.target.value)}
-                                    className="h-8 text-sm"
-                                    placeholder="Activity IRI"
-                                  />
-                                </div>
-                              </>
-                            )}
-                            <div className="space-y-1">
-                              <Label className="text-xs">Duration (seconds)</Label>
-                              <Input
-                                type="number"
-                                value={lesson.duration_seconds}
-                                onChange={(e) => updateLessonField(chIdx, lIdx, 'duration_seconds', Number(e.target.value))}
-                                className="h-8 text-sm"
-                              />
-                            </div>
-                          </div>
-                          <div className="space-y-1">
-                            <Label className="text-xs">Lesson Script / Content (Markdown)</Label>
-                            <Textarea
-                              value={lesson.content}
-                              onChange={(e) => updateLessonField(chIdx, lIdx, 'content', e.target.value)}
-                              className="text-sm min-h-[120px]"
-                              placeholder="Full lesson script in markdown format..."
-                              rows={8}
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <Label className="text-xs">Journal Prompts</Label>
-                            <div className="flex gap-2">
-                              <Input
-                                className="h-8 text-sm"
-                                placeholder="Add a journal prompt"
-                                onKeyDown={(e) => {
-                                  if (e.key === 'Enter') {
-                                    e.preventDefault();
-                                    const val = (e.target as HTMLInputElement).value.trim();
-                                    if (val) {
-                                      setChapters(prev => {
-                                        const updated = [...prev];
-                                        updated[chIdx] = {
-                                          ...updated[chIdx],
-                                          lessons: updated[chIdx].lessons.map((l, i) =>
-                                            i === lIdx ? { ...l, journal_prompts: [...l.journal_prompts, val] } : l
-                                          ),
-                                        };
-                                        return updated;
-                                      });
-                                      (e.target as HTMLInputElement).value = '';
-                                    }
-                                  }
-                                }}
-                              />
-                              <Button
-                                type="button"
-                                variant="outline"
-                                size="sm"
-                                className="h-8 text-xs"
-                                onClick={(e) => {
-                                  const input = (e.currentTarget as HTMLElement).previousElementSibling as HTMLInputElement;
-                                  const val = input.value.trim();
-                                  if (val) {
-                                    setChapters(prev => {
-                                      const updated = [...prev];
-                                      updated[chIdx] = {
-                                        ...updated[chIdx],
-                                        lessons: updated[chIdx].lessons.map((l, i) =>
-                                          i === lIdx ? { ...l, journal_prompts: [...l.journal_prompts, val] } : l
-                                        ),
-                                      };
-                                      return updated;
-                                    });
-                                    input.value = '';
-                                  }
-                                }}
-                              >
-                                Add
-                              </Button>
-                            </div>
-                            {lesson.journal_prompts.length > 0 && (
-                              <ul className="space-y-1 mt-1">
-                                {lesson.journal_prompts.map((prompt, pIdx) => (
-                                  <li key={pIdx} className="flex items-center gap-2 text-xs text-muted-foreground">
-                                    <span className="flex-grow">{pIdx + 1}. {prompt}</span>
-                                    <button
-                                      type="button"
-                                      onClick={() => {
-                                        setChapters(prev => {
-                                          const updated = [...prev];
-                                          updated[chIdx] = {
-                                            ...updated[chIdx],
-                                            lessons: updated[chIdx].lessons.map((l, i) =>
-                                              i === lIdx ? { ...l, journal_prompts: l.journal_prompts.filter((_, pi) => pi !== pIdx) } : l
-                                            ),
-                                          };
-                                          return updated;
-                                        });
-                                      }}
-                                      className="text-destructive hover:text-destructive/80"
-                                    >
-                                      <Trash2 className="h-3 w-3" />
-                                    </button>
-                                  </li>
-                                ))}
-                              </ul>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Switch
-                              checked={lesson.is_preview}
-                              onCheckedChange={(v) => updateLessonField(chIdx, lIdx, 'is_preview', v)}
-                            />
-                            <Label className="text-xs">Free Preview</Label>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-
-              <Button type="button" variant="outline" className="w-full" onClick={addChapter}>
-                <Plus className="h-4 w-4 mr-2" />
-                Add Chapter
-              </Button>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="settings">
-            <Card>
-              <CardHeader>
-                <CardTitle>Publishing Settings</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label>Published</Label>
-                    <p className="text-sm text-muted-foreground">Make this course visible to students</p>
-                  </div>
-                  <Switch
-                    checked={form.watch('published')}
-                    onCheckedChange={(v) => form.setValue('published', v)}
-                  />
-                </div>
-                <Separator />
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label>Featured</Label>
-                    <p className="text-sm text-muted-foreground">Show on the homepage</p>
-                  </div>
-                  <Switch
-                    checked={form.watch('featured')}
-                    onCheckedChange={(v) => form.setValue('featured', v)}
-                  />
-                </div>
-                <Separator />
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label>Bestseller</Label>
-                    <p className="text-sm text-muted-foreground">Show bestseller badge</p>
-                  </div>
-                  <Switch
-                    checked={form.watch('bestseller')}
-                    onCheckedChange={(v) => form.setValue('bestseller', v)}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-
-        <div className="flex justify-end gap-4 mt-8">
+        <div className="mt-8 hidden justify-end gap-4 md:flex">
           <Button type="button" variant="outline" onClick={() => navigate('/admin/courses')}>
             Cancel
           </Button>
           <Button
             type="submit"
-            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
             disabled={isSaving}
           >
-            {isSaving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-            {isEditing ? 'Save Changes' : 'Create Course'}
+            {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {saveLabel}
           </Button>
+        </div>
+
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur md:hidden">
+          <div className="mx-auto grid max-w-7xl grid-cols-2 gap-2 py-3 mobile-shell">
+            <Button type="button" variant="outline" className="w-full" onClick={() => navigate('/admin/courses')}>
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+              disabled={isSaving}
+            >
+              {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {saveLabel}
+            </Button>
+          </div>
         </div>
       </form>
     </div>

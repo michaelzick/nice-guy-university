@@ -29,8 +29,8 @@ export default function FilterSidebar({
 
   return (
     <div className={`${isDesktop ? 'hidden md:block w-1/4 fade-in' : 'md:hidden fade-in'}`}>
-      <div className="bg-card overflow-hidden sticky top-24">
-        <div className="p-6">
+      <div className="sticky top-24 overflow-hidden bg-card">
+        <div className="p-4 sm:p-6">
           <div className="flex justify-between items-center mb-4">
             <h2 className="font-bold text-foreground tracking-[0.02em]">Filters</h2>
             {hasFilters() && (
@@ -168,15 +168,15 @@ export default function FilterSidebar({
           </Accordion>
           
           {!isDesktop && (
-            <div className="mt-4 flex justify-between">
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
               <button 
-                className="flex-1 mr-2 px-4 py-2 text-foreground font-bold uppercase tracking-[0.04em] bg-muted"
+                className="w-full bg-muted px-3 py-2 text-foreground font-bold uppercase tracking-[0.04em]"
                 onClick={clearFilters}
               >
                 Clear All
               </button>
               <button 
-                className="flex-1 ml-2 px-4 py-2 bg-primary hover:bg-primary/85 text-primary-foreground font-bold tracking-normal"
+                className="w-full bg-primary px-3 py-2 font-bold tracking-normal text-primary-foreground hover:bg-primary/85"
                 onClick={onFilterClose}
               >
                 Apply Filters

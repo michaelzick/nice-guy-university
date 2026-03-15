@@ -166,6 +166,22 @@
 }
 
 @layer components {
+  .mobile-shell {
+    @apply px-2 sm:px-3 md:px-4;
+  }
+
+  .content-stack {
+    @apply min-w-0 max-w-full;
+  }
+
+  .overflow-guard {
+    @apply min-w-0 max-w-full overflow-x-auto overflow-y-hidden overscroll-x-contain;
+  }
+
+  .mobile-cta {
+    @apply min-h-[44px] px-3 sm:px-4 md:px-5;
+  }
+
   /* Glass surface — cards, panels */
   .glass {
     background: rgba(42, 55, 72, 0.55) !important;

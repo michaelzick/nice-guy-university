@@ -21,7 +21,7 @@ export default function CoachesPage() {
       <JsonLd data={buildOrganizationSchema()} />
       <Navbar />
 
-      <main className="flex-grow pt-32 pb-16 px-4">
+      <main className="flex-grow mobile-shell pb-16 pt-32">
         <div className="container mx-auto">
           <div className="max-w-5xl mb-12">
             <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">Coaches</p>
@@ -46,7 +46,7 @@ export default function CoachesPage() {
               </Link>
             </div>
           ) : (
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-4 sm:gap-6 md:grid-cols-2 xl:grid-cols-3">
               {coaches.map((coach) => (
                 <article key={coach.id} className="bg-card overflow-hidden elevated-on-hover">
                   <div className="aspect-square bg-muted overflow-hidden">
@@ -62,7 +62,7 @@ export default function CoachesPage() {
                       </div>
                     )}
                   </div>
-                  <div className="p-6">
+                  <div className="p-4 sm:p-6">
                     <h2 className="text-2xl font-bold text-card-foreground mb-1">{coach.name}</h2>
                     <p className="text-primary font-semibold uppercase tracking-[0.04em] text-sm mb-4">{coach.title}</p>
                     <p className="text-muted-foreground mb-6">{coach.shortBio}</p>
