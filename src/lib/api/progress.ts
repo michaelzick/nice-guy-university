@@ -54,6 +54,32 @@ export async function fetchCourseProgress(courseId: string) {
   return data ?? [];
 }
 
+export async function markCourseCompleted(courseId: string) {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error('Not authenticated');
+
+  const { error } = await supabase
+    .from('enrollments')
+    .update({ completed_at: new Date().toISOString() })
+    .eq('user_id', user.id)
+    .eq('course_id', courseId);
+
+  if (error) throw error;
+}
+
+export async function markCourseIncomplete(courseId: string) {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error('Not authenticated');
+
+  const { error } = await supabase
+    .from('enrollments')
+    .update({ completed_at: null })
+    .eq('user_id', user.id)
+    .eq('course_id', courseId);
+
+  if (error) throw error;
+}
+
 export async function fetchLessonProgress(lessonId: string) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;

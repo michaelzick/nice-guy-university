@@ -97,6 +97,7 @@ export type DbEnrollment = {
   course_id: string;
   enrolled_at: string;
   stripe_payment_intent_id: string | null;
+  completed_at: string | null;
 };
 
 export type DbLessonProgress = {

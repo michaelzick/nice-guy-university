@@ -13,7 +13,7 @@ import { useCourseBySlug, useCourseChapters } from '@/hooks/use-courses';
 import { LessonItem } from '@/lib/api/courses';
 import SEOHead from '@/components/SEOHead';
 import { useToast } from '@/components/ui/use-toast';
-import { fetchCourseProgress, updateLessonProgress } from '@/lib/api/progress';
+import { fetchCourseProgress, updateLessonProgress, markCourseCompleted } from '@/lib/api/progress';
 import { DbLessonProgress } from '@/types/database';
 
 export default function CoursePlayer() {
@@ -98,7 +98,9 @@ export default function CoursePlayer() {
         completed: true,
         progressPercent: 100,
       });
+      await markCourseCompleted(course.id);
       await queryClient.invalidateQueries({ queryKey: ['course-progress', course.id] });
+      await queryClient.invalidateQueries({ queryKey: ['enrollments'] });
       toast({
         title: 'Course completed',
         description: `${course.title} has been marked complete.`,

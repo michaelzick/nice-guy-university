@@ -280,8 +280,8 @@ export const courses: Course[] = [
   },
   {
     id: "course-10",
-    title: "How to Speak Womanese",
-    slug: "how-to-speak-womanese",
+    title: "How To Speak Womanese And Handle Conflict Like A Champ",
+    slug: "how-to-speak-womanese-and-handle-conflict-like-a-champ",
     instructor: "Michael Zick",
     coachId: null,
     category: "relationship-skills",
@@ -291,22 +291,24 @@ export const courses: Course[] = [
     rating: 4.9,
     ratingCount: 0,
     studentsCount: 0,
-    duration: "5h 00m",
-    lectureCount: 9,
-    description: "Do you ever feel like you and women are speaking two entirely different languages? That's because you are. \"Womanese\" doesn't run on pure logic; it runs on emotional subcommunication and safety testing. In this course, we decode the specific phrases men misunderstand—like \"I'm fine,\" \"You always,\" and \"Whatever\"—and show you how to respond calmly instead of getting triggered. We also break down exactly why women use \"shit tests\" and how they \"poke the bear\" when they actually want you to lead and initiate intimacy.",
-    shortDescription: "Decode subcommunication, testing dynamics, and intimacy cues while staying calm and grounded.",
+    duration: "8h 30m",
+    lectureCount: 15,
+    description: "Do you ever feel like you and women are speaking two entirely different languages? That's because you are. \"Womanese\" doesn't run on pure logic; it runs on emotional subcommunication and safety testing. In this course, we decode the specific phrases men misunderstand—like \"I'm fine,\" \"You always,\" and \"Whatever\"—and show you how to respond calmly instead of getting triggered. We also break down exactly why women use \"shit tests\" and how they \"poke the bear\" when they actually want you to lead and initiate intimacy. Then we go deeper: you will learn the neuroscience of conflict, proven de-escalation techniques, and how to break the Nice Guy enmeshment pattern that silently sabotages attraction, increases testing, and creates the very conflict you are trying to avoid.",
+    shortDescription: "Decode subcommunication, testing dynamics, intimacy cues, conflict de-escalation, and differentiation while staying calm and grounded.",
     thumbnailUrl: "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
     featured: true,
     bestseller: false,
     lastUpdated: "March 2026",
     language: "English",
-    topics: ["Communication", "Relationship Skills", "Dating Dynamics", "Shit Tests", "Emotional Regulation", "Masculine Leadership", "Intimacy"],
+    topics: ["Communication", "Relationship Skills", "Dating Dynamics", "Shit Tests", "Emotional Regulation", "Masculine Leadership", "Intimacy", "Conflict De-escalation", "Differentiation", "Nervous System Regulation"],
     whatYouWillLearn: [
       "Translate emotionally loaded phrases without arguing the facts",
       "Identify compliance, congruence, and fitness tests in real time",
       "Stay calm and grounded under pressure instead of getting reactive",
       "Distinguish friction from flirtation without forcing the moment",
-      "Lead clearly while respecting reciprocity and consent"
+      "Lead clearly while respecting reciprocity and consent",
+      "De-escalate conflict using physiological regulation and repair techniques",
+      "Break the enmeshment pattern and build differentiated, lasting attraction"
     ]
   }
 ];
