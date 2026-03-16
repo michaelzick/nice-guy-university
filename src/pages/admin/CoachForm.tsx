@@ -34,7 +34,12 @@ const testimonialSchema = z.object({
   text: z.string().trim().min(1, 'Testimonial is required'),
 });
 
-const urlField = z.string().trim().url('Enter a valid URL').or(z.literal(''));
+const absoluteUrlField = z.string().trim().url('Enter a valid URL');
+const urlField = absoluteUrlField.or(z.literal(''));
+const imageUrlField = z.string().trim().refine(
+  (value) => value === '' || (value.startsWith('/') && !value.startsWith('//')) || absoluteUrlField.safeParse(value).success,
+  'Enter a valid URL or a site path starting with /',
+);
 
 const coachSchema = z.object({
   first_name: z.string().trim().min(1, 'First name is required'),
@@ -44,7 +49,7 @@ const coachSchema = z.object({
   title: z.string().trim().min(1, 'Title is required'),
   short_bio: z.string().trim().min(1, 'Short bio is required'),
   bio: z.string().trim().min(1, 'Full bio is required'),
-  image_url: urlField.optional(),
+  image_url: imageUrlField.optional(),
   booking_url: urlField.optional(),
   website_url: urlField.optional(),
   social_x: urlField.optional(),

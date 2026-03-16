@@ -37,7 +37,7 @@ Now I coach men through the same process with a direct, structured approach. No 
     {"title":"Standards Over Scarcity","description":"Make decisions from abundance and self-respect, not fear of being alone.","icon":"Heart"},
     {"title":"Staying in the Discomfort","description":"Growth happens in the space between the old pattern and the new behavior.","icon":"Mountain"}
   ]'::jsonb,
-  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=1200&q=80',
+  '/img/coaches/michael-zick/mz-grey-suit-cropped.webp',
   'https://calendly.com',
   'https://www.michaelzick.com',
   '{"website":"https://www.michaelzick.com"}'::jsonb,
