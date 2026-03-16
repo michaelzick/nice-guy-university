@@ -56,12 +56,12 @@ export default function Navbar() {
       <div className="container mx-auto mobile-shell content-stack">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2 cubist-link">
-            <span className="cta-elevated-on-hover inline-block max-w-[calc(100vw-9rem)] truncate text-sm sm:text-base md:max-w-none md:text-2xl font-bold text-accent-foreground bg-accent px-3 py-1 tracking-[0.03em]">
+            <span className="cta-elevated-on-hover inline-block max-w-[calc(100vw-9rem)] truncate text-sm font-bold tracking-[0.03em] text-accent-foreground bg-accent px-3 py-1 sm:text-base site-nav:max-w-none site-nav:text-2xl">
               NICE GUY UNIVERSITY
             </span>
           </Link>
 
-          <nav className="hidden md:flex items-center space-x-4 lg:space-x-5">
+          <nav className="hidden items-center space-x-4 lg:space-x-5 site-nav:flex">
             <Link to="/courses" className="cubist-link text-foreground hover:text-primary transition-colors font-bold uppercase tracking-[0.03em] border-b-2 border-transparent hover:border-foreground pb-1">
               Courses
             </Link>
@@ -140,7 +140,7 @@ export default function Navbar() {
 
           </nav>
 
-          <div className="flex items-center space-x-2 md:hidden">
+          <div className="flex items-center space-x-2 site-nav:hidden">
             <Link to="/cart" className="relative">
               <Button variant="outline" size="icon" className="text-foreground" aria-label="View cart">
                 <ShoppingCart className="h-5 w-5" />
@@ -166,7 +166,7 @@ export default function Navbar() {
       </div>
 
       {mobileMenuOpen && (
-        <div className="absolute left-0 top-full max-h-[calc(100dvh-5rem)] w-full overflow-y-auto overscroll-contain border-t border-border bg-secondary py-4 mobile-shell fade-in md:hidden">
+        <div className="absolute left-0 top-full max-h-[calc(100dvh-5rem)] w-full overflow-y-auto overscroll-contain border-t border-border bg-secondary py-4 mobile-shell fade-in site-nav:hidden">
           <nav className="flex flex-col space-y-3">
             <Link to="/courses" className="cubist-link text-foreground hover:text-primary font-bold uppercase tracking-[0.03em] py-2 px-3">
               Courses

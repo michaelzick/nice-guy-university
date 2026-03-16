@@ -15,15 +15,15 @@ export default {
 	theme: {
 		container: {
 			center: true,
-			padding: {
-				DEFAULT: '0px',
-				sm: '2rem',
-			},
+			padding: '0px',
 			screens: {
 				'2xl': '1600px'
 			}
 		},
 		extend: {
+			screens: {
+				'site-nav': '1156px',
+			},
 			fontFamily: {
 				heading: ['Oswald', 'Arial Narrow', 'sans-serif'],
 				body: ['Inter', 'system-ui', 'sans-serif'],

@@ -38,6 +38,11 @@
     --mz-slate: 214 28% 11%;
     --mz-charcoal: 214 18% 8%;
     --mz-warm: 211 100% 65%;
+
+    --site-gutter-compact: 0.75rem;
+    --site-gutter-tablet: 2.75rem;
+    --site-gutter-desktop: 3rem;
+    --site-gutter: var(--site-gutter-compact);
   }
 
   .dark {
@@ -72,6 +77,18 @@
 }
 
 @layer base {
+  @media (min-width: 640px) {
+    :root {
+      --site-gutter: var(--site-gutter-tablet);
+    }
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --site-gutter: var(--site-gutter-desktop);
+    }
+  }
+
   html {
     font-size: 125%;
   }
@@ -167,7 +184,8 @@
 
 @layer components {
   .mobile-shell {
-    @apply px-3 md:px-4;
+    padding-left: max(var(--site-gutter), env(safe-area-inset-left));
+    padding-right: max(var(--site-gutter), env(safe-area-inset-right));
   }
 
   .content-stack {
