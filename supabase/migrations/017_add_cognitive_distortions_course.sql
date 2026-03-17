@@ -53,7 +53,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   0,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   true,
   $$## Full Script
 
@@ -147,7 +147,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   1,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -225,7 +225,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   2,
   1980,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -304,7 +304,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   3,
   1800,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -384,7 +384,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   4,
   1980,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -470,7 +470,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   0,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -541,7 +541,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   1,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -626,7 +626,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   2,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -704,7 +704,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   3,
   1980,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -778,7 +778,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   4,
   1980,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -858,7 +858,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   0,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -931,7 +931,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   1,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1009,7 +1009,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   2,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1092,7 +1092,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   3,
   1980,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1168,7 +1168,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   4,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1255,7 +1255,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   0,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1332,7 +1332,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   1,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1420,7 +1420,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   2,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1501,7 +1501,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   3,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1580,7 +1580,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   4,
   2400,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1679,7 +1679,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   0,
   2400,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1770,7 +1770,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   1,
   2400,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1868,7 +1868,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   2,
   2400,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1951,7 +1951,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   3,
   2400,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -2034,7 +2034,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   4,
   2400,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 

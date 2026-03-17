@@ -93,17 +93,17 @@ INSERT INTO chapters (id, course_id, title, description, sort_order) VALUES
   ('10000000-0000-0000-0000-000000000003', '00000000-0000-0000-0000-000000000001', 'Advanced Recovery', 'Deep work and integration', 2);
 
 INSERT INTO lessons (id, chapter_id, title, sort_order, duration_seconds, video_source_type, video_url, is_preview) VALUES
-  ('20000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000001', 'Introduction & Assessment', 0, 540, 'youtube', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', true),
-  ('20000000-0000-0000-0000-000000000002', '10000000-0000-0000-0000-000000000001', 'Understanding the Pattern', 1, 720, 'youtube', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', false),
-  ('20000000-0000-0000-0000-000000000003', '10000000-0000-0000-0000-000000000001', 'Your Recovery Roadmap', 2, 600, 'youtube', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', false),
-  ('20000000-0000-0000-0000-000000000004', '10000000-0000-0000-0000-000000000001', 'Setting Expectations', 3, 480, 'youtube', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', false),
-  ('20000000-0000-0000-0000-000000000005', '10000000-0000-0000-0000-000000000001', 'First Assignment', 4, 360, 'youtube', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', false),
-  ('20000000-0000-0000-0000-000000000006', '10000000-0000-0000-0000-000000000002', 'The Approval Loop', 0, 900, 'youtube', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', false),
-  ('20000000-0000-0000-0000-000000000007', '10000000-0000-0000-0000-000000000002', 'Spotting Covert Contracts', 1, 840, 'youtube', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', false),
-  ('20000000-0000-0000-0000-000000000008', '10000000-0000-0000-0000-000000000002', 'Building Awareness', 2, 780, 'youtube', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', false),
-  ('20000000-0000-0000-0000-000000000009', '10000000-0000-0000-0000-000000000003', 'Displeasure Tolerance', 0, 960, 'youtube', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', false),
-  ('20000000-0000-0000-0000-000000000010', '10000000-0000-0000-0000-000000000003', 'Setting Hard Boundaries', 1, 1020, 'youtube', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', false),
-  ('20000000-0000-0000-0000-000000000011', '10000000-0000-0000-0000-000000000003', 'Integration & Maintenance', 2, 840, 'youtube', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', false);
+  ('20000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000001', 'Introduction & Assessment', 0, 540, 'youtube', 'https://www.youtube.com/watch?v=rb1CbqHaolM', true),
+  ('20000000-0000-0000-0000-000000000002', '10000000-0000-0000-0000-000000000001', 'Understanding the Pattern', 1, 720, 'youtube', 'https://www.youtube.com/watch?v=rb1CbqHaolM', false),
+  ('20000000-0000-0000-0000-000000000003', '10000000-0000-0000-0000-000000000001', 'Your Recovery Roadmap', 2, 600, 'youtube', 'https://www.youtube.com/watch?v=rb1CbqHaolM', false),
+  ('20000000-0000-0000-0000-000000000004', '10000000-0000-0000-0000-000000000001', 'Setting Expectations', 3, 480, 'youtube', 'https://www.youtube.com/watch?v=rb1CbqHaolM', false),
+  ('20000000-0000-0000-0000-000000000005', '10000000-0000-0000-0000-000000000001', 'First Assignment', 4, 360, 'youtube', 'https://www.youtube.com/watch?v=rb1CbqHaolM', false),
+  ('20000000-0000-0000-0000-000000000006', '10000000-0000-0000-0000-000000000002', 'The Approval Loop', 0, 900, 'youtube', 'https://www.youtube.com/watch?v=rb1CbqHaolM', false),
+  ('20000000-0000-0000-0000-000000000007', '10000000-0000-0000-0000-000000000002', 'Spotting Covert Contracts', 1, 840, 'youtube', 'https://www.youtube.com/watch?v=rb1CbqHaolM', false),
+  ('20000000-0000-0000-0000-000000000008', '10000000-0000-0000-0000-000000000002', 'Building Awareness', 2, 780, 'youtube', 'https://www.youtube.com/watch?v=rb1CbqHaolM', false),
+  ('20000000-0000-0000-0000-000000000009', '10000000-0000-0000-0000-000000000003', 'Displeasure Tolerance', 0, 960, 'youtube', 'https://www.youtube.com/watch?v=rb1CbqHaolM', false),
+  ('20000000-0000-0000-0000-000000000010', '10000000-0000-0000-0000-000000000003', 'Setting Hard Boundaries', 1, 1020, 'youtube', 'https://www.youtube.com/watch?v=rb1CbqHaolM', false),
+  ('20000000-0000-0000-0000-000000000011', '10000000-0000-0000-0000-000000000003', 'Integration & Maintenance', 2, 840, 'youtube', 'https://www.youtube.com/watch?v=rb1CbqHaolM', false);
 
 -- ============================================================
 -- Course 9: Breaking Self-Limiting Beliefs with Women
@@ -154,7 +154,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   0,
   1980,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   true,
   $$## Full Script
 
@@ -212,7 +212,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   1,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -279,7 +279,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   2,
   1800,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -346,7 +346,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   0,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -411,7 +411,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   1,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -488,7 +488,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   2,
   1980,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -564,7 +564,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   3,
   2400,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -644,7 +644,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   0,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -720,7 +720,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   1,
   1980,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -801,7 +801,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   2,
   1980,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -928,7 +928,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   0,
   1800,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   true,
   $$## Full Script
 
@@ -997,7 +997,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   1,
   1920,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1063,7 +1063,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   2,
   1980,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1133,7 +1133,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   0,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1209,7 +1209,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   1,
   2040,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1291,7 +1291,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   2,
   2160,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1396,7 +1396,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   0,
   1800,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1475,7 +1475,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   1,
   1920,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1556,7 +1556,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   2,
   2280,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1656,7 +1656,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   0,
   2100,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1731,7 +1731,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   1,
   2220,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1838,7 +1838,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   2,
   2160,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -1961,7 +1961,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   0,
   2220,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -2053,7 +2053,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   1,
   2160,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
@@ -2164,7 +2164,7 @@ INSERT INTO lessons (id, chapter_id, title, description, sort_order, duration_se
   2,
   2280,
   'youtube',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=rb1CbqHaolM',
   false,
   $$## Full Script
 
