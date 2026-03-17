@@ -211,6 +211,25 @@ export async function uploadCoachImage(file: File, slug: string) {
   return data.publicUrl;
 }
 
+export async function uploadCourseThumbnail(file: File, slug: string) {
+  const extension = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+  const safeSlug = slug || `course-${crypto.randomUUID()}`;
+  const path = `${safeSlug}/${Date.now()}.${extension}`;
+
+  const { error } = await supabase.storage
+    .from('course-thumbnails')
+    .upload(path, file, {
+      cacheControl: '3600',
+      contentType: file.type,
+      upsert: true,
+    });
+
+  if (error) throw error;
+
+  const { data } = supabase.storage.from('course-thumbnails').getPublicUrl(path);
+  return data.publicUrl;
+}
+
 export async function createChapter(chapter: { course_id: string; title: string; description?: string; sort_order: number }) {
   const { data, error } = await supabase.from('chapters').insert(chapter).select().single();
   if (error) throw error;

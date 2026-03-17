@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -21,6 +21,7 @@ import {
   createCourse,
   fetchAllCoachesAdmin,
   updateCourse,
+  uploadCourseThumbnail,
   createChapter,
   updateChapter,
   deleteChapter,
@@ -91,6 +92,7 @@ export default function AdminCourseForm() {
   const [whatYouWillLearn, setWhatYouWillLearn] = useState<string[]>([]);
   const [learnInput, setLearnInput] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const [isUploadingThumbnail, setIsUploadingThumbnail] = useState(false);
 
   const { data: coaches = [] } = useQuery({
     queryKey: ['admin', 'coaches'],
@@ -388,6 +390,37 @@ export default function AdminCourseForm() {
     setIsSaving(false);
   };
 
+  const handleThumbnailUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      toast({ title: 'Unsupported file type', description: 'Upload a JPG, PNG, or WEBP image.', variant: 'destructive' });
+      event.target.value = '';
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast({ title: 'Image too large', description: 'Thumbnail must be 5 MB or smaller.', variant: 'destructive' });
+      event.target.value = '';
+      return;
+    }
+
+    try {
+      setIsUploadingThumbnail(true);
+      const slug = form.getValues('slug');
+      const publicUrl = await uploadCourseThumbnail(file, slug);
+      form.setValue('thumbnail_url', publicUrl, { shouldDirty: true, shouldValidate: true });
+      toast({ title: 'Thumbnail uploaded' });
+    } catch (error) {
+      toast({ title: 'Upload failed', description: error instanceof Error ? error.message : 'Something went wrong.', variant: 'destructive' });
+    } finally {
+      setIsUploadingThumbnail(false);
+      event.target.value = '';
+    }
+  };
+
   if (isEditing && loadingCourse) {
     return (
       <div className="flex items-center justify-center py-16">
@@ -473,6 +506,39 @@ export default function AdminCourseForm() {
       <div className="space-y-2">
         <Label>Thumbnail URL</Label>
         <Input {...form.register('thumbnail_url')} placeholder="https://..." />
+      </div>
+
+      <div className="space-y-3">
+        <Label>Upload Thumbnail Image</Label>
+        <div className="flex flex-col gap-4 md:flex-row md:items-start">
+          {form.watch('thumbnail_url') && (
+            <div className="w-40 aspect-video bg-muted overflow-hidden flex-shrink-0">
+              <img
+                src={form.watch('thumbnail_url')}
+                alt="Thumbnail preview"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          )}
+          <div className="flex-1 space-y-2">
+            <Input
+              id="course-thumbnail"
+              type="file"
+              accept=".jpg,.jpeg,.png,.webp"
+              onChange={handleThumbnailUpload}
+              disabled={isUploadingThumbnail}
+            />
+            <p className="text-sm text-muted-foreground">
+              JPG, PNG, or WEBP · Max 5 MB · Recommended: 16:9 ratio, minimum 1280×720
+            </p>
+            {isUploadingThumbnail && (
+              <div className="flex items-center text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                Uploading...
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
