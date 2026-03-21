@@ -70,7 +70,7 @@ export default function MyPrograms() {
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 items-stretch gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
               {enrollments.map((enrollment: any) => {
                 const course = enrollment.courses;
                 if (!course) return null;
@@ -78,12 +78,15 @@ export default function MyPrograms() {
                 const isToggling = togglingId === enrollment.id;
 
                 return (
-                  <Card key={enrollment.id} className="overflow-hidden">
-                    <div className="relative pb-[56.25%] overflow-hidden">
+                  <Card key={enrollment.id} className="flex h-full flex-col overflow-hidden">
+                    <Link
+                      to={`/learn/${course.slug}`}
+                      className="group block relative shrink-0 overflow-hidden pb-[56.25%]"
+                    >
                       <img
                         src={`${course.thumbnail_url}?auto=format&fit=crop&w=600&q=80`}
                         alt={course.title}
-                        className="absolute inset-0 w-full h-full object-cover"
+                        className="absolute inset-0 h-full w-full object-cover transform transition-transform duration-300 group-hover:scale-105"
                       />
                       {isCompleted && (
                         <div className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-foreground px-3 py-1 text-xs font-semibold text-background shadow-md">
@@ -91,13 +94,17 @@ export default function MyPrograms() {
                           Completed
                         </div>
                       )}
-                    </div>
-                    <CardContent className="p-4 sm:p-6">
-                      <h3 className="font-bold text-card-foreground mb-2">{course.title}</h3>
+                    </Link>
+                    <CardContent className="flex flex-1 flex-col p-4 sm:p-5">
+                      <Link to={`/learn/${course.slug}`} className="group block">
+                        <h3 className="mb-2 line-clamp-2 font-bold tracking-[0.01em] text-card-foreground transition-colors group-hover:text-foreground/70">
+                          {course.title}
+                        </h3>
+                      </Link>
                       <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
                         {course.short_description}
                       </p>
-                      <div className="flex flex-col gap-2">
+                      <div className="mt-auto flex flex-col gap-2">
                         <Link to={`/learn/${course.slug}`}>
                           <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
                             <PlayCircle className="h-4 w-4 mr-2" />
