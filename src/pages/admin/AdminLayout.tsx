@@ -41,8 +41,13 @@ export default function AdminLayout() {
           return (
             <Link key={item.to} to={item.to}>
               <Button
-                variant={isActive ? 'secondary' : 'ghost'}
-                className={`w-full justify-start ${isActive ? 'bg-primary/10 text-primary' : ''}`}
+                variant="ghost"
+                className={`w-full justify-start ${
+                  isActive
+                    ? 'bg-primary/10 text-primary hover:bg-primary/10 hover:text-primary active:bg-primary/10'
+                    : ''
+                }`}
+                aria-current={isActive ? 'page' : undefined}
               >
                 <item.icon className="mr-3 h-4 w-4" />
                 {item.label}
