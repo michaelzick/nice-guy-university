@@ -119,7 +119,7 @@ export default function CoachProfile() {
                 <div className="flex flex-wrap gap-3">
                   {coach.websiteUrl && (
                     <a href={coach.websiteUrl} target="_blank" rel="noopener noreferrer">
-                      <Button variant="outline" className="border-border">
+                      <Button variant="outline" className="border-border hover:bg-secondary">
                         <Globe className="mr-2 h-4 w-4" />
                         Website
                       </Button>
