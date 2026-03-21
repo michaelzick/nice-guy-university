@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { ChevronRight } from "@/lib/icons";
 import SEOHead from "@/components/SEOHead";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -27,14 +28,21 @@ const NotFound = () => {
             The page at <span className="font-medium text-foreground">{location.pathname}</span> does not exist.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Link to="/" className="w-full sm:w-auto">
-              <Button className="w-full">Return Home</Button>
-            </Link>
             <Link to="/courses" className="w-full sm:w-auto">
-              <Button variant="outline" className="w-full">Browse Courses</Button>
+              <Button variant="accentCta" className="w-full">
+                Browse Courses
+                <ChevronRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+            <Link to="/" className="w-full sm:w-auto">
+              <Button variant="outlineLight" className="w-full">
+                Return Home
+              </Button>
             </Link>
             <Link to="/coaches" className="w-full sm:w-auto">
-              <Button variant="outline" className="w-full">Meet Our Coaches</Button>
+              <Button variant="outlineLight" className="w-full">
+                Meet Our Coaches
+              </Button>
             </Link>
           </div>
         </div>

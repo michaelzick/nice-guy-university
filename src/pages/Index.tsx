@@ -93,13 +93,13 @@ export default function Index() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Link to="/courses" className="w-full sm:w-auto">
-                <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto">
+                <Button variant="accentCta" className="w-full sm:w-auto">
                   Browse Courses
                   <ChevronRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
               <Link to="/coaches" className="w-full sm:w-auto">
-                <Button className="w-full border-white bg-transparent text-white hover:bg-transparent hover:text-white sm:w-auto">
+                <Button variant="outlineLight" className="w-full sm:w-auto">
                   Meet Our Coaches
                 </Button>
               </Link>
@@ -202,13 +202,13 @@ export default function Index() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/courses" className="w-full sm:w-auto">
-                <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto">
+                <Button variant="accentCta" className="w-full sm:w-auto">
                   Browse Courses
                   <ChevronRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
               <Link to="/coaches" className="w-full sm:w-auto">
-                <Button className="w-full border-white bg-transparent text-white hover:bg-transparent hover:text-white sm:w-auto">
+                <Button variant="outlineLight" className="w-full sm:w-auto">
                   Meet Our Coaches
                 </Button>
               </Link>

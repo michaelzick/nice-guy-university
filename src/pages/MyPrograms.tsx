@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { BookOpen, PlayCircle, Loader2, CheckCircle2, XCircle } from '@/lib/icons';
+import { BookOpen, ChevronRight, PlayCircle, Loader2, CheckCircle2, XCircle } from '@/lib/icons';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Navbar from '@/components/Navbar';
@@ -64,8 +64,9 @@ export default function MyPrograms() {
                 You haven't enrolled in any courses yet. Browse our catalog to get started.
               </p>
               <Link to="/courses">
-                <Button className="bg-electric hover:bg-electric/90 text-electric-foreground">
+                <Button variant="accentCta">
                   Browse Courses
+                  <ChevronRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
             </div>

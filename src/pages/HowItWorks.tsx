@@ -87,15 +87,15 @@ export default function HowItWorks() {
                 Nice Guy University brings together coaches and courses built around the same outcome: less shame, fewer covert contracts, stronger standards, and more honest action in your real life.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/coaches" className="w-full sm:w-auto">
-                  <Button className="w-full bg-electric text-electric-foreground hover:bg-electric/90 sm:w-auto">
-                    Meet Our Coaches
-                  </Button>
-                </Link>
                 <Link to="/courses" className="w-full sm:w-auto">
-                  <Button className="w-full bg-electric text-electric-foreground hover:bg-electric/90 sm:w-auto">
+                  <Button variant="accentCta" className="w-full sm:w-auto">
                     Browse Courses
                     <ChevronRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+                <Link to="/coaches" className="w-full sm:w-auto">
+                  <Button variant="outlineLight" className="w-full sm:w-auto">
+                    Meet Our Coaches
                   </Button>
                 </Link>
               </div>
@@ -184,14 +184,15 @@ export default function HowItWorks() {
                 You do not need another round of passive insight. Pick the coach, choose the course, and start acting differently.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/coaches" className="w-full sm:w-auto">
-                  <Button className="w-full bg-electric text-electric-foreground hover:bg-electric/90 sm:w-auto">
-                    Meet Our Coaches
+                <Link to="/courses" className="w-full sm:w-auto">
+                  <Button variant="accentCta" className="w-full sm:w-auto">
+                    Browse Courses
+                    <ChevronRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
-                <Link to="/courses" className="w-full sm:w-auto">
-                  <Button className="w-full bg-electric text-electric-foreground hover:bg-electric/90 sm:w-auto">
-                    Browse Courses
+                <Link to="/coaches" className="w-full sm:w-auto">
+                  <Button variant="outlineLight" className="w-full sm:w-auto">
+                    Meet Our Coaches
                   </Button>
                 </Link>
               </div>

@@ -101,19 +101,19 @@ export default function CoachProfile() {
                 <p className="mb-8 max-w-3xl break-words text-lg text-muted-foreground">{coach.shortBio}</p>
 
                 <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                  {coach.bookingUrl && (
-                    <a href={coach.bookingUrl} target="_blank" rel="noopener noreferrer">
-                      <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto">
-                        Book with {coach.firstName}
-                      </Button>
-                    </a>
-                  )}
                   <Link to="/courses" className="w-full sm:w-auto">
-                    <Button className="w-full bg-electric text-electric-foreground hover:bg-electric/90 sm:w-auto">
+                    <Button variant="accentCta" className="w-full sm:w-auto">
                       Browse Courses
                       <ChevronRight className="ml-2 h-5 w-5" />
                     </Button>
                   </Link>
+                  {coach.bookingUrl && (
+                    <a href={coach.bookingUrl} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                      <Button variant="outlineLight" className="w-full sm:w-auto">
+                        Book with {coach.firstName}
+                      </Button>
+                    </a>
+                  )}
                 </div>
 
                 <div className="flex flex-wrap gap-3">
@@ -228,18 +228,19 @@ export default function CoachProfile() {
                 Pick a course or book the conversation. Either way, do not stay stuck in analysis.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
+                <Link to="/courses" className="w-full sm:w-auto">
+                  <Button variant="accentCta" className="w-full sm:w-auto">
+                    Browse Courses
+                    <ChevronRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
                 {coach.bookingUrl && (
-                  <a href={coach.bookingUrl} target="_blank" rel="noopener noreferrer">
-                    <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto">
+                  <a href={coach.bookingUrl} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                    <Button variant="outlineLight" className="w-full sm:w-auto">
                       Book with {coach.firstName}
                     </Button>
                   </a>
                 )}
-                <Link to="/courses" className="w-full sm:w-auto">
-                  <Button className="w-full bg-electric text-electric-foreground hover:bg-electric/90 sm:w-auto">
-                    Browse Courses
-                  </Button>
-                </Link>
               </div>
             </div>
           </div>

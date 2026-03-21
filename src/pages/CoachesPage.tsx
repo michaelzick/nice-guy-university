@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Loader2, User } from '@/lib/icons';
+import { ChevronRight, Loader2, User } from '@/lib/icons';
 import { Button } from '@/components/ui/button';
 import Footer from '@/components/Footer';
 import JsonLd from '@/components/JsonLd';
@@ -42,7 +42,10 @@ export default function CoachesPage() {
                 The platform is being expanded for multiple coaches. Check back soon or browse courses in the meantime.
               </p>
               <Link to="/courses">
-                <Button className="bg-electric hover:bg-electric/90 text-electric-foreground">Browse Courses</Button>
+                <Button variant="accentCta">
+                  Browse Courses
+                  <ChevronRight className="ml-2 h-5 w-5" />
+                </Button>
               </Link>
             </div>
           ) : (

@@ -1,7 +1,7 @@
 
 import { useParams, Link } from 'react-router-dom';
 import {
-  Star, Clock, BookOpen, User, BarChart, Calendar, Award, PlayCircle,
+  Star, Clock, BookOpen, User, BarChart, Calendar, Award, PlayCircle, ChevronRight,
   ShoppingCart, Check, Loader2
 } from '@/lib/icons';
 import { Button } from '@/components/ui/button';
@@ -52,7 +52,10 @@ export default function CourseDetails() {
             <h1 className="text-3xl font-bold text-foreground mb-4">Course Not Found</h1>
             <p className="text-xl text-muted-foreground mb-8">We couldn't find the course you're looking for.</p>
             <Link to="/courses">
-              <Button className="bg-electric hover:bg-electric/90 text-electric-foreground">Browse Courses</Button>
+              <Button variant="accentCta">
+                Browse Courses
+                <ChevronRight className="ml-2 h-5 w-5" />
+              </Button>
             </Link>
           </div>
         </div>

@@ -5,6 +5,7 @@ import SEOHead from '@/components/SEOHead';
 import {
   ShoppingCart,
   X,
+  ChevronRight,
   ChevronLeft,
   CreditCard,
   LockIcon,
@@ -129,8 +130,9 @@ export default function Cart() {
                 Browse our coaching courses and start your recovery journey.
               </p>
               <Link to="/courses" className="inline-flex w-full justify-center sm:w-auto">
-                <Button className="w-full bg-electric hover:bg-electric/90 text-electric-foreground sm:w-auto">
+                <Button variant="accentCta" className="w-full sm:w-auto">
                   Browse Courses
+                  <ChevronRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
             </div>
