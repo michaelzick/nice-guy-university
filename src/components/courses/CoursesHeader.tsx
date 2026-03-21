@@ -3,20 +3,15 @@ import SearchBar from './SearchBar';
 import SortSelector from './SortSelector';
 import MobileFilterButton from './MobileFilterButton';
 import ActiveFilters from './ActiveFilters';
-import { FilterState } from './types';
+import { FilterProps, FilterState } from './types';
 
-interface CoursesHeaderProps {
+interface CoursesHeaderProps extends FilterProps {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   setFilterOpen: (open: boolean) => void;
   sortOption: string;
   setSortOption: (option: string) => void;
   filterState: FilterState;
-  toggleLevel: (level: string) => void;
-  toggleCategory: (category: string) => void;
-  setPriceRange: (range: [number, number]) => void;
-  clearFilters: () => void;
-  hasFilters: () => boolean;
 }
 
 export default function CoursesHeader({

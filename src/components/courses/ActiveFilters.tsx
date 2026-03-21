@@ -3,16 +3,11 @@ import { X } from '@/lib/icons';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { categories } from './constants';
-import { FilterState } from './types';
+import { createDefaultPriceRange, getPriceFilterLabel, isDefaultPriceRange } from './filterQueryParams';
+import { FilterProps } from './types';
 
-interface ActiveFiltersProps {
-  filterState: FilterState;
-  toggleLevel: (level: string) => void;
-  toggleCategory: (category: string) => void;
-  setPriceRange: (range: [number, number]) => void;
+interface ActiveFiltersProps extends FilterProps {
   setSearchQuery: (query: string) => void;
-  clearFilters: () => void;
-  hasFilters: () => boolean;
 }
 
 export default function ActiveFilters({
@@ -63,17 +58,15 @@ export default function ActiveFilters({
         );
       })}
       
-      {!(priceRange[0] === 0 && priceRange[1] === 500) && (
+      {!isDefaultPriceRange(priceRange) && (
         <Badge 
           variant="outline" 
           className="bg-muted text-foreground hover:bg-muted/80 font-semibold"
         >
-          {priceRange[0] === 0 && priceRange[1] === 0 
-            ? 'Free' 
-            : `$${priceRange[0]} - $${priceRange[1]}`}
+          {getPriceFilterLabel(priceRange)}
           <X 
             className="h-3 w-3 ml-1 cursor-pointer" 
-            onClick={() => setPriceRange([0, 500])}
+            onClick={() => setPriceRange(createDefaultPriceRange())}
           />
         </Badge>
       )}

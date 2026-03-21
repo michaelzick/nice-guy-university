@@ -93,7 +93,7 @@ export default function Index() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Link to="/courses" className="w-full sm:w-auto">
-                <Button className="w-full bg-electric text-electric-foreground hover:bg-electric/90 sm:w-auto">
+                <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto">
                   Browse Courses
                   <ChevronRight className="ml-2 h-5 w-5" />
                 </Button>
@@ -171,10 +171,10 @@ export default function Index() {
           <Accordion type="single" collapsible className="w-full">
             {homeFAQs.map((faq, index) => (
               <AccordionItem key={index} value={`faq-${index}`} className="mb-4 overflow-hidden bg-card rounded-lg">
-                <AccordionTrigger className="px-4 py-4 text-left hover:bg-muted sm:px-6">
+                <AccordionTrigger className="px-4 py-4 text-left hover:bg-secondary sm:px-6">
                   <span className="font-bold text-foreground">{faq.question}</span>
                 </AccordionTrigger>
-                <AccordionContent className="px-4 pb-4 sm:px-6">
+                <AccordionContent className="px-4 pb-5 pt-1 sm:px-6 sm:pb-6 sm:pt-2">
                   <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
                 </AccordionContent>
               </AccordionItem>
@@ -207,7 +207,7 @@ export default function Index() {
                 </Button>
               </Link>
               <Link to="/courses" className="w-full sm:w-auto">
-                <Button className="w-full bg-electric text-electric-foreground hover:bg-electric/90 sm:w-auto">
+                <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto">
                   Browse Courses
                 </Button>
               </Link>

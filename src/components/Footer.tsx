@@ -1,6 +1,10 @@
 
 import { Link } from 'react-router-dom';
 import { Mail } from '@/lib/icons';
+import { categories } from '@/components/courses/constants';
+import { buildCoursesHref } from '@/components/courses/filterQueryParams';
+
+const footerLinkClass = 'cubist-link border-b-2 border-transparent pb-1 text-secondary-foreground/85 transition-colors uppercase font-semibold tracking-[0.03em] hover:border-secondary-foreground/60 hover:text-secondary-foreground/60';
 
 export default function Footer() {
   return (
@@ -21,28 +25,23 @@ export default function Footer() {
           </div>
           
           <div>
-            <h3 className="mb-4 text-lg font-semibold tracking-[0.03em] text-secondary-foreground sm:mb-6">Courses</h3>
+            <h3 className="mb-4 text-lg font-semibold tracking-[0.03em] text-secondary-foreground sm:mb-6">Course Categories</h3>
             <ul className="space-y-3 sm:space-y-4">
               <li>
-                <Link to="/courses" className="cubist-link text-secondary-foreground/85 hover:text-foreground/70 transition-colors uppercase font-semibold tracking-[0.03em]">
+                <Link to={buildCoursesHref()} className={footerLinkClass}>
                   All Courses
                 </Link>
               </li>
-              <li>
-                <Link to="/course/complete-nice-guy-recovery-system" className="cubist-link text-secondary-foreground/85 hover:text-foreground/70 transition-colors uppercase font-semibold tracking-[0.03em]">
-                  Nice Guy Recovery
-                </Link>
-              </li>
-              <li>
-                <Link to="/course/boundaries-communication-masterclass" className="cubist-link text-secondary-foreground/85 hover:text-foreground/70 transition-colors uppercase font-semibold tracking-[0.03em]">
-                  Boundaries & Communication
-                </Link>
-              </li>
-              <li>
-                <Link to="/course/relationship-frame-workshop" className="cubist-link text-secondary-foreground/85 hover:text-foreground/70 transition-colors uppercase font-semibold tracking-[0.03em]">
-                  Relationship Skills
-                </Link>
-              </li>
+              {categories.map((category) => (
+                <li key={category.id}>
+                  <Link
+                    to={buildCoursesHref({ selectedCategories: [category.id] })}
+                    className={footerLinkClass}
+                  >
+                    {category.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
           
@@ -50,17 +49,17 @@ export default function Footer() {
             <h3 className="mb-4 text-lg font-semibold tracking-[0.03em] text-secondary-foreground sm:mb-6">Explore</h3>
             <ul className="space-y-3 sm:space-y-4">
               <li>
-                <Link to="/resources" className="cubist-link text-secondary-foreground/85 hover:text-foreground/70 transition-colors uppercase font-semibold tracking-[0.03em]">
+                <Link to="/resources" className={footerLinkClass}>
                   Guides & Articles
                 </Link>
               </li>
               <li>
-                <Link to="/how-it-works" className="cubist-link text-secondary-foreground/85 hover:text-foreground/70 transition-colors uppercase font-semibold tracking-[0.03em]">
+                <Link to="/how-it-works" className={footerLinkClass}>
                   How It Works
                 </Link>
               </li>
               <li>
-                <Link to="/coaches" className="cubist-link text-secondary-foreground/85 hover:text-foreground/70 transition-colors uppercase font-semibold tracking-[0.03em]">
+                <Link to="/coaches" className={footerLinkClass}>
                   Our Coaches
                 </Link>
               </li>

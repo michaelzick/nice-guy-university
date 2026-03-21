@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
 import { levels, categories } from './constants';
+import { isSamePriceRange, priceFilterOptions } from './filterQueryParams';
 import { FilterProps } from './types';
 
 interface FilterSidebarProps extends FilterProps {
@@ -96,72 +97,23 @@ export default function FilterSidebar({
               </AccordionTrigger>
               <AccordionContent>
                 <div className="space-y-2">
-                  <div className="flex items-center">
-                      <Checkbox 
-                        id={`${idPrefix}price-all`} 
-                        checked={priceRange[0] === 0 && priceRange[1] === 500}
-                        onCheckedChange={() => setPriceRange([0, 500])}
-                        className="mr-2 data-[state=checked]:bg-primary data-[state=checked]:border-foreground"
-                      />
-                      <label htmlFor={`${idPrefix}price-all`} className="text-sm text-foreground/85 cursor-pointer font-medium tracking-normal">
-                        All Prices
-                      </label>
-                    </div>
-                  <div className="flex items-center">
-                      <Checkbox 
-                        id={`${idPrefix}price-free`} 
-                        checked={priceRange[0] === 0 && priceRange[1] === 0}
-                        onCheckedChange={() => setPriceRange([0, 0])}
-                        className="mr-2 data-[state=checked]:bg-primary data-[state=checked]:border-foreground"
-                      />
-                      <label htmlFor={`${idPrefix}price-free`} className="text-sm text-foreground/85 cursor-pointer font-medium tracking-normal">
-                        Free
-                      </label>
-                    </div>
-                  <div className="flex items-center">
-                      <Checkbox 
-                        id={`${idPrefix}price-paid`} 
-                        checked={priceRange[0] > 0}
-                        onCheckedChange={() => setPriceRange(priceRange[0] > 0 ? [0, 500] : [0.01, 500])}
-                        className="mr-2 data-[state=checked]:bg-primary data-[state=checked]:border-foreground"
-                      />
-                      <label htmlFor={`${idPrefix}price-paid`} className="text-sm text-foreground/85 cursor-pointer font-medium tracking-normal">
-                        Paid
-                      </label>
-                    </div>
-                  <div className="flex items-center">
-                      <Checkbox 
-                        id={`${idPrefix}price-under-50`} 
-                        checked={priceRange[0] === 0 && priceRange[1] === 50}
-                        onCheckedChange={() => setPriceRange([0, 50])}
-                        className="mr-2 data-[state=checked]:bg-primary data-[state=checked]:border-foreground"
-                      />
-                      <label htmlFor={`${idPrefix}price-under-50`} className="text-sm text-foreground/85 cursor-pointer font-medium tracking-normal">
-                        Under $50
-                      </label>
-                    </div>
-                  <div className="flex items-center">
-                      <Checkbox 
-                        id={`${idPrefix}price-50-100`} 
-                        checked={priceRange[0] === 50 && priceRange[1] === 100}
-                        onCheckedChange={() => setPriceRange([50, 100])}
-                        className="mr-2 data-[state=checked]:bg-primary data-[state=checked]:border-foreground"
-                      />
-                      <label htmlFor={`${idPrefix}price-50-100`} className="text-sm text-foreground/85 cursor-pointer font-medium tracking-normal">
-                        $50 - $100
-                      </label>
-                    </div>
-                  <div className="flex items-center">
-                      <Checkbox 
-                        id={`${idPrefix}price-100-plus`} 
-                        checked={priceRange[0] === 100 && priceRange[1] === 500}
-                        onCheckedChange={() => setPriceRange([100, 500])}
-                        className="mr-2 data-[state=checked]:bg-primary data-[state=checked]:border-foreground"
-                      />
-                      <label htmlFor={`${idPrefix}price-100-plus`} className="text-sm text-foreground/85 cursor-pointer font-medium tracking-normal">
-                        $100+
-                      </label>
-                    </div>
+                  {priceFilterOptions.map((option) => {
+                    const checked = isSamePriceRange(priceRange, option.range);
+
+                    return (
+                      <div key={option.id} className="flex items-center">
+                        <Checkbox
+                          id={`${idPrefix}price-${option.id}`}
+                          checked={checked}
+                          onCheckedChange={() => setPriceRange(checked ? priceFilterOptions[0].range : option.range)}
+                          className="mr-2 data-[state=checked]:bg-primary data-[state=checked]:border-foreground"
+                        />
+                        <label htmlFor={`${idPrefix}price-${option.id}`} className="text-sm text-foreground/85 cursor-pointer font-medium tracking-normal">
+                          {option.label}
+                        </label>
+                      </div>
+                    );
+                  })}
                 </div>
               </AccordionContent>
             </AccordionItem>

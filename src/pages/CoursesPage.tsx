@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { X } from '@/lib/icons';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -11,33 +12,63 @@ import { FilterState } from '@/components/courses/types';
 import FilterSidebar from '@/components/courses/FilterSidebar';
 import CoursesHeader from '@/components/courses/CoursesHeader';
 import CourseGrid from '@/components/courses/CourseGrid';
+import {
+  buildCoursesFilterSearchParams,
+  createDefaultFilterState,
+  parseCoursesFilterSearchParams,
+} from '@/components/courses/filterQueryParams';
 import useCoursesFilter from '@/components/courses/useCoursesFilter';
 
 export default function CoursesPage() {
   const [filterOpen, setFilterOpen] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
   const { data: courses = [], isLoading: isLoadingCourses } = useCourses();
+  const [sortOption, setSortOption] = useState('popular');
+  const filterState = parseCoursesFilterSearchParams(searchParams);
 
   const {
     filteredCourses,
-    searchQuery,
-    setSearchQuery,
-    selectedLevels,
-    selectedCategories,
-    priceRange,
-    setPriceRange,
-    sortOption,
-    setSortOption,
-    toggleLevel,
-    toggleCategory,
-    clearFilters,
     hasFilters,
-  } = useCoursesFilter(courses);
+  } = useCoursesFilter(courses, filterState, sortOption);
 
-  const filterState: FilterState = {
-    selectedLevels,
-    selectedCategories,
-    priceRange,
-    searchQuery
+  const updateFilters = (nextFilterState: FilterState) => {
+    setSearchParams(buildCoursesFilterSearchParams(nextFilterState), { replace: true });
+  };
+
+  const setSearchQuery = (searchQuery: string) => {
+    updateFilters({
+      ...filterState,
+      searchQuery,
+    });
+  };
+
+  const toggleLevel = (level: FilterState['selectedLevels'][number]) => {
+    updateFilters({
+      ...filterState,
+      selectedLevels: filterState.selectedLevels.includes(level)
+        ? filterState.selectedLevels.filter((selectedLevel) => selectedLevel !== level)
+        : [...filterState.selectedLevels, level],
+    });
+  };
+
+  const toggleCategory = (category: FilterState['selectedCategories'][number]) => {
+    updateFilters({
+      ...filterState,
+      selectedCategories: filterState.selectedCategories.includes(category)
+        ? filterState.selectedCategories.filter((selectedCategory) => selectedCategory !== category)
+        : [...filterState.selectedCategories, category],
+    });
+  };
+
+  const setPriceRange = (priceRange: FilterState['priceRange']) => {
+    updateFilters({
+      ...filterState,
+      priceRange,
+    });
+  };
+
+  const clearFilters = () => {
+    updateFilters(createDefaultFilterState());
   };
 
   return (
@@ -72,7 +103,7 @@ export default function CoursesPage() {
 
             <div className="flex-1 fade-in">
               <CoursesHeader
-                searchQuery={searchQuery}
+                searchQuery={filterState.searchQuery}
                 setSearchQuery={setSearchQuery}
                 setFilterOpen={setFilterOpen}
                 sortOption={sortOption}
