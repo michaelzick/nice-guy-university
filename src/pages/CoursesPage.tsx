@@ -23,7 +23,7 @@ export default function CoursesPage() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const { data: courses = [], isLoading: isLoadingCourses } = useCourses();
-  const [sortOption, setSortOption] = useState('popular');
+  const [sortOption, setSortOption] = useState('newest');
   const filterState = parseCoursesFilterSearchParams(searchParams);
 
   const {
