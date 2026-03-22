@@ -1,13 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/use-auth';
+import { DbCourse, DbEnrollment } from '@/types/database';
+
+export type EnrollmentWithCourse = DbEnrollment & {
+  courses: DbCourse | null;
+};
 
 export function useMyEnrollments() {
   const { user } = useAuth();
 
   return useQuery({
     queryKey: ['enrollments', user?.id],
-    queryFn: async () => {
+    queryFn: async (): Promise<EnrollmentWithCourse[]> => {
       if (!user) return [];
       const { data, error } = await supabase
         .from('enrollments')
@@ -16,7 +21,7 @@ export function useMyEnrollments() {
         .order('enrolled_at', { ascending: false });
 
       if (error) throw error;
-      return data ?? [];
+      return (data ?? []) as EnrollmentWithCourse[];
     },
     enabled: !!user,
   });

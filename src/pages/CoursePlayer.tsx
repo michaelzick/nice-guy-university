@@ -14,6 +14,7 @@ import { LessonItem } from '@/lib/api/courses';
 import SEOHead from '@/components/SEOHead';
 import { useToast } from '@/components/ui/use-toast';
 import { markCourseCompleted } from '@/lib/api/progress';
+import CourseReviewDialog from '@/components/reviews/CourseReviewDialog';
 
 export default function CoursePlayer() {
   const { courseSlug, lessonId } = useParams<{ courseSlug: string; lessonId?: string }>();
@@ -26,6 +27,7 @@ export default function CoursePlayer() {
   const [mobileCourseMenuOpen, setMobileCourseMenuOpen] = useState(false);
   const [openChapters, setOpenChapters] = useState<string[]>([]);
   const [isCompletingCourse, setIsCompletingCourse] = useState(false);
+  const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
 
   // Flatten all lessons for navigation
   const allLessons = chapters.flatMap(ch => ch.lessons);
@@ -87,11 +89,7 @@ export default function CoursePlayer() {
     try {
       await markCourseCompleted(course.id);
       await queryClient.invalidateQueries({ queryKey: ['enrollments'] });
-      toast({
-        title: 'Course completed',
-        description: `${course.title} has been marked complete.`,
-      });
-      navigate('/my-courses');
+      setReviewDialogOpen(true);
     } catch (error) {
       toast({
         title: 'Unable to complete course',
@@ -329,6 +327,13 @@ export default function CoursePlayer() {
           </aside>
         </div>
       </main>
+
+      <CourseReviewDialog
+        courseId={course.id}
+        courseTitle={course.title}
+        open={reviewDialogOpen}
+        onOpenChange={setReviewDialogOpen}
+      />
     </div>
   );
 }

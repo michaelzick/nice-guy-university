@@ -121,13 +121,15 @@ export function buildCourseSchema(course: CourseSchemaInput) {
       availability: "https://schema.org/InStock",
       url: `${SITE_URL}/course/${course.slug}`,
     },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: course.rating,
-      ratingCount: course.ratingCount,
-      bestRating: 5,
-      worstRating: 1,
-    },
+    ...(course.ratingCount > 0 ? {
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: course.rating,
+        ratingCount: course.ratingCount,
+        bestRating: 5,
+        worstRating: 1,
+      },
+    } : {}),
     inLanguage: course.language || "en",
     courseMode: "online",
     isAccessibleForFree: false,

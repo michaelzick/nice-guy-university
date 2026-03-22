@@ -1,11 +1,12 @@
 
 import { Link } from 'react-router-dom';
-import { Star, Clock, BookOpen, ShoppingCart } from '@/lib/icons';
+import { Clock, BookOpen, ShoppingCart } from '@/lib/icons';
 import { Course } from '@/types/course';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/hooks/use-cart';
 import { cn } from '@/lib/utils';
+import { ReviewStars } from '@/components/reviews/ReviewStars';
 
 interface CourseCardProps {
   course: Course;
@@ -49,11 +50,21 @@ export default function CourseCard({ course, className }: CourseCardProps) {
           <span className="text-xs font-bold text-foreground uppercase tracking-[0.05em]">
             {categoryLabel}
           </span>
-          <div className="flex shrink-0 items-center">
-            <Star className="w-4 h-4 text-foreground fill-foreground" />
-            <span className="text-sm font-medium text-card-foreground ml-1">{course.rating}</span>
-            <span className="text-xs text-muted-foreground ml-1">({course.ratingCount})</span>
-          </div>
+          {course.ratingCount > 0 ? (
+            <div className="flex shrink-0 items-center gap-2">
+              <ReviewStars rating={course.rating} starClassName="h-3.5 w-3.5" />
+              <div className="text-right">
+                <p className="text-sm font-medium text-card-foreground">{course.rating.toFixed(1)}</p>
+                <p className="text-xs text-muted-foreground">
+                  {course.ratingCount} review{course.ratingCount === 1 ? '' : 's'}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <span className="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">
+              No reviews yet
+            </span>
+          )}
         </div>
         
         <Link to={`/course/${course.slug}`} className="group block">

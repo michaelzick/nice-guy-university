@@ -33,6 +33,7 @@ export type DashboardStats = {
   totalCourses: number;
   totalEnrollments: number;
   totalRevenue: number;
+  pendingReviews: number;
   recentOrders: RecentOrder[];
 };
 
@@ -69,11 +70,12 @@ async function getFunctionErrorMessage(error: unknown, fallback: string) {
 }
 
 export async function fetchDashboardStats(): Promise<DashboardStats> {
-  const [coursesRes, enrollmentsRes, revenueRes, recentOrdersRes] = await Promise.all([
+  const [coursesRes, enrollmentsRes, revenueRes, recentOrdersRes, pendingReviewsRes] = await Promise.all([
     supabase.from('courses').select('id', { count: 'exact', head: true }),
     supabase.from('enrollments').select('id', { count: 'exact', head: true }),
     supabase.from('orders').select('amount_total').eq('status', 'completed'),
     supabase.from('orders').select('*, profiles:user_id(first_name, last_name)').order('created_at', { ascending: false }).limit(10),
+    supabase.from('course_reviews').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
   ]);
 
   const totalRevenue = (revenueRes.data ?? []).reduce(
@@ -84,6 +86,7 @@ export async function fetchDashboardStats(): Promise<DashboardStats> {
     totalCourses: coursesRes.count ?? 0,
     totalEnrollments: enrollmentsRes.count ?? 0,
     totalRevenue,
+    pendingReviews: pendingReviewsRes.count ?? 0,
     recentOrders: (recentOrdersRes.data ?? []) as RecentOrder[],
   };
 }

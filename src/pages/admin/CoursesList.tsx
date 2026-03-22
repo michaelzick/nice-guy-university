@@ -111,6 +111,12 @@ export default function AdminCoursesList() {
                       <p className="mt-1 font-medium text-card-foreground">{course.students_count}</p>
                     </div>
                     <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">Reviews</p>
+                      <p className="mt-1 font-medium text-card-foreground">
+                        {course.rating_count > 0 ? `${Number(course.rating).toFixed(1)} / 5 (${course.rating_count})` : 'No reviews'}
+                      </p>
+                    </div>
+                    <div>
                       <p className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">Status</p>
                       <div className="mt-1">
                         {course.published ? (
@@ -179,6 +185,7 @@ export default function AdminCoursesList() {
                   <TableHead>Category</TableHead>
                   <TableHead>Price</TableHead>
                   <TableHead>Students</TableHead>
+                  <TableHead>Reviews</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
@@ -217,6 +224,9 @@ export default function AdminCoursesList() {
                       )}
                     </TableCell>
                     <TableCell>{course.students_count}</TableCell>
+                    <TableCell>
+                      {course.rating_count > 0 ? `${Number(course.rating).toFixed(1)} / 5 (${course.rating_count})` : 'No reviews'}
+                    </TableCell>
                     <TableCell>
                       {course.published ? (
                         <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
@@ -267,7 +277,7 @@ export default function AdminCoursesList() {
                 ))}
                 {courses.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={6} className="py-8 text-center text-muted-foreground">
+                    <TableCell colSpan={7} className="py-8 text-center text-muted-foreground">
                       No courses yet. Create your first course.
                     </TableCell>
                   </TableRow>

@@ -21,9 +21,49 @@ export type Course = {
   featured?: boolean;
   bestseller?: boolean;
   lastUpdated: string;
+  createdAt: string;
+  updatedAt: string;
   language: string;
   topics: string[];
   whatYouWillLearn: string[];
+};
+
+export type CourseReviewStatus = 'pending' | 'approved' | 'hidden';
+
+export type CourseReview = {
+  id: string;
+  courseId: string;
+  userId: string;
+  reviewerName: string;
+  title: string;
+  body: string;
+  rating: number;
+  status: CourseReviewStatus;
+  approvedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type CourseReviewInput = {
+  reviewerName: string;
+  title: string;
+  body: string;
+  rating: number;
+};
+
+export type CourseReviewPage = {
+  reviews: CourseReview[];
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+};
+
+export type AdminCourseReview = CourseReview & {
+  courseTitle: string;
+  courseSlug: string;
+  profileFirstName: string | null;
+  profileLastName: string | null;
 };
 
 export type CourseCategory = 

@@ -41,6 +41,12 @@ export default function SortSelector({ sortOption, setSortOption }: SortSelector
             Newest
           </div>
         </SelectItem>
+        <SelectItem value="oldest">
+          <div className="flex items-center">
+            <SortAsc className="h-4 w-4 mr-2" />
+            Oldest
+          </div>
+        </SelectItem>
         <SelectItem value="price-low">
           <div className="flex items-center">
             <SortAsc className="h-4 w-4 mr-2" />

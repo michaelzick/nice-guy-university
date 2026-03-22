@@ -1,6 +1,23 @@
 import { supabase } from '@/lib/supabase';
-import { Course } from '@/types/course';
-import { DbCourse, DbChapter, DbLesson } from '@/types/database';
+import {
+  AdminCourseReview,
+  Course,
+  CourseReview,
+  CourseReviewInput,
+  CourseReviewPage,
+} from '@/types/course';
+import { DbCourse, DbChapter, DbCourseReview, DbLesson } from '@/types/database';
+
+type AdminCourseReviewRow = DbCourseReview & {
+  courses: {
+    title: string;
+    slug: string;
+  } | null;
+  profiles: {
+    first_name: string | null;
+    last_name: string | null;
+  } | null;
+};
 
 export function mapDbCourseToCourse(db: DbCourse): Course {
   return {
@@ -25,9 +42,39 @@ export function mapDbCourseToCourse(db: DbCourse): Course {
     featured: db.featured,
     bestseller: db.bestseller,
     lastUpdated: db.last_updated,
+    createdAt: db.created_at,
+    updatedAt: db.updated_at,
     language: db.language,
     topics: db.topics,
     whatYouWillLearn: db.what_you_will_learn,
+  };
+}
+
+export function mapDbCourseReviewToCourseReview(db: DbCourseReview): CourseReview {
+  return {
+    id: db.id,
+    courseId: db.course_id,
+    userId: db.user_id,
+    reviewerName: db.reviewer_name,
+    title: db.title,
+    body: db.body,
+    rating: db.rating,
+    status: db.status,
+    approvedAt: db.approved_at,
+    createdAt: db.created_at,
+    updatedAt: db.updated_at,
+  };
+}
+
+function mapAdminCourseReview(row: AdminCourseReviewRow): AdminCourseReview {
+  const review = mapDbCourseReviewToCourseReview(row);
+
+  return {
+    ...review,
+    courseTitle: row.courses?.title ?? 'Deleted Course',
+    courseSlug: row.courses?.slug ?? '',
+    profileFirstName: row.profiles?.first_name ?? null,
+    profileLastName: row.profiles?.last_name ?? null,
   };
 }
 
@@ -166,4 +213,144 @@ export async function fetchRelatedCourses(courseId: string, category: string, li
 
   if (error) throw error;
   return (data as DbCourse[]).map(mapDbCourseToCourse);
+}
+
+export async function fetchApprovedCourseReviews(
+  courseId: string,
+  page = 1,
+  pageSize = 5,
+): Promise<CourseReviewPage> {
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+
+  const { data, error, count } = await supabase
+    .from('course_reviews')
+    .select('*', { count: 'exact' })
+    .eq('course_id', courseId)
+    .eq('status', 'approved')
+    .order('created_at', { ascending: false })
+    .range(from, to);
+
+  if (error) throw error;
+
+  const totalCount = count ?? 0;
+
+  return {
+    reviews: (data as DbCourseReview[]).map(mapDbCourseReviewToCourseReview),
+    totalCount,
+    page,
+    pageSize,
+    totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
+  };
+}
+
+export async function fetchMyCourseReview(courseId: string): Promise<CourseReview | null> {
+  const { data: authData } = await supabase.auth.getUser();
+  if (!authData.user) return null;
+
+  const { data, error } = await supabase
+    .from('course_reviews')
+    .select('*')
+    .eq('course_id', courseId)
+    .eq('user_id', authData.user.id)
+    .single();
+
+  if (error) {
+    if (error.code === 'PGRST116') return null;
+    throw error;
+  }
+
+  return mapDbCourseReviewToCourseReview(data as DbCourseReview);
+}
+
+export async function upsertCourseReview(
+  courseId: string,
+  input: CourseReviewInput,
+): Promise<CourseReview> {
+  const { data: authData } = await supabase.auth.getUser();
+  if (!authData.user) throw new Error('Not authenticated');
+
+  const payload = {
+    course_id: courseId,
+    user_id: authData.user.id,
+    reviewer_name: input.reviewerName.trim(),
+    title: input.title.trim(),
+    body: input.body.trim(),
+    rating: input.rating,
+    status: 'pending' as const,
+  };
+
+  const { data, error } = await supabase
+    .from('course_reviews')
+    .upsert(payload, { onConflict: 'course_id,user_id' })
+    .select('*')
+    .single();
+
+  if (error) throw error;
+
+  return mapDbCourseReviewToCourseReview(data as DbCourseReview);
+}
+
+export async function fetchAdminCourseReviews(filters: {
+  status?: 'pending' | 'approved' | 'hidden' | 'all';
+  courseId?: string | 'all';
+  search?: string;
+} = {}): Promise<AdminCourseReview[]> {
+  const { status = 'all', courseId = 'all', search = '' } = filters;
+  let query = supabase
+    .from('course_reviews')
+    .select('*, courses(title, slug), profiles:user_id(first_name, last_name)')
+    .order('created_at', { ascending: false });
+
+  if (status !== 'all') {
+    query = query.eq('status', status);
+  }
+
+  if (courseId !== 'all') {
+    query = query.eq('course_id', courseId);
+  }
+
+  const { data, error } = await query;
+
+  if (error) throw error;
+
+  const normalizedSearch = search.trim().toLowerCase();
+  const reviews = (data as AdminCourseReviewRow[]).map(mapAdminCourseReview);
+
+  if (!normalizedSearch) {
+    return reviews;
+  }
+
+  return reviews.filter((review) => {
+    const reviewerFullName = `${review.profileFirstName ?? ''} ${review.profileLastName ?? ''}`.trim().toLowerCase();
+    return review.reviewerName.toLowerCase().includes(normalizedSearch)
+      || review.title.toLowerCase().includes(normalizedSearch)
+      || review.courseTitle.toLowerCase().includes(normalizedSearch)
+      || reviewerFullName.includes(normalizedSearch);
+  });
+}
+
+export async function updateAdminCourseReviewStatus(
+  reviewId: string,
+  status: 'approved' | 'hidden',
+): Promise<AdminCourseReview> {
+  const { data, error } = await supabase
+    .from('course_reviews')
+    .update({ status })
+    .eq('id', reviewId)
+    .select('*, courses(title, slug), profiles:user_id(first_name, last_name)')
+    .single();
+
+  if (error) throw error;
+
+  return mapAdminCourseReview(data as AdminCourseReviewRow);
+}
+
+export async function deleteAdminCourseReview(reviewId: string) {
+  const { error } = await supabase
+    .from('course_reviews')
+    .delete()
+    .eq('id', reviewId);
+
+  if (error) throw error;
 }

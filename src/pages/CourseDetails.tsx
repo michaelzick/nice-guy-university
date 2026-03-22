@@ -1,7 +1,7 @@
 
 import { useParams, Link } from 'react-router-dom';
 import {
-  Star, Clock, BookOpen, User, BarChart, Calendar, Award, PlayCircle, ChevronRight,
+  Clock, BookOpen, User, BarChart, Calendar, Award, PlayCircle, ChevronRight,
   ShoppingCart, Check, Loader2
 } from '@/lib/icons';
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,8 @@ import CourseCard from '@/components/CourseCard';
 import { useCart } from '@/hooks/use-cart';
 import { useCourseBySlug, useCourseChapters, useRelatedCourses } from '@/hooks/use-courses';
 import { useCoachById } from '@/hooks/use-coaches';
+import CourseReviewsSection from '@/components/reviews/CourseReviewsSection';
+import { ReviewStars } from '@/components/reviews/ReviewStars';
 
 function formatDuration(seconds: number): string {
   const m = Math.floor(seconds / 60);
@@ -124,15 +126,17 @@ export default function CourseDetails() {
                 <p className="mb-6 break-words text-xl text-muted-foreground">{course.shortDescription}</p>
 
                 <div className="flex items-center flex-wrap gap-4 mb-6">
-                  <div className="flex items-center">
-                    <div className="flex">
-                      {Array(5).fill(0).map((_, i) => (
-                        <Star key={i} className={`w-4 h-4 ${i < Math.round(course.rating) ? 'text-foreground fill-foreground' : 'text-muted-foreground'}`} />
-                      ))}
+                  {course.ratingCount > 0 ? (
+                    <div className="flex items-center gap-3">
+                      <ReviewStars rating={course.rating} />
+                      <span className="font-medium">{course.rating.toFixed(1)}</span>
+                      <span className="text-muted-foreground">
+                        ({course.ratingCount} review{course.ratingCount === 1 ? '' : 's'})
+                      </span>
                     </div>
-                    <span className="ml-2 font-medium">{course.rating}</span>
-                    <span className="ml-1 text-muted-foreground">({course.ratingCount} ratings)</span>
-                  </div>
+                  ) : (
+                    <div className="font-medium text-muted-foreground">No reviews yet</div>
+                  )}
                   <div className="flex items-center text-muted-foreground">
                     <User className="w-4 h-4 mr-1" />
                     <span>{course.studentsCount.toLocaleString()} enrolled</span>
@@ -161,12 +165,15 @@ export default function CourseDetails() {
 
                 <div className="mt-8 bg-background p-4 text-foreground sm:p-6">
                   <Tabs defaultValue="overview">
-                    <TabsList className="mb-8 grid h-auto w-full grid-cols-3 bg-muted p-1">
+                    <TabsList className="mb-8 grid h-auto w-full grid-cols-4 bg-muted p-1">
                       <TabsTrigger value="overview" className="min-w-0 whitespace-normal px-2 py-3 text-[11px] leading-tight sm:text-sm">
                         Overview
                       </TabsTrigger>
                       <TabsTrigger value="curriculum" className="min-w-0 whitespace-normal px-2 py-3 text-[11px] leading-tight sm:text-sm">
                         Curriculum
+                      </TabsTrigger>
+                      <TabsTrigger value="reviews" className="min-w-0 whitespace-normal px-2 py-3 text-[11px] leading-tight sm:text-sm">
+                        Reviews
                       </TabsTrigger>
                       <TabsTrigger value="instructor" className="min-w-0 whitespace-normal px-2 py-3 text-[11px] leading-tight sm:text-sm">
                         About Coach
@@ -255,6 +262,17 @@ export default function CourseDetails() {
                         ) : (
                           <p className="text-muted-foreground">Curriculum details coming soon.</p>
                         )}
+                      </div>
+                    </TabsContent>
+
+                    <TabsContent value="reviews" className="fade-in">
+                      <div id="course-reviews">
+                        <h2 className="mb-6 text-2xl font-bold text-foreground">Student Reviews</h2>
+                        <CourseReviewsSection
+                          courseId={course.id}
+                          rating={course.rating}
+                          ratingCount={course.ratingCount}
+                        />
                       </div>
                     </TabsContent>
 

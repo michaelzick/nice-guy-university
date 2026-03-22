@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { DollarSign, BookOpen, Users, ShoppingCart, Loader2 } from '@/lib/icons';
+import { DollarSign, BookOpen, Users, ShoppingCart, Loader2, Star } from '@/lib/icons';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { fetchDashboardStats } from '@/lib/api/admin';
 
@@ -43,9 +43,9 @@ export default function AdminDashboard() {
       bgColor: 'bg-yellow-500/10',
     },
     {
-      title: 'Recent Orders',
-      value: stats?.recentOrders?.length ?? 0,
-      icon: ShoppingCart,
+      title: 'Pending Reviews',
+      value: stats?.pendingReviews ?? 0,
+      icon: Star,
       color: 'text-orange-500',
       bgColor: 'bg-orange-500/10',
     },

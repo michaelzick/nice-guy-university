@@ -40,7 +40,10 @@ export default function useCoursesFilter(
       filteredCourses.sort((a, b) => b.rating - a.rating);
       break;
     case 'newest':
-      filteredCourses.sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime());
+      filteredCourses.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      break;
+    case 'oldest':
+      filteredCourses.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
       break;
     case 'price-low':
       filteredCourses.sort((a, b) => (a.salePrice || a.price) - (b.salePrice || b.price));

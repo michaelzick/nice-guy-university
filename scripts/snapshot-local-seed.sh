@@ -52,6 +52,7 @@ done
       print "  public.order_items,"
       print "  public.orders,"
       print "  public.enrollments,"
+      print "  public.course_reviews,"
       print "  public.lessons,"
       print "  public.chapters,"
       print "  public.courses,"

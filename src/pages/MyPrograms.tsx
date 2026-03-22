@@ -5,19 +5,26 @@ import { Card, CardContent } from '@/components/ui/card';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
-import { useMyEnrollments } from '@/hooks/use-enrollments';
+import { EnrollmentWithCourse, useMyEnrollments } from '@/hooks/use-enrollments';
 import { markCourseCompleted, markCourseIncomplete } from '@/lib/api/progress';
 import { useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/components/ui/use-toast';
 import { useState } from 'react';
+import CourseReviewDialog from '@/components/reviews/CourseReviewDialog';
+
+type ReviewCourseState = {
+  courseId: string;
+  courseTitle: string;
+};
 
 export default function MyPrograms() {
   const { data: enrollments = [], isLoading } = useMyEnrollments();
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const [togglingId, setTogglingId] = useState<string | null>(null);
+  const [reviewCourse, setReviewCourse] = useState<ReviewCourseState | null>(null);
 
-  const handleToggleCompletion = async (enrollment: any) => {
+  const handleToggleCompletion = async (enrollment: EnrollmentWithCourse) => {
     const course = enrollment.courses;
     if (!course) return;
 
@@ -28,7 +35,10 @@ export default function MyPrograms() {
         toast({ title: 'Marked incomplete', description: `${course.title} has been marked as in progress.` });
       } else {
         await markCourseCompleted(course.id);
-        toast({ title: 'Course completed', description: `${course.title} has been marked complete.` });
+        setReviewCourse({
+          courseId: course.id,
+          courseTitle: course.title,
+        });
       }
       await queryClient.invalidateQueries({ queryKey: ['enrollments'] });
     } catch {
@@ -72,7 +82,7 @@ export default function MyPrograms() {
             </div>
           ) : (
             <div className="grid grid-cols-1 items-stretch gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {enrollments.map((enrollment: any) => {
+              {enrollments.map((enrollment) => {
                 const course = enrollment.courses;
                 if (!course) return null;
                 const isCompleted = !!enrollment.completed_at;
@@ -106,12 +116,23 @@ export default function MyPrograms() {
                         {course.short_description}
                       </p>
                       <div className="mt-auto flex flex-col gap-2">
-                        <Link to={`/learn/${course.slug}`}>
-                          <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
+                        {isCompleted && (
+                          <Button
+                            className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
+                            onClick={() => setReviewCourse({ courseId: course.id, courseTitle: course.title })}
+                          >
                             <PlayCircle className="h-4 w-4 mr-2" />
-                            {isCompleted ? 'Review Course' : 'Continue Learning'}
+                            Review Course
                           </Button>
-                        </Link>
+                        )}
+                        {!isCompleted && (
+                          <Link to={`/learn/${course.slug}`}>
+                            <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
+                              <PlayCircle className="h-4 w-4 mr-2" />
+                              Continue Learning
+                            </Button>
+                          </Link>
+                        )}
                         <Button
                           variant="ghost"
                           size="sm"
@@ -137,6 +158,17 @@ export default function MyPrograms() {
           )}
         </div>
       </main>
+
+      <CourseReviewDialog
+        courseId={reviewCourse?.courseId}
+        courseTitle={reviewCourse?.courseTitle ?? ''}
+        open={!!reviewCourse}
+        onOpenChange={(open) => {
+          if (!open) {
+            setReviewCourse(null);
+          }
+        }}
+      />
 
       <Footer />
     </div>

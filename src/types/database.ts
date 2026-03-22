@@ -61,6 +61,22 @@ export type DbCourse = {
   updated_at: string;
 };
 
+export type DbCourseReview = {
+  id: string;
+  course_id: string;
+  user_id: string;
+  reviewer_name: string;
+  title: string;
+  body: string;
+  rating: number;
+  status: 'pending' | 'approved' | 'hidden';
+  approved_at: string | null;
+  moderated_at: string | null;
+  moderated_by: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 export type DbChapter = {
   id: string;
   course_id: string;

@@ -96,8 +96,12 @@ export default function AdminSettings() {
       if (error) throw new Error(error);
 
       toast({ title: 'Avatar updated successfully' });
-    } catch (err: any) {
-      toast({ title: 'Failed to upload avatar', description: err.message, variant: 'destructive' });
+    } catch (err: unknown) {
+      toast({
+        title: 'Failed to upload avatar',
+        description: err instanceof Error ? err.message : 'Please try again.',
+        variant: 'destructive',
+      });
     } finally {
       setAvatarUploading(false);
     }
