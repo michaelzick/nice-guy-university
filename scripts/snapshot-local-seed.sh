@@ -3,7 +3,8 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-OUTPUT_PATH="${1:-$ROOT_DIR/supabase/seed.sql}"
+OUTPUT_PATH="${1:-$ROOT_DIR/supabase/seeds/seed.sql}"
+mkdir -p "$(dirname "$OUTPUT_PATH")"
 TMP_DUMP="$(mktemp "${TMPDIR:-/tmp}/ngu-seed.XXXXXX.sql")"
 trap 'rm -f "$TMP_DUMP"' EXIT
 

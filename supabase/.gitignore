@@ -1,6 +1,8 @@
 # Supabase
 .branches
 .temp
+seeds/
+migrations/
 
 # dotenvx
 .env
