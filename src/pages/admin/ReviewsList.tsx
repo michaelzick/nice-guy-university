@@ -237,24 +237,44 @@ export default function AdminReviewsList() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-2">
-                      <Button variant="outline" className="w-full" onClick={() => setSelectedReview(review)}>
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => setSelectedReview(review)}
+                        title="View Review"
+                      >
                         <Search className="mr-2 h-4 w-4" />
                         View
                       </Button>
                       {review.status === 'approved' ? (
-                        <Button variant="outline" className="w-full" onClick={() => void handleHide(review.id)} disabled={isMutating}>
+                        <Button
+                          variant="outline"
+                          className="w-full"
+                          onClick={() => void handleHide(review.id)}
+                          disabled={isMutating}
+                          title="Hide Review"
+                        >
                           <EyeOff className="mr-2 h-4 w-4" />
                           Hide
                         </Button>
                       ) : (
-                        <Button className="w-full" onClick={() => void handleApprove(review.id)} disabled={isMutating}>
+                        <Button
+                          className="w-full"
+                          onClick={() => void handleApprove(review.id)}
+                          disabled={isMutating}
+                          title="Approve Review"
+                        >
                           <CheckCircle2 className="mr-2 h-4 w-4" />
                           Approve
                         </Button>
                       )}
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
-                          <Button variant="outline" className="w-full text-destructive hover:text-destructive">
+                          <Button
+                            variant="outline"
+                            className="w-full text-destructive hover:text-destructive"
+                            title="Delete Review"
+                          >
                             <Trash2 className="mr-2 h-4 w-4" />
                             Delete
                           </Button>
@@ -322,22 +342,44 @@ export default function AdminReviewsList() {
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex items-center justify-end gap-2">
-                          <Button variant="ghost" size="icon" onClick={() => setSelectedReview(review)}>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => setSelectedReview(review)}
+                            title="View Review"
+                          >
                             <Search className="h-4 w-4" />
                           </Button>
                           {review.status !== 'approved' && (
-                            <Button variant="ghost" size="icon" onClick={() => void handleApprove(review.id)} disabled={isMutating}>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => void handleApprove(review.id)}
+                              disabled={isMutating}
+                              title="Approve Review"
+                            >
                               <CheckCircle2 className="h-4 w-4" />
                             </Button>
                           )}
                           {review.status !== 'hidden' && (
-                            <Button variant="ghost" size="icon" onClick={() => void handleHide(review.id)} disabled={isMutating}>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => void handleHide(review.id)}
+                              disabled={isMutating}
+                              title="Hide Review"
+                            >
                               <EyeOff className="h-4 w-4" />
                             </Button>
                           )}
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
-                              <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="text-destructive hover:text-destructive"
+                                title="Delete Review"
+                              >
                                 <Trash2 className="h-4 w-4" />
                               </Button>
                             </AlertDialogTrigger>
