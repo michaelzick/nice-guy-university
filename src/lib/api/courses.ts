@@ -13,10 +13,6 @@ type AdminCourseReviewRow = DbCourseReview & {
     title: string;
     slug: string;
   } | null;
-  profiles: {
-    first_name: string | null;
-    last_name: string | null;
-  } | null;
 };
 
 export function mapDbCourseToCourse(db: DbCourse): Course {
@@ -73,8 +69,8 @@ function mapAdminCourseReview(row: AdminCourseReviewRow): AdminCourseReview {
     ...review,
     courseTitle: row.courses?.title ?? 'Deleted Course',
     courseSlug: row.courses?.slug ?? '',
-    profileFirstName: row.profiles?.first_name ?? null,
-    profileLastName: row.profiles?.last_name ?? null,
+    profileFirstName: null,
+    profileLastName: null,
   };
 }
 
@@ -299,7 +295,7 @@ export async function fetchAdminCourseReviews(filters: {
   const { status = 'all', courseId = 'all', search = '' } = filters;
   let query = supabase
     .from('course_reviews')
-    .select('*, courses(title, slug), profiles:user_id(first_name, last_name)')
+    .select('*, courses(title, slug)')
     .order('created_at', { ascending: false });
 
   if (status !== 'all') {
@@ -322,11 +318,9 @@ export async function fetchAdminCourseReviews(filters: {
   }
 
   return reviews.filter((review) => {
-    const reviewerFullName = `${review.profileFirstName ?? ''} ${review.profileLastName ?? ''}`.trim().toLowerCase();
     return review.reviewerName.toLowerCase().includes(normalizedSearch)
       || review.title.toLowerCase().includes(normalizedSearch)
-      || review.courseTitle.toLowerCase().includes(normalizedSearch)
-      || reviewerFullName.includes(normalizedSearch);
+      || review.courseTitle.toLowerCase().includes(normalizedSearch);
   });
 }
 
@@ -338,7 +332,7 @@ export async function updateAdminCourseReviewStatus(
     .from('course_reviews')
     .update({ status })
     .eq('id', reviewId)
-    .select('*, courses(title, slug), profiles:user_id(first_name, last_name)')
+    .select('*, courses(title, slug)')
     .single();
 
   if (error) throw error;

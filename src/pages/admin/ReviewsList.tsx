@@ -80,7 +80,11 @@ export default function AdminReviewsList() {
     queryFn: fetchAllCoursesAdmin,
   });
 
-  const { data: reviews = [], isLoading } = useAdminCourseReviews({
+  const {
+    data: reviews = [],
+    isLoading,
+    error,
+  } = useAdminCourseReviews({
     status: statusFilter,
     courseId: courseFilter,
     search,
@@ -192,6 +196,12 @@ export default function AdminReviewsList() {
         <div className="flex items-center justify-center py-16">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
+      ) : error ? (
+        <Card>
+          <CardContent className="p-6 text-sm text-destructive">
+            Unable to load reviews. {error instanceof Error ? error.message : 'Please try again.'}
+          </CardContent>
+        </Card>
       ) : (
         <Card>
           <CardContent className="p-4 md:p-0">
