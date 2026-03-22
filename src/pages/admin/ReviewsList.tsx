@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import {
+  CheckCircle2,
   Loader2,
   Search,
   Eye,
@@ -152,45 +153,43 @@ export default function AdminReviewsList() {
         </div>
       </div>
 
-      <Card className="mb-6">
-        <CardContent className="grid gap-4 p-4 md:grid-cols-[minmax(0,1fr)_220px_220px]">
-          <div className="relative">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Search reviewer, title, or course"
-              className="pl-9"
-            />
-          </div>
+      <div className="mb-6 grid gap-4 md:grid-cols-[minmax(0,1fr)_220px_220px]">
+        <div className="relative">
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Search reviewer, title, or course"
+            className="pl-9"
+          />
+        </div>
 
-          <Select value={statusFilter} onValueChange={(value: 'pending' | 'approved' | 'hidden' | 'all') => setStatusFilter(value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Filter by status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All statuses</SelectItem>
-              <SelectItem value="pending">Pending</SelectItem>
-              <SelectItem value="approved">Approved</SelectItem>
-              <SelectItem value="hidden">Hidden</SelectItem>
-            </SelectContent>
-          </Select>
+        <Select value={statusFilter} onValueChange={(value: 'pending' | 'approved' | 'hidden' | 'all') => setStatusFilter(value)}>
+          <SelectTrigger>
+            <SelectValue placeholder="Filter by status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All statuses</SelectItem>
+            <SelectItem value="pending">Pending</SelectItem>
+            <SelectItem value="approved">Approved</SelectItem>
+            <SelectItem value="hidden">Hidden</SelectItem>
+          </SelectContent>
+        </Select>
 
-          <Select value={courseFilter} onValueChange={setCourseFilter}>
-            <SelectTrigger>
-              <SelectValue placeholder="Filter by course" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All courses</SelectItem>
-              {sortedCourses.map((course) => (
-                <SelectItem key={course.id} value={course.id}>
-                  {course.title}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </CardContent>
-      </Card>
+        <Select value={courseFilter} onValueChange={setCourseFilter}>
+          <SelectTrigger>
+            <SelectValue placeholder="Filter by course" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All courses</SelectItem>
+            {sortedCourses.map((course) => (
+              <SelectItem key={course.id} value={course.id}>
+                {course.title}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
       {isLoading ? (
         <div className="flex items-center justify-center py-16">
@@ -239,6 +238,7 @@ export default function AdminReviewsList() {
 
                     <div className="grid grid-cols-2 gap-2">
                       <Button variant="outline" className="w-full" onClick={() => setSelectedReview(review)}>
+                        <Search className="mr-2 h-4 w-4" />
                         View
                       </Button>
                       {review.status === 'approved' ? (
@@ -248,7 +248,7 @@ export default function AdminReviewsList() {
                         </Button>
                       ) : (
                         <Button className="w-full" onClick={() => void handleApprove(review.id)} disabled={isMutating}>
-                          <Eye className="mr-2 h-4 w-4" />
+                          <CheckCircle2 className="mr-2 h-4 w-4" />
                           Approve
                         </Button>
                       )}
@@ -323,11 +323,11 @@ export default function AdminReviewsList() {
                       <TableCell className="text-right">
                         <div className="flex items-center justify-end gap-2">
                           <Button variant="ghost" size="icon" onClick={() => setSelectedReview(review)}>
-                            <Eye className="h-4 w-4" />
+                            <Search className="h-4 w-4" />
                           </Button>
                           {review.status !== 'approved' && (
                             <Button variant="ghost" size="icon" onClick={() => void handleApprove(review.id)} disabled={isMutating}>
-                              <Eye className="h-4 w-4" />
+                              <CheckCircle2 className="h-4 w-4" />
                             </Button>
                           )}
                           {review.status !== 'hidden' && (

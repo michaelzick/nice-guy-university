@@ -28,6 +28,7 @@ export default function Navbar() {
     { to: '/admin/orders', label: 'Admin Orders', icon: ShoppingCart },
     { to: '/admin/settings', label: 'Admin Settings', icon: Settings },
   ];
+  const adminDropdownRoutes = adminRoutes.slice(0, 1);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -107,7 +108,7 @@ export default function Navbar() {
                   {isAdmin && (
                     <>
                       <DropdownMenuSeparator />
-                      {adminRoutes.map(({ to, label, icon: Icon }) => (
+                      {adminDropdownRoutes.map(({ to, label, icon: Icon }) => (
                         <DropdownMenuItem asChild key={to}>
                           <Link to={to} className="flex items-center cursor-pointer uppercase tracking-[0.03em] font-semibold">
                             <Icon className="mr-2 h-4 w-4" />
