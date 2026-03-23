@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, BookOpen, ShoppingCart, Settings, ChevronLeft, Users, Menu, Star } from '@/lib/icons';
+import { LayoutDashboard, BookOpen, ShoppingCart, Settings, ChevronLeft, Users, Menu, Star, BarChart } from '@/lib/icons';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 
 const navItems = [
   { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', exact: true },
+  { to: '/admin/analytics', icon: BarChart, label: 'Analytics' },
   { to: '/admin/courses', icon: BookOpen, label: 'Courses' },
   { to: '/admin/reviews', icon: Star, label: 'Reviews' },
   { to: '/admin/coaches', icon: Users, label: 'Coaches' },

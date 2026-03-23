@@ -393,3 +393,14 @@ export const XCircle = createIcon("XCircle", (
     <path d="M8 8l8 8M16 8l-8 8" />
   </>
 ));
+
+export const TrendingUp = createIcon("TrendingUp", (
+  <>
+    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+    <polyline points="16 7 22 7 22 13" />
+  </>
+));
+
+export const Activity = createIcon("Activity", (
+  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+));
