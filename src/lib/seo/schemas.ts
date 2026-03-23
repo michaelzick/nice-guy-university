@@ -1,13 +1,14 @@
 const SITE_URL = import.meta.env.VITE_SITE_URL || "";
 const SITE_NAME = "Nice Guy University";
+const RESOLVED_SITE_URL = SITE_URL || "https://michaelzick.com";
 
 export function buildWebSiteSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: SITE_NAME,
-    url: SITE_URL || "https://michaelzick.com",
-    description: "A multi-coach recovery platform for men.",
+    url: RESOLVED_SITE_URL,
+    description: "Nice Guy recovery coaching for men.",
     potentialAction: {
       "@type": "SearchAction",
       target: `${SITE_URL}/courses?q={search_term_string}`,
@@ -21,10 +22,10 @@ export function buildOrganizationSchema(socialLinks: string[] = []) {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: SITE_NAME,
-    url: SITE_URL || "https://michaelzick.com",
+    url: RESOLVED_SITE_URL,
     logo: `${SITE_URL}/og-image.jpg`,
     description:
-      "A multi-coach platform with courses for men recovering from Nice Guy Syndrome, approval addiction, and people-pleasing patterns.",
+      "Nice Guy recovery coaching and courses for men recovering from Nice Guy Syndrome, approval addiction, and people-pleasing patterns.",
     founder: {
       "@type": "Person",
       name: "Michael Zick",
@@ -32,7 +33,7 @@ export function buildOrganizationSchema(socialLinks: string[] = []) {
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer service",
-      url: "https://calendly.com",
+      url: `${RESOLVED_SITE_URL}/contact`,
     },
     sameAs: [
       "https://www.michaelzick.com",

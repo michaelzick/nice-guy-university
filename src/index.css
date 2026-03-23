@@ -44,6 +44,11 @@
     --site-gutter-tablet: 2.75rem;
     --site-gutter-desktop: 3rem;
     --site-gutter: var(--site-gutter-compact);
+    --page-pattern-image:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.03) 50%, transparent 50%, transparent 100%),
+      linear-gradient(225deg, rgba(128, 128, 128, 0.06) 0%, rgba(128, 128, 128, 0.06) 34%, transparent 34%, transparent 100%),
+      repeating-linear-gradient(0deg, transparent 0 31px, rgba(255, 255, 255, 0.02) 31px 32px),
+      repeating-linear-gradient(90deg, transparent 0 31px, rgba(255, 255, 255, 0.02) 31px 32px);
   }
 
   .dark {
@@ -114,11 +119,7 @@
     overflow-x: hidden;
     position: relative;
     letter-spacing: 0.01em;
-    background-image:
-      linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.03) 50%, transparent 50%, transparent 100%),
-      linear-gradient(225deg, rgba(128, 128, 128, 0.06) 0%, rgba(128, 128, 128, 0.06) 34%, transparent 34%, transparent 100%),
-      repeating-linear-gradient(0deg, transparent 0 31px, rgba(255, 255, 255, 0.02) 31px 32px),
-      repeating-linear-gradient(90deg, transparent 0 31px, rgba(255, 255, 255, 0.02) 31px 32px);
+    background-image: var(--page-pattern-image);
   }
 
   body::before,
@@ -202,6 +203,16 @@
     background: rgba(10, 10, 10, 0.88) !important;
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
+  }
+
+  .page-pattern-surface {
+    background-color: hsl(var(--background) / 0.88);
+    background-image: var(--page-pattern-image);
+  }
+
+  .page-pattern-surface-muted {
+    background-color: hsl(var(--muted) / 0.84);
+    background-image: var(--page-pattern-image);
   }
 
   /* Subtle glass — hero/section overlays */

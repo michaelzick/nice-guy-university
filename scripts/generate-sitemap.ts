@@ -4,7 +4,7 @@
  * Run after build: tsx scripts/generate-sitemap.ts
  *
  * Generates sitemap.xml in dist/ with:
- * - Static routes (/, /courses, /about)
+ * - Static routes (/, /courses, /about, /contact)
  * - Dynamic course routes from Supabase
  * - Dynamic resource routes from Supabase (when the table exists)
  */
@@ -93,6 +93,7 @@ async function main() {
     { loc: `${SITE_URL}/`, changefreq: "weekly", priority: "1.0", lastmod: today },
     { loc: `${SITE_URL}/courses`, changefreq: "weekly", priority: "0.9", lastmod: today },
     { loc: `${SITE_URL}/about`, changefreq: "monthly", priority: "0.8", lastmod: today },
+    { loc: `${SITE_URL}/contact`, changefreq: "monthly", priority: "0.7", lastmod: today },
   ];
 
   // Dynamic course routes

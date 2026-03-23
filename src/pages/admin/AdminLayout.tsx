@@ -70,7 +70,7 @@ export default function AdminLayout() {
   );
 
   return (
-    <div className="min-h-screen bg-muted site-nav:flex">
+    <div className="page-pattern-surface-muted min-h-screen site-nav:flex">
       <aside className="hidden w-64 shrink-0 self-start border-r border-border site-nav:sticky site-nav:top-0 site-nav:flex site-nav:h-screen">
         {renderSidebar('w-full', true)}
       </aside>

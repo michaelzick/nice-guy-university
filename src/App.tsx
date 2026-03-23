@@ -27,6 +27,7 @@ import CheckoutSuccess from "./pages/CheckoutSuccess";
 import CheckoutCancel from "./pages/CheckoutCancel";
 import ResourcesPage from "./pages/ResourcesPage";
 import ResourceDetail from "./pages/ResourceDetail";
+import ContactPage from "./pages/ContactPage";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminCoursesList from "./pages/admin/CoursesList";
@@ -62,6 +63,7 @@ const App = () => (
                 <Route path="/about" element={<Navigate to="/how-it-works" replace />} />
                 <Route path="/resources" element={<ResourcesPage />} />
                 <Route path="/resources/:slug" element={<ResourceDetail />} />
+                <Route path="/contact" element={<ContactPage />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/reset-password" element={<ResetPassword />} />

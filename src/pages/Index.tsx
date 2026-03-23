@@ -22,7 +22,7 @@ export default function Index() {
     },
     {
       step: "02",
-      title: "Release the Victim Identity",
+      title: "Release Your Victim Identity",
       description: "Drop the story that your life changes when everyone else finally gets it and start owning your decisions now.",
     },
     {
@@ -63,7 +63,7 @@ export default function Index() {
     <div className="min-h-screen flex flex-col">
       <SEOHead
         title="Recovery Courses for Men"
-        description="Nice Guy University is a multi-coach platform for men ready to break approval addiction, build boundaries, and do real recovery work through structured courses."
+        description="Nice Guy University offers Nice Guy recovery coaching for men ready to break approval addiction, build boundaries, and do real recovery work through structured courses."
         canonicalPath="/"
       />
       <JsonLd data={buildWebSiteSchema()} />
@@ -83,10 +83,10 @@ export default function Index() {
         <div className="container mx-auto relative z-10 content-stack">
           <div className="max-w-4xl space-y-6">
             <p className="text-foreground font-semibold uppercase tracking-widest text-sm">
-              Multi-Coach Recovery Platform
+              Nice Guy Recovery Coaching
             </p>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-              Stop performing.<br />Start doing the work.
+              Stop being nice.<br />Start being you.
             </h1>
             <p className="text-lg text-white/70 max-w-2xl">
               Nice Guy University connects you with coaches and courses designed to break shame, approval addiction, weak boundaries, and the patterns keeping you stuck.
@@ -109,17 +109,18 @@ export default function Index() {
       </section>
 
       {/* The Recovery Framework */}
-      <section className="bg-background py-20 mobile-shell">
+      <section className="page-pattern-surface py-20 mobile-shell">
         <div className="container mx-auto content-stack">
           <div className="text-center max-w-4xl mx-auto mb-16">
             <p className="text-foreground font-semibold uppercase tracking-widest text-sm mb-4">
               The Framework
             </p>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Three pillars that change how you live
+              Three steps to rock-solid authenticity.
             </h2>
             <p className="text-muted-foreground text-lg">
-              Every coach on the platform teaches toward the same outcome: more honesty, more ownership, more standards.
+              Every coach on the platform teaches toward the same outcome:<br />
+              more honesty, more ownership, higher standards.
             </p>
           </div>
 
@@ -136,7 +137,7 @@ export default function Index() {
       </section>
 
       {/* Featured Courses */}
-      <section className="bg-muted mobile-shell pb-14 pt-20 md:pb-20">
+      <section className="page-pattern-surface-muted mobile-shell pb-14 pt-20 md:pb-20">
         <div className="container mx-auto content-stack">
           <div className="flex justify-between items-end mb-12">
             <div>
@@ -157,7 +158,7 @@ export default function Index() {
       </section>
 
       {/* FAQ Section */}
-      <section className="bg-muted py-20 mobile-shell">
+      <section className="page-pattern-surface-muted py-20 mobile-shell">
         <div className="container mx-auto max-w-4xl content-stack">
           <div className="text-center mb-12">
             <p className="text-foreground font-semibold uppercase tracking-widest text-sm mb-4">

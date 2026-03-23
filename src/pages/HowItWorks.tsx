@@ -33,7 +33,7 @@ const pillars = [
     icon: Target,
   },
   {
-    title: 'Release the Victim Identity',
+    title: 'Release Your Victim Identity',
     description: 'Stop waiting for other people to change first and start owning the choices that shape your life.',
     icon: Shield,
   },

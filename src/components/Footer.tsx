@@ -1,6 +1,5 @@
 
 import { Link } from 'react-router-dom';
-import { Mail } from '@/lib/icons';
 import { categories } from '@/components/courses/constants';
 import { buildCoursesHref } from '@/components/courses/filterQueryParams';
 
@@ -20,7 +19,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="mb-4 font-medium text-secondary-foreground/85 sm:mb-6">
-              A multi-coach platform for men ready to confront shame, build boundaries, and stop living through approval.
+              Nice Guy recovery coaching for men ready to confront shame, build boundaries, and stop living through approval.
             </p>
           </div>
           
@@ -69,10 +68,9 @@ export default function Footer() {
           <div>
             <h3 className="mb-4 text-lg font-semibold tracking-[0.03em] text-secondary-foreground sm:mb-6">Contact</h3>
             <p className="mb-3 font-medium text-secondary-foreground/85 sm:mb-4">Questions about the platform or a course? Reach out.</p>
-            <div className="mb-4 flex w-full max-w-full items-center space-x-3 bg-background px-3 py-2 text-foreground sm:w-fit">
-              <Mail className="h-5 w-5 text-muted-foreground" />
-              <span className="min-w-0 break-all font-semibold">coach@michaelzick.com</span>
-            </div>
+            <Link to="/contact" className={footerLinkClass}>
+              Contact Us
+            </Link>
           </div>
         </div>
         
