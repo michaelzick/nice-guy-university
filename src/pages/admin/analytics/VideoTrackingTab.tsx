@@ -9,7 +9,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { fetchVideoTrackingData, fetchAnalyticsCourses } from '@/lib/api/analytics';
 
 const chartConfig = {
-  avgWatchPercent: { label: 'Avg Watch %', color: 'hsl(221, 83%, 53%)' },
+  avgWatchPercent: { label: 'Avg Watch %', color: 'hsl(195, 100%, 55%)' },
 };
 
 function formatTime(seconds: number) {
@@ -120,10 +120,10 @@ export default function VideoTrackingTab() {
                           variant="outline"
                           className={
                             row.completionRate >= 70
-                              ? 'border-green-200 bg-green-50 text-green-700 dark:border-green-800 dark:bg-green-900/30 dark:text-green-400'
+                              ? 'border-emerald-300 bg-emerald-50 text-emerald-600 dark:border-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-300'
                               : row.completionRate >= 40
-                              ? 'border-yellow-200 bg-yellow-50 text-yellow-700 dark:border-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
-                              : 'border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-900/30 dark:text-red-400'
+                              ? 'border-amber-300 bg-amber-50 text-amber-600 dark:border-amber-600 dark:bg-amber-900/30 dark:text-amber-300'
+                              : 'border-fuchsia-300 bg-fuchsia-50 text-fuchsia-600 dark:border-fuchsia-600 dark:bg-fuchsia-900/30 dark:text-fuchsia-300'
                           }
                         >
                           {row.completionRate}%

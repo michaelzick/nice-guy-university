@@ -2,11 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from '@/components/ui/chart';
 import { AreaChart, Area, Line, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { Users, Activity, Calendar, TrendingUp } from '@/lib/icons';
 import { fetchEnrollmentTrends } from '@/lib/api/analytics';
 
 const chartConfig = {
-  newEnrollments: { label: 'New Enrollments', color: 'hsl(221, 83%, 53%)' },
-  cumulativeEnrollments: { label: 'Cumulative', color: 'hsl(262, 83%, 58%)' },
+  newEnrollments: { label: 'New Enrollments', color: 'hsl(195, 100%, 55%)' },
+  cumulativeEnrollments: { label: 'Cumulative', color: 'hsl(320, 100%, 60%)' },
 };
 
 export default function EnrollmentTrendsTab() {
@@ -68,36 +69,24 @@ export default function EnrollmentTrendsTab() {
       </Card>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <Card>
-          <CardContent className="p-4">
-            <p className="text-xs text-muted-foreground">Total Enrollments</p>
-            <p className="text-xl font-bold">{data[data.length - 1]?.cumulativeEnrollments ?? 0}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <p className="text-xs text-muted-foreground">Last 7 Days</p>
-            <p className="text-xl font-bold">
-              {data.slice(-7).reduce((s, d) => s + d.newEnrollments, 0)}
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <p className="text-xs text-muted-foreground">Last 30 Days</p>
-            <p className="text-xl font-bold">
-              {data.slice(-30).reduce((s, d) => s + d.newEnrollments, 0)}
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <p className="text-xs text-muted-foreground">Daily Average</p>
-            <p className="text-xl font-bold">
-              {data.length > 0 ? (data.reduce((s, d) => s + d.newEnrollments, 0) / data.length).toFixed(1) : 0}
-            </p>
-          </CardContent>
-        </Card>
+        {[
+          { label: 'Total Enrollments', value: data[data.length - 1]?.cumulativeEnrollments ?? 0, icon: Users },
+          { label: 'Last 7 Days', value: data.slice(-7).reduce((s, d) => s + d.newEnrollments, 0), icon: Activity },
+          { label: 'Last 30 Days', value: data.slice(-30).reduce((s, d) => s + d.newEnrollments, 0), icon: Calendar },
+          { label: 'Daily Average', value: data.length > 0 ? (data.reduce((s, d) => s + d.newEnrollments, 0) / data.length).toFixed(1) : 0, icon: TrendingUp },
+        ].map((kpi) => (
+          <Card key={kpi.label}>
+            <CardContent className="flex items-center gap-3 p-4 sm:pt-6">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-primary/10">
+                <kpi.icon className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">{kpi.label}</p>
+                <p className="text-xl font-bold">{kpi.value}</p>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   );

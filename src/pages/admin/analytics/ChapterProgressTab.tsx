@@ -7,8 +7,8 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { fetchChapterProgressData, fetchAnalyticsCourses } from '@/lib/api/analytics';
 
 const chartConfig = {
-  avgWatchPercent: { label: 'Avg Watch %', color: 'hsl(221, 83%, 53%)' },
-  completionRate: { label: 'Completion Rate %', color: 'hsl(142, 76%, 36%)' },
+  avgWatchPercent: { label: 'Avg Watch %', color: 'hsl(195, 100%, 55%)' },
+  completionRate: { label: 'Completion Rate %', color: 'hsl(150, 100%, 50%)' },
 };
 
 export default function ChapterProgressTab() {

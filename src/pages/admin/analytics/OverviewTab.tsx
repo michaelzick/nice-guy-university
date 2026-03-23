@@ -7,9 +7,9 @@ import { fetchAnalyticsOverview } from '@/lib/api/analytics';
 import type { AnalyticsOverview } from '@/types/analytics';
 
 const COLORS = {
-  completed: 'hsl(142, 76%, 36%)',
-  inProgress: 'hsl(48, 96%, 53%)',
-  notStarted: 'hsl(0, 0%, 63%)',
+  completed: 'hsl(150, 100%, 50%)',
+  inProgress: 'hsl(45, 100%, 55%)',
+  notStarted: 'hsl(280, 80%, 65%)',
 };
 
 const pieChartConfig = {
@@ -19,7 +19,7 @@ const pieChartConfig = {
 };
 
 const trendChartConfig = {
-  enrollments: { label: 'Enrollments', color: 'hsl(221, 83%, 53%)' },
+  enrollments: { label: 'Enrollments', color: 'hsl(195, 100%, 55%)' },
 };
 
 export default function OverviewTab() {
@@ -52,7 +52,7 @@ export default function OverviewTab() {
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {kpis.map((kpi) => (
           <Card key={kpi.label}>
-            <CardContent className="flex items-center gap-3 p-4">
+            <CardContent className="flex items-center gap-3 p-4 sm:pt-6">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-primary/10">
                 <kpi.icon className="h-5 w-5 text-primary" />
               </div>

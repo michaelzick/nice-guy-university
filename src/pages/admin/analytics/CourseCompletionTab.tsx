@@ -5,9 +5,9 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { fetchCourseCompletionData } from '@/lib/api/analytics';
 
 const chartConfig = {
-  completed: { label: 'Completed', color: 'hsl(142, 76%, 36%)' },
-  inProgress: { label: 'In Progress', color: 'hsl(48, 96%, 53%)' },
-  notStarted: { label: 'Not Started', color: 'hsl(0, 0%, 63%)' },
+  completed: { label: 'Completed', color: 'hsl(150, 100%, 50%)' },
+  inProgress: { label: 'In Progress', color: 'hsl(45, 100%, 55%)' },
+  notStarted: { label: 'Not Started', color: 'hsl(280, 80%, 65%)' },
 };
 
 function truncateTitle(title: string, maxLen = 30) {
