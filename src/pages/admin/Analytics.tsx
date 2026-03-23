@@ -14,7 +14,7 @@ export default function Analytics() {
       </div>
 
       <Tabs defaultValue="overview">
-        <TabsList className="flex-wrap">
+        <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="course-completion">Course Completion</TabsTrigger>
           <TabsTrigger value="chapter-progress">Chapter Progress</TabsTrigger>

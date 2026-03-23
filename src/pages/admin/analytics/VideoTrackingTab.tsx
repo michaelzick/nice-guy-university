@@ -47,7 +47,7 @@ export default function VideoTrackingTab() {
       <div className="flex items-center gap-3">
         <label className="text-sm font-medium">Course:</label>
         <Select value={selectedCourse} onValueChange={setSelectedCourse}>
-          <SelectTrigger className="w-full max-w-md">
+          <SelectTrigger className="w-full max-w-xs sm:max-w-md">
             <SelectValue placeholder="Select a course" />
           </SelectTrigger>
           <SelectContent>
@@ -73,7 +73,7 @@ export default function VideoTrackingTab() {
               <CardTitle className="text-base">Video Watch Drop-off by Chapter</CardTitle>
             </CardHeader>
             <CardContent>
-              <ChartContainer config={chartConfig} className="aspect-[2.5/1] w-full">
+              <ChartContainer config={chartConfig} className="aspect-[4/3] w-full sm:aspect-[2.5/1]">
                 <AreaChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" tick={{ fontSize: 11 }} />
@@ -105,8 +105,8 @@ export default function VideoTrackingTab() {
                     <TableHead>Chapter</TableHead>
                     <TableHead className="text-right">Avg Watch %</TableHead>
                     <TableHead className="text-right">Completion</TableHead>
-                    <TableHead className="text-right">Avg Sessions</TableHead>
-                    <TableHead className="text-right">Avg Watch Time</TableHead>
+                    <TableHead className="hidden text-right sm:table-cell">Avg Sessions</TableHead>
+                    <TableHead className="hidden text-right sm:table-cell">Avg Watch Time</TableHead>
                     <TableHead className="text-right">Learners</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -129,8 +129,8 @@ export default function VideoTrackingTab() {
                           {row.completionRate}%
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-right">{row.avgSessions}</TableCell>
-                      <TableCell className="text-right">{formatTime(row.avgWatchTimeSeconds)}</TableCell>
+                      <TableCell className="hidden text-right sm:table-cell">{row.avgSessions}</TableCell>
+                      <TableCell className="hidden text-right sm:table-cell">{formatTime(row.avgWatchTimeSeconds)}</TableCell>
                       <TableCell className="text-right">{row.totalLearners}</TableCell>
                     </TableRow>
                   ))}

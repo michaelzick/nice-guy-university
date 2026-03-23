@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { fetchChapterProgressData, fetchAnalyticsCourses } from '@/lib/api/analytics';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const chartConfig = {
   avgWatchPercent: { label: 'Avg Watch %', color: 'hsl(195, 100%, 55%)' },
@@ -13,6 +14,7 @@ const chartConfig = {
 
 export default function ChapterProgressTab() {
   const [selectedCourse, setSelectedCourse] = useState<string>('');
+  const isMobile = useIsMobile();
 
   const { data: courses } = useQuery({
     queryKey: ['admin', 'analytics', 'courses'],
@@ -30,8 +32,10 @@ export default function ChapterProgressTab() {
     setSelectedCourse(courses[0].id);
   }
 
+  const maxLen = isMobile ? 15 : 25;
+
   const chartData = (data ?? []).map((row) => ({
-    name: row.chapterTitle.length > 25 ? row.chapterTitle.slice(0, 25) + '...' : row.chapterTitle,
+    name: row.chapterTitle.length > maxLen ? row.chapterTitle.slice(0, maxLen) + '...' : row.chapterTitle,
     fullName: row.chapterTitle,
     avgWatchPercent: row.avgWatchPercent,
     completionRate: row.completionRate,
@@ -43,7 +47,7 @@ export default function ChapterProgressTab() {
       <div className="flex items-center gap-3">
         <label className="text-sm font-medium">Course:</label>
         <Select value={selectedCourse} onValueChange={setSelectedCourse}>
-          <SelectTrigger className="w-full max-w-md">
+          <SelectTrigger className="w-full max-w-xs sm:max-w-md">
             <SelectValue placeholder="Select a course" />
           </SelectTrigger>
           <SelectContent>
@@ -68,10 +72,10 @@ export default function ChapterProgressTab() {
             <CardTitle className="text-base">Chapter Completion & Watch Progress</CardTitle>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={chartConfig} className="aspect-[2/1] w-full">
+            <ChartContainer config={chartConfig} className="aspect-[4/3] w-full sm:aspect-[2/1]">
               <BarChart data={chartData} margin={{ left: 10, right: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" tick={{ fontSize: 10 }} angle={-20} textAnchor="end" height={60} />
+                <XAxis dataKey="name" tick={{ fontSize: 11 }} angle={-20} textAnchor="end" height={60} />
                 <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} unit="%" />
                 <ChartTooltip
                   content={<ChartTooltipContent />}

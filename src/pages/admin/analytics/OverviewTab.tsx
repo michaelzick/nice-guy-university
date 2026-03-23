@@ -49,16 +49,16 @@ export default function OverviewTab() {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
         {kpis.map((kpi) => (
           <Card key={kpi.label}>
-            <CardContent className="flex items-center gap-3 p-4 sm:pt-6">
+            <CardContent className="flex items-center gap-3 p-4 sm:p-6">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-primary/10">
                 <kpi.icon className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">{kpi.label}</p>
-                <p className="text-xl font-bold">{kpi.value}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">{kpi.label}</p>
+                <p className="text-xl sm:text-2xl font-bold">{kpi.value}</p>
               </div>
             </CardContent>
           </Card>
@@ -71,7 +71,7 @@ export default function OverviewTab() {
             <CardTitle className="text-base">Enrollment Trend (30 days)</CardTitle>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={trendChartConfig} className="aspect-[2/1] w-full">
+            <ChartContainer config={trendChartConfig} className="aspect-[4/3] sm:aspect-[2/1] w-full">
               <AreaChart data={data.recentTrend}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis
@@ -101,7 +101,7 @@ export default function OverviewTab() {
             <CardTitle className="text-base">Completion Distribution</CardTitle>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={pieChartConfig} className="aspect-[2/1] w-full">
+            <ChartContainer config={pieChartConfig} className="aspect-[4/3] sm:aspect-[2/1] w-full">
               <PieChart>
                 <Pie
                   data={pieData}

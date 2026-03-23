@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from '@/components/ui/chart';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { fetchCourseCompletionData } from '@/lib/api/analytics';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const chartConfig = {
   completed: { label: 'Completed', color: 'hsl(150, 100%, 50%)' },
@@ -15,6 +16,8 @@ function truncateTitle(title: string, maxLen = 30) {
 }
 
 export default function CourseCompletionTab() {
+  const isMobile = useIsMobile();
+
   const { data, isLoading } = useQuery({
     queryKey: ['admin', 'analytics', 'course-completion'],
     queryFn: fetchCourseCompletionData,
@@ -29,7 +32,7 @@ export default function CourseCompletionTab() {
   }
 
   const chartData = data.map((row) => ({
-    name: truncateTitle(row.courseTitle),
+    name: truncateTitle(row.courseTitle, isMobile ? 18 : 30),
     fullName: row.courseTitle,
     completed: row.completed,
     inProgress: row.inProgress,
@@ -53,7 +56,7 @@ export default function CourseCompletionTab() {
             <YAxis
               type="category"
               dataKey="name"
-              width={180}
+              width={isMobile ? 100 : 180}
               tick={{ fontSize: 11 }}
             />
             <ChartTooltip

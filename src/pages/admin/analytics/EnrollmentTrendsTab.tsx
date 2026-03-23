@@ -31,13 +31,13 @@ export default function EnrollmentTrendsTab() {
           <CardTitle className="text-base">Daily New Enrollments</CardTitle>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={chartConfig} className="aspect-[3/1] w-full">
+          <ChartContainer config={chartConfig} className="aspect-[4/3] sm:aspect-[2/1] lg:aspect-[3/1] w-full">
             <AreaChart data={data}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="date"
                 tickFormatter={(d) => new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                tick={{ fontSize: 10 }}
+                tick={{ fontSize: 11 }}
                 interval={13}
               />
               <YAxis yAxisId="left" tick={{ fontSize: 11 }} />
@@ -68,7 +68,7 @@ export default function EnrollmentTrendsTab() {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
         {[
           { label: 'Total Enrollments', value: data[data.length - 1]?.cumulativeEnrollments ?? 0, icon: Users },
           { label: 'Last 7 Days', value: data.slice(-7).reduce((s, d) => s + d.newEnrollments, 0), icon: Activity },
@@ -76,13 +76,13 @@ export default function EnrollmentTrendsTab() {
           { label: 'Daily Average', value: data.length > 0 ? (data.reduce((s, d) => s + d.newEnrollments, 0) / data.length).toFixed(1) : 0, icon: TrendingUp },
         ].map((kpi) => (
           <Card key={kpi.label}>
-            <CardContent className="flex items-center gap-3 p-4 sm:pt-6">
+            <CardContent className="flex items-center gap-3 p-4 sm:p-6">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-primary/10">
                 <kpi.icon className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">{kpi.label}</p>
-                <p className="text-xl font-bold">{kpi.value}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">{kpi.label}</p>
+                <p className="text-xl sm:text-2xl font-bold">{kpi.value}</p>
               </div>
             </CardContent>
           </Card>
