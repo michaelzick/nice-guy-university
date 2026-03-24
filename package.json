@@ -14,7 +14,7 @@
     "supabase:seed:snapshot": "bash scripts/snapshot-local-seed.sh",
     "supabase:functions:serve": "npx supabase functions serve --env-file supabase/.env.local",
     "supabase:gen-types": "npx supabase gen types typescript --local > src/shared/types/supabase.ts",
-    "export:lessons": "node scripts/export-lessons.mjs cognitive-distortion-playbook"
+    "export:lessons": "node scripts/export-lessons.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
