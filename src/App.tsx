@@ -73,10 +73,11 @@ const App = () => (
                 <Route path="/learn/:courseSlug/:lessonId?" element={
                   <AuthGuard><CoursePlayer /></AuthGuard>
                 } />
-                <Route path="/my-courses" element={
+                <Route path="/enrollments" element={
                   <AuthGuard><MyPrograms /></AuthGuard>
                 } />
-                <Route path="/my-programs" element={<Navigate to="/my-courses" replace />} />
+                <Route path="/my-courses" element={<Navigate to="/enrollments" replace />} />
+                <Route path="/my-programs" element={<Navigate to="/enrollments" replace />} />
                 <Route path="/admin" element={
                   <AdminGuard><AdminLayout /></AdminGuard>
                 }>

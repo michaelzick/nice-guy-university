@@ -100,9 +100,9 @@ export default function Navbar() {
                   </div>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link to="/my-courses" className="flex items-center cursor-pointer uppercase tracking-[0.03em] font-semibold">
+                    <Link to="/enrollments" className="flex items-center cursor-pointer uppercase tracking-[0.03em] font-semibold">
                       <BookOpen className="mr-2 h-4 w-4" />
-                      My Courses
+                      Enrollments
                     </Link>
                   </DropdownMenuItem>
                   {isAdmin && (
@@ -172,8 +172,8 @@ export default function Navbar() {
             <Link to="/courses" className="cubist-link text-foreground hover:text-foreground/70 font-bold uppercase tracking-[0.03em] py-2 px-3">
               Courses
             </Link>
-            <Link to="/my-courses" className="cubist-link text-foreground hover:text-foreground/70 font-bold uppercase tracking-[0.03em] py-2 px-3">
-              My Courses
+            <Link to="/enrollments" className="cubist-link text-foreground hover:text-foreground/70 font-bold uppercase tracking-[0.03em] py-2 px-3">
+              Enrollments
             </Link>
             <Link to="/coaches" className="cubist-link text-foreground hover:text-foreground/70 font-bold uppercase tracking-[0.03em] py-2 px-3">
               Coaches

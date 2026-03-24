@@ -110,8 +110,8 @@ export default function CheckoutSuccess() {
                     Return to Cart
                   </Button>
                 </Link>
-                <Link to="/my-courses" className="w-full sm:w-auto">
-                  <Button variant="outline" className="w-full">Check My Courses</Button>
+                <Link to="/enrollments" className="w-full sm:w-auto">
+                  <Button variant="outline" className="w-full">Check Enrollments</Button>
                 </Link>
               </div>
             </>
@@ -125,9 +125,9 @@ export default function CheckoutSuccess() {
                 Thank you for your purchase. You now have access to your courses. Start learning right away!
               </p>
               <div className="flex flex-col justify-center gap-4 sm:flex-row">
-                <Link to="/my-courses" className="w-full sm:w-auto">
+                <Link to="/enrollments" className="w-full sm:w-auto">
                   <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                    Go to My Courses
+                    Go to Enrollments
                   </Button>
                 </Link>
                 <Link to="/courses" className="w-full sm:w-auto">

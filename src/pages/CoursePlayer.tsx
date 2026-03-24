@@ -10,10 +10,11 @@ import VideoPlayer from '@/components/player/VideoPlayer';
 import MarkdownContent from '@/components/MarkdownContent';
 import JournalPrompts from '@/components/player/JournalPrompts';
 import { useCourseBySlug, useCourseChapters } from '@/hooks/use-courses';
+import { useCourseProgress } from '@/hooks/use-progress';
 import { LessonItem } from '@/lib/api/courses';
 import SEOHead from '@/components/SEOHead';
 import { useToast } from '@/components/ui/use-toast';
-import { markCourseCompleted } from '@/lib/api/progress';
+import { markCourseCompleted, updateLessonProgress } from '@/lib/api/progress';
 import CourseReviewDialog from '@/components/reviews/CourseReviewDialog';
 
 export default function CoursePlayer() {
@@ -23,9 +24,11 @@ export default function CoursePlayer() {
   const { toast } = useToast();
   const { data: course, isLoading: courseLoading } = useCourseBySlug(courseSlug);
   const { data: chapters = [], isLoading: chaptersLoading } = useCourseChapters(course?.id);
+  const { data: courseProgress = [] } = useCourseProgress(course?.id);
   const [currentLesson, setCurrentLesson] = useState<LessonItem | null>(null);
   const [mobileCourseMenuOpen, setMobileCourseMenuOpen] = useState(false);
   const [openChapters, setOpenChapters] = useState<string[]>([]);
+  const [isAdvancingLesson, setIsAdvancingLesson] = useState(false);
   const [isCompletingCourse, setIsCompletingCourse] = useState(false);
   const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
 
@@ -34,6 +37,7 @@ export default function CoursePlayer() {
   const activeChapterId = chapters.find((chapter) =>
     chapter.lessons.some((lesson) => lesson.id === currentLesson?.id)
   )?.id;
+  const completedLessonIds = new Set(courseProgress.filter((entry) => entry.completed).map((entry) => entry.lesson_id));
 
   useEffect(() => {
     if (allLessons.length === 0) return;
@@ -81,6 +85,25 @@ export default function CoursePlayer() {
     setMobileCourseMenuOpen(false);
   };
 
+  const handleNextLesson = async () => {
+    if (!currentLesson || !nextLesson) return;
+
+    setIsAdvancingLesson(true);
+    try {
+      await updateLessonProgress(currentLesson.id, { completed: true });
+      void queryClient.invalidateQueries({ queryKey: ['course-progress'] });
+      navigateToLesson(nextLesson);
+    } catch (error) {
+      toast({
+        title: 'Unable to save lesson completion',
+        description: error instanceof Error ? error.message : 'Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsAdvancingLesson(false);
+    }
+  };
+
   const handleCompleteCourse = async () => {
     if (!course) return;
 
@@ -88,7 +111,8 @@ export default function CoursePlayer() {
 
     try {
       await markCourseCompleted(course.id);
-      await queryClient.invalidateQueries({ queryKey: ['enrollments'] });
+      void queryClient.invalidateQueries({ queryKey: ['course-progress'] });
+      void queryClient.invalidateQueries({ queryKey: ['enrollments'] });
       setReviewDialogOpen(true);
     } catch (error) {
       toast({
@@ -117,8 +141,13 @@ export default function CoursePlayer() {
           >
             <div className="flex min-w-0 flex-col items-start gap-1 pr-4">
               <span className="font-semibold text-card-foreground">{chapter.title}</span>
-              <span className="text-xs font-normal uppercase tracking-[0.08em] text-muted-foreground">
-                {chapter.lessons.length} {chapter.lessons.length === 1 ? 'lesson' : 'lessons'}
+              <span className="flex items-center gap-1.5 text-xs font-normal uppercase tracking-[0.08em] text-muted-foreground">
+                <span>
+                  {chapter.lessons.length} {chapter.lessons.length === 1 ? 'lesson' : 'lessons'}
+                </span>
+                {chapter.lessons.length > 0 && chapter.lessons.every((lesson) => completedLessonIds.has(lesson.id)) && (
+                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+                )}
               </span>
             </div>
           </AccordionTrigger>
@@ -126,6 +155,7 @@ export default function CoursePlayer() {
             <ul className="border-t border-border/70 bg-background/20">
               {chapter.lessons.map((lesson) => {
                 const isActive = currentLesson?.id === lesson.id;
+                const isCompleted = completedLessonIds.has(lesson.id);
 
                 return (
                   <li key={lesson.id}>
@@ -136,12 +166,16 @@ export default function CoursePlayer() {
                       }`}
                     >
                       <div className="flex min-w-0 items-start gap-3">
-                        <PlayCircle className={`mt-0.5 h-4 w-4 flex-shrink-0 ${
-                          isActive ? 'text-foreground' : 'text-muted-foreground'
-                        }`} />
+                        {isCompleted ? (
+                          <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-500" />
+                        ) : (
+                          <PlayCircle className={`mt-0.5 h-4 w-4 flex-shrink-0 ${
+                            isActive ? 'text-foreground' : 'text-muted-foreground'
+                          }`} />
+                        )}
                         <div className="min-w-0 flex-grow">
                           <p className={`text-sm ${
-                            isActive ? 'font-medium text-foreground' : 'text-card-foreground'
+                            isActive || isCompleted ? 'font-medium text-foreground' : 'text-card-foreground'
                           }`}>
                             {lesson.title}
                           </p>
@@ -289,9 +323,18 @@ export default function CoursePlayer() {
                     </Button>
                   ) : <div />}
                   {nextLesson ? (
-                    <Button className="w-full sm:w-auto" onClick={() => navigateToLesson(nextLesson)}>
-                      Next
-                      <ChevronRight className="h-4 w-4 ml-2" />
+                    <Button className="w-full sm:w-auto" onClick={() => void handleNextLesson()} disabled={isAdvancingLesson}>
+                      {isAdvancingLesson ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Saving...
+                        </>
+                      ) : (
+                        <>
+                          Next
+                          <ChevronRight className="h-4 w-4 ml-2" />
+                        </>
+                      )}
                     </Button>
                   ) : (
                     <Button className="w-full sm:w-auto" onClick={() => void handleCompleteCourse()} disabled={isCompletingCourse}>

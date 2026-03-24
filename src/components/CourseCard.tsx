@@ -5,6 +5,8 @@ import { Course } from '@/types/course';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/hooks/use-cart';
+import { useAuth } from '@/hooks/use-auth';
+import { useMyEnrollments } from '@/hooks/use-enrollments';
 import { cn } from '@/lib/utils';
 import { ReviewStars } from '@/components/reviews/ReviewStars';
 
@@ -15,6 +17,9 @@ interface CourseCardProps {
 
 export default function CourseCard({ course, className }: CourseCardProps) {
   const { addToCart, isInCart } = useCart();
+  const { user } = useAuth();
+  const { data: enrollments = [] } = useMyEnrollments();
+  const showViewInEnrollments = !!user && enrollments.some((enrollment) => enrollment.course_id === course.id);
   
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -105,7 +110,13 @@ export default function CourseCard({ course, className }: CourseCardProps) {
         </div>
         
         <div className="mt-auto">
-          {isInCart(course.id) ? (
+          {showViewInEnrollments ? (
+            <Button asChild className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
+              <Link to="/enrollments">
+                View In Enrollments
+              </Link>
+            </Button>
+          ) : isInCart(course.id) ? (
             <Link to="/cart" className="block w-full">
               <Button variant="outline" className="w-full border-border text-foreground hover:bg-muted">
                 <ShoppingCart className="w-4 h-4 mr-2" />

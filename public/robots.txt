@@ -19,6 +19,8 @@ Disallow: /login
 Disallow: /register
 Disallow: /reset-password
 Disallow: /checkout/
+Disallow: /enrollments
+Disallow: /my-courses
 Disallow: /my-programs
 Disallow: /learn/
 Disallow: /admin/

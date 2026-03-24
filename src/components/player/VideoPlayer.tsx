@@ -1,4 +1,5 @@
 import { useRef, useEffect, useCallback } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { LessonItem } from '@/lib/api/courses';
 import YouTubeEmbed from './YouTubeEmbed';
 import VimeoEmbed from './VimeoEmbed';
@@ -13,11 +14,14 @@ type VideoPlayerProps = {
 
 export default function VideoPlayer({ lesson }: VideoPlayerProps) {
   const { user, profile } = useAuth();
+  const queryClient = useQueryClient();
   const videoRef = useRef<HTMLVideoElement>(null);
   const trackerRef = useRef<XapiTracker | null>(null);
 
   // Set up xAPI tracker for xAPI lessons
   useEffect(() => {
+    trackerRef.current = null;
+
     if (lesson.videoSourceType === 'xapi' && lesson.xapiEndpoint && lesson.xapiActivityId && user) {
       trackerRef.current = new XapiTracker({
         endpoint: lesson.xapiEndpoint,
@@ -26,7 +30,9 @@ export default function VideoPlayer({ lesson }: VideoPlayerProps) {
         actorEmail: user.email ?? '',
         actorName: `${profile?.firstName ?? ''} ${profile?.lastName ?? ''}`.trim(),
       });
-      trackerRef.current.initialized();
+      void trackerRef.current.initialized().catch((error) => {
+        console.error('Failed to initialize xAPI lesson:', error);
+      });
     }
   }, [lesson, user, profile]);
 
@@ -37,25 +43,35 @@ export default function VideoPlayer({ lesson }: VideoPlayerProps) {
     const percent = (video.currentTime / video.duration) * 100;
 
     if (lesson.videoSourceType === 'xapi' && trackerRef.current) {
-      trackerRef.current.progressed(percent, Math.floor(video.currentTime));
+      void trackerRef.current.progressed(percent, Math.floor(video.currentTime)).catch((error) => {
+        console.error('Failed to save xAPI progress:', error);
+      });
     } else {
-      updateLessonProgress(lesson.id, {
+      void updateLessonProgress(lesson.id, {
         progressPercent: percent,
         lastPositionSeconds: Math.floor(video.currentTime),
+      }).catch((error) => {
+        console.error('Failed to save lesson progress:', error);
       });
     }
   }, [lesson]);
 
-  const handleEnded = useCallback(() => {
-    if (lesson.videoSourceType === 'xapi' && trackerRef.current) {
-      trackerRef.current.completed();
-    } else {
-      updateLessonProgress(lesson.id, {
-        completed: true,
-        progressPercent: 100,
-      });
+  const handleEnded = useCallback(async () => {
+    try {
+      if (lesson.videoSourceType === 'xapi' && trackerRef.current) {
+        await trackerRef.current.completed();
+      } else {
+        await updateLessonProgress(lesson.id, {
+          completed: true,
+          progressPercent: 100,
+        });
+      }
+
+      void queryClient.invalidateQueries({ queryKey: ['course-progress'] });
+    } catch (error) {
+      console.error('Failed to mark lesson complete:', error);
     }
-  }, [lesson]);
+  }, [lesson, queryClient]);
 
   switch (lesson.videoSourceType) {
     case 'youtube':

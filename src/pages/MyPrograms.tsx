@@ -2,6 +2,16 @@ import { Link } from 'react-router-dom';
 import { BookOpen, ChevronRight, PlayCircle, Loader2, CheckCircle2, XCircle } from '@/lib/icons';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
@@ -17,30 +27,37 @@ type ReviewCourseState = {
   courseTitle: string;
 };
 
+type PendingCompletionChange = {
+  enrollment: EnrollmentWithCourse;
+  nextCompleted: boolean;
+};
+
 export default function MyPrograms() {
   const { data: enrollments = [], isLoading } = useMyEnrollments();
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const [togglingId, setTogglingId] = useState<string | null>(null);
   const [reviewCourse, setReviewCourse] = useState<ReviewCourseState | null>(null);
+  const [pendingCompletionChange, setPendingCompletionChange] = useState<PendingCompletionChange | null>(null);
 
-  const handleToggleCompletion = async (enrollment: EnrollmentWithCourse) => {
-    const course = enrollment.courses;
+  const handleToggleCompletion = async (change: PendingCompletionChange) => {
+    const course = change.enrollment.courses;
     if (!course) return;
 
-    setTogglingId(enrollment.id);
+    setTogglingId(change.enrollment.id);
     try {
-      if (enrollment.completed_at) {
-        await markCourseIncomplete(course.id);
-        toast({ title: 'Marked incomplete', description: `${course.title} has been marked as in progress.` });
-      } else {
+      if (change.nextCompleted) {
         await markCourseCompleted(course.id);
         setReviewCourse({
           courseId: course.id,
           courseTitle: course.title,
         });
+      } else {
+        await markCourseIncomplete(course.id);
+        toast({ title: 'Marked incomplete', description: `${course.title} has been marked as in progress.` });
       }
-      await queryClient.invalidateQueries({ queryKey: ['enrollments'] });
+      void queryClient.invalidateQueries({ queryKey: ['course-progress'] });
+      void queryClient.invalidateQueries({ queryKey: ['enrollments'] });
     } catch {
       toast({ title: 'Something went wrong', description: 'Please try again.', variant: 'destructive' });
     } finally {
@@ -50,13 +67,13 @@ export default function MyPrograms() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <SEOHead title="My Courses" description="Your enrolled courses" noIndex />
+      <SEOHead title="Enrollments" description="Your enrolled courses" noIndex />
       <Navbar />
 
       <main className="flex-grow mobile-shell pb-16 pt-32">
         <div className="container mx-auto content-stack">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-foreground mb-2">My Courses</h1>
+            <h1 className="text-3xl font-bold text-foreground mb-2">Enrollments</h1>
             <p className="text-muted-foreground">Continue your recovery journey.</p>
           </div>
 
@@ -69,7 +86,7 @@ export default function MyPrograms() {
               <div className="inline-flex items-center justify-center w-20 h-20 bg-muted mb-6">
                 <BookOpen className="h-10 w-10 text-muted-foreground" />
               </div>
-              <h2 className="text-2xl font-bold text-foreground mb-4">No Courses Yet</h2>
+              <h2 className="text-2xl font-bold text-foreground mb-4">No Enrollments Yet</h2>
               <p className="text-muted-foreground mb-8 max-w-md mx-auto">
                 You haven't enrolled in any courses yet. Browse our catalog to get started.
               </p>
@@ -137,7 +154,10 @@ export default function MyPrograms() {
                           variant="ghost"
                           size="sm"
                           className={`w-full text-xs ${isCompleted ? 'text-muted-foreground hover:text-foreground' : 'text-foreground hover:text-foreground/70'}`}
-                          onClick={() => void handleToggleCompletion(enrollment)}
+                          onClick={() => setPendingCompletionChange({
+                            enrollment,
+                            nextCompleted: !isCompleted,
+                          })}
                           disabled={isToggling}
                         >
                           {isToggling ? (
@@ -158,6 +178,37 @@ export default function MyPrograms() {
           )}
         </div>
       </main>
+
+      <AlertDialog
+        open={!!pendingCompletionChange}
+        onOpenChange={(open) => {
+          if (!open) {
+            setPendingCompletionChange(null);
+          }
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm completion change</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure? You will lose your current completion state. This cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                const change = pendingCompletionChange;
+                if (!change) return;
+                setPendingCompletionChange(null);
+                void handleToggleCompletion(change);
+              }}
+            >
+              OK
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <CourseReviewDialog
         courseId={reviewCourse?.courseId}
