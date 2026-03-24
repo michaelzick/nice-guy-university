@@ -86,9 +86,8 @@ async function main() {
   if (lessonErr) throw new Error(`Failed to fetch lessons: ${lessonErr.message}`);
   console.log(`Lessons: ${lessons.length}`);
 
-  // 4. Create output directory using dash-case course title
-  const courseDirName = toDashCase(course.title);
-  const outDir = resolve(rootDir, 'lesson-exports', courseDirName);
+  // 4. Create output directory using course slug
+  const outDir = resolve(rootDir, 'lesson-exports', course.slug);
   mkdirSync(outDir, { recursive: true });
 
   // 5. Build chapter lookup
@@ -140,7 +139,7 @@ ${content}${journalSection}`;
     filesWritten++;
   }
 
-  console.log(`\nDone. ${filesWritten} files written to lesson-exports/${courseDirName}/`);
+  console.log(`\nDone. ${filesWritten} files written to lesson-exports/${course.slug}/`);
 }
 
 main().catch(err => {
