@@ -5,6 +5,7 @@
 @layer base {
   :root {
     --rivian-blue: 201 100% 34%;
+    --ngu-orange: 17 100% 50%;
     --background: 0 0% 4%;
     --foreground: 0 0% 95%;
 
@@ -23,7 +24,7 @@
     --muted: 0 0% 14%;
     --muted-foreground: 0 0% 55%;
 
-    --accent: var(--rivian-blue);
+    --accent: var(--ngu-orange);
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62% 50%;
@@ -31,14 +32,14 @@
 
     --border: 0 0% 18%;
     --input: 0 0% 18%;
-    --ring: var(--rivian-blue);
+    --ring: var(--ngu-orange);
 
     --mz-blue: 0 0% 12%;
     --mz-slate: 0 0% 5%;
     --mz-charcoal: 0 0% 3%;
     --mz-warm: 0 0% 70%;
 
-    --electric: var(--rivian-blue);
+    --electric: var(--ngu-orange);
     --electric-foreground: 0 0% 100%;
 
     --site-gutter-compact: 0.75rem;
@@ -54,6 +55,7 @@
 
   .dark {
     --rivian-blue: 201 100% 34%;
+    --ngu-orange: 17 100% 50%;
     --background: 0 0% 4%;
     --foreground: 0 0% 94%;
 
@@ -72,7 +74,7 @@
     --muted: 0 0% 14%;
     --muted-foreground: 0 0% 55%;
 
-    --accent: var(--rivian-blue);
+    --accent: var(--ngu-orange);
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62% 50%;
@@ -80,9 +82,9 @@
 
     --border: 0 0% 18%;
     --input: 0 0% 18%;
-    --ring: var(--rivian-blue);
+    --ring: var(--ngu-orange);
 
-    --electric: var(--rivian-blue);
+    --electric: var(--ngu-orange);
     --electric-foreground: 0 0% 100%;
   }
 }
@@ -242,7 +244,7 @@
 
   .cta-elevated-on-hover:hover {
     transform: translate(-3px, -3px);
-    box-shadow: 8px 8px 0 hsl(var(--rivian-blue) / 0.55);
+    box-shadow: 8px 8px 0 hsl(var(--rivian-blue));
   }
 
   /* Apply glass automatically to cards and course cards */
