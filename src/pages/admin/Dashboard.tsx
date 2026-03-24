@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import { DollarSign, BookOpen, Users, ShoppingCart, Loader2, Star } from '@/lib/icons';
+import { DollarSign, BookOpen, Users, Loader2, Star } from '@/lib/icons';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { fetchDashboardStats } from '@/lib/api/admin';
 
 export default function AdminDashboard() {
-  const { data: stats, isLoading } = useQuery({
+  const { data: stats, isLoading, error } = useQuery({
     queryKey: ['admin', 'dashboard'],
     queryFn: fetchDashboardStats,
   });
@@ -17,8 +18,23 @@ export default function AdminDashboard() {
     );
   }
 
+  if (error) {
+    return (
+      <Card>
+        <CardContent className="p-6 text-sm text-destructive">
+          Unable to load dashboard data. {error instanceof Error ? error.message : 'Please try again.'}
+        </CardContent>
+      </Card>
+    );
+  }
+
   const formatCurrency = (amount: number) =>
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+
+  const formatCustomerName = (firstName: string | null | undefined, lastName: string | null | undefined, fallbackUserId: string) => {
+    const fullName = [firstName, lastName].filter(Boolean).join(' ').trim();
+    return fullName || `User ${fallbackUserId.slice(0, 8)}...`;
+  };
 
   const statCards = [
     {
@@ -78,35 +94,53 @@ export default function AdminDashboard() {
         <CardHeader>
           <CardTitle>Recent Orders</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           {stats?.recentOrders && stats.recentOrders.length > 0 ? (
-            <div className="space-y-4">
-              {stats.recentOrders.map((order) => (
-                <div key={order.id} className="flex items-center justify-between py-2 border-b border-border last:border-0">
-                  <div>
-                    <p className="font-medium text-card-foreground">
-                      {order.profiles?.first_name} {order.profiles?.last_name}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {new Date(order.created_at).toLocaleDateString()}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-bold text-card-foreground">{formatCurrency(Number(order.amount_total))}</p>
-                    <span className={`text-xs px-2 py-0.5 uppercase tracking-[0.03em] font-semibold ${
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Order</TableHead>
+                  <TableHead>Customer</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead className="text-right">Amount</TableHead>
+                  <TableHead className="text-right">Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {stats.recentOrders.map((order) => (
+                  <TableRow key={order.id}>
+                    <TableCell className="font-mono text-xs sm:text-sm">
+                      {order.id.slice(0, 8)}...
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      {formatCustomerName(order.profiles?.first_name, order.profiles?.last_name, order.user_id)}
+                    </TableCell>
+                    <TableCell>
+                      {new Date(order.created_at).toLocaleString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                      })}
+                    </TableCell>
+                    <TableCell className="text-right font-medium">
+                      {formatCurrency(Number(order.amount_total))}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <span className={`inline-flex px-2 py-0.5 text-xs uppercase tracking-[0.03em] font-semibold ${
                       order.status === 'completed' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
                       order.status === 'pending' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
                       order.status === 'refunded' ? 'bg-muted text-foreground dark:bg-muted/40 dark:text-foreground' :
                       'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
                     }`}>
-                      {order.status}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
+                        {order.status}
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           ) : (
-            <p className="text-muted-foreground text-center py-8">No orders yet.</p>
+            <p className="py-8 text-center text-muted-foreground">No orders yet.</p>
           )}
         </CardContent>
       </Card>

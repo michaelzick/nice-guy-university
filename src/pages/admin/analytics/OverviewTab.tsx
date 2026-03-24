@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
-import { Users, TrendingUp, Clock, Activity } from '@/lib/icons';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, PieChart, Pie, Cell } from 'recharts';
+import { Users, TrendingUp, Clock, Activity, DollarSign, ShoppingCart, CreditCard } from '@/lib/icons';
 import { fetchAnalyticsOverview } from '@/lib/api/analytics';
 import type { AnalyticsOverview } from '@/types/analytics';
 
@@ -34,11 +34,21 @@ export default function OverviewTab() {
 
   if (!data) return null;
 
+  const formatCurrency = (amount: number) =>
+    new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(amount);
+
   const kpis = [
     { label: 'Total Learners', value: data.totalLearners, icon: Users },
     { label: 'Avg Completion', value: `${data.avgCompletionRate}%`, icon: TrendingUp },
     { label: 'Avg Watch Time', value: `${data.avgWatchTimeMinutes}m`, icon: Clock },
     { label: 'Active (7d)', value: data.activeLearners7d, icon: Activity },
+  ];
+
+  const purchaseKpis = [
+    { label: 'Gross Revenue', value: formatCurrency(data.purchaseMetrics.grossRevenue), icon: DollarSign },
+    { label: 'Purchases (30d)', value: data.purchaseMetrics.purchases30d, icon: ShoppingCart },
+    { label: 'Avg Order Value', value: formatCurrency(data.purchaseMetrics.avgOrderValue), icon: CreditCard },
+    { label: 'Repeat Purchase', value: `${data.purchaseMetrics.repeatPurchaseRate}%`, icon: TrendingUp },
   ];
 
   const pieData = [
@@ -137,6 +147,22 @@ export default function OverviewTab() {
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
+        {purchaseKpis.map((kpi) => (
+          <Card key={kpi.label}>
+            <CardContent className="flex items-center gap-3 p-4 sm:p-6">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-primary/10">
+                <kpi.icon className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <p className="text-xs sm:text-sm text-muted-foreground">{kpi.label}</p>
+                <p className="text-xl sm:text-2xl font-bold">{kpi.value}</p>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   );

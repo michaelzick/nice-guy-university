@@ -157,7 +157,7 @@ export default function AdminCourseForm() {
       setTopics(existingCourse.topics);
       setWhatYouWillLearn(existingCourse.what_you_will_learn);
     }
-  }, [existingCourse]);
+  }, [existingCourse, form]);
 
   useEffect(() => {
     if (existingChapters) {
@@ -195,7 +195,7 @@ export default function AdminCourseForm() {
         .replace(/^-|-$/g, '');
       form.setValue('slug', slug);
     }
-  }, [watchTitle, isEditing]);
+  }, [watchTitle, isEditing, form]);
 
   const addChapter = () => {
     setChapters(prev => [...prev, {

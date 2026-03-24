@@ -55,6 +55,15 @@ export async function fetchAnalyticsOverview(): Promise<AnalyticsOverview> {
     enrollments: d.new_enrollments,
   }));
 
+  // Placeholder purchase KPIs derived from the dummy learner dataset
+  // until real purchase analytics are wired into the dashboard.
+  const purchases30d = Math.max(uniqueLearners + Math.round(completed * 0.25), 18);
+  const avgOrderValue = 142;
+  const grossRevenue = purchases30d * avgOrderValue;
+  const repeatPurchaseRate = Number(
+    Math.min(48, Math.max(18, (completed / Math.max(total, 1)) * 44)).toFixed(1)
+  );
+
   return {
     totalLearners: uniqueLearners,
     avgCompletionRate,
@@ -62,6 +71,12 @@ export async function fetchAnalyticsOverview(): Promise<AnalyticsOverview> {
     activeLearners7d,
     completionDistribution: { completed, inProgress, notStarted },
     recentTrend,
+    purchaseMetrics: {
+      grossRevenue,
+      purchases30d,
+      avgOrderValue,
+      repeatPurchaseRate,
+    },
   };
 }
 

@@ -89,6 +89,12 @@ export interface AnalyticsOverview {
     notStarted: number;
   };
   recentTrend: { date: string; enrollments: number }[];
+  purchaseMetrics: {
+    grossRevenue: number;
+    purchases30d: number;
+    avgOrderValue: number;
+    repeatPurchaseRate: number;
+  };
 }
 
 export interface CourseOption {
