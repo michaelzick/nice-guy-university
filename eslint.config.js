@@ -25,5 +25,16 @@ export default tseslint.config(
       ],
       "@typescript-eslint/no-unused-vars": "off",
     },
-  }
+  },
+  {
+    files: [
+      "src/components/ThemeProvider.tsx",
+      "src/components/ui/**/*.tsx",
+      "src/hooks/**/*.tsx",
+      "src/lib/icons.tsx",
+    ],
+    rules: {
+      "react-refresh/only-export-components": "off",
+    },
+  },
 );

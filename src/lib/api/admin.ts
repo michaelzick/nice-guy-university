@@ -21,6 +21,7 @@ export type AdminOrder = DbOrder & {
 };
 
 type RecentOrderProfile = {
+  id: string;
   first_name: string | null;
   last_name: string | null;
 };
@@ -74,20 +75,53 @@ export async function fetchDashboardStats(): Promise<DashboardStats> {
     supabase.from('courses').select('id', { count: 'exact', head: true }),
     supabase.from('enrollments').select('id', { count: 'exact', head: true }),
     supabase.from('orders').select('amount_total').eq('status', 'completed'),
-    supabase.from('orders').select('*, profiles:user_id(first_name, last_name)').order('created_at', { ascending: false }).limit(10),
+    supabase.from('orders').select('*').order('created_at', { ascending: false }).limit(10),
     supabase.from('course_reviews').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
   ]);
+
+  if (coursesRes.error) throw coursesRes.error;
+  if (enrollmentsRes.error) throw enrollmentsRes.error;
+  if (revenueRes.error) throw revenueRes.error;
+  if (recentOrdersRes.error) throw recentOrdersRes.error;
+  if (pendingReviewsRes.error) throw pendingReviewsRes.error;
 
   const totalRevenue = (revenueRes.data ?? []).reduce(
     (sum, o) => sum + Number(o.amount_total), 0
   );
+
+  const recentOrders = (recentOrdersRes.data ?? []) as DbOrder[];
+  const userIds = Array.from(new Set(recentOrders.map((order) => order.user_id)));
+
+  let profilesById = new Map<string, RecentOrderProfile>();
+  if (userIds.length > 0) {
+    const { data: profilesData, error: profilesError } = await supabase
+      .from('profiles')
+      .select('id, first_name, last_name')
+      .in('id', userIds);
+
+    if (profilesError) throw profilesError;
+
+    profilesById = new Map(
+      (profilesData ?? []).map((profile) => [
+        profile.id,
+        {
+          id: profile.id,
+          first_name: profile.first_name,
+          last_name: profile.last_name,
+        },
+      ]),
+    );
+  }
 
   return {
     totalCourses: coursesRes.count ?? 0,
     totalEnrollments: enrollmentsRes.count ?? 0,
     totalRevenue,
     pendingReviews: pendingReviewsRes.count ?? 0,
-    recentOrders: (recentOrdersRes.data ?? []) as RecentOrder[],
+    recentOrders: recentOrders.map((order) => ({
+      ...order,
+      profiles: profilesById.get(order.user_id) ?? null,
+    })),
   };
 }
 
