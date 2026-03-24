@@ -100,7 +100,7 @@ export default function CourseDetails() {
     if (canViewCourse) {
       return (
         <Button asChild className={buttonClassName}>
-          <Link to={`/learn/${course.slug}`}>View Course</Link>
+          <Link to="/enrollments">View In Enrollments</Link>
         </Button>
       );
     }

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/hooks/use-cart';
 import { useAuth } from '@/hooks/use-auth';
-import { useIsEnrolled } from '@/hooks/use-enrollments';
+import { useMyEnrollments } from '@/hooks/use-enrollments';
 import { cn } from '@/lib/utils';
 import { ReviewStars } from '@/components/reviews/ReviewStars';
 
@@ -18,8 +18,8 @@ interface CourseCardProps {
 export default function CourseCard({ course, className }: CourseCardProps) {
   const { addToCart, isInCart } = useCart();
   const { user } = useAuth();
-  const { data: isEnrolled = false } = useIsEnrolled(course.id);
-  const showViewCourse = !!user && isEnrolled;
+  const { data: enrollments = [] } = useMyEnrollments();
+  const showViewInEnrollments = !!user && enrollments.some((enrollment) => enrollment.course_id === course.id);
   
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -110,10 +110,10 @@ export default function CourseCard({ course, className }: CourseCardProps) {
         </div>
         
         <div className="mt-auto">
-          {showViewCourse ? (
+          {showViewInEnrollments ? (
             <Button asChild className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
-              <Link to={`/learn/${course.slug}`}>
-                View Course
+              <Link to="/enrollments">
+                View In Enrollments
               </Link>
             </Button>
           ) : isInCart(course.id) ? (
