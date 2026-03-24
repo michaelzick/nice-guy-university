@@ -123,7 +123,7 @@ export default function VideoTrackingTab() {
                               ? 'border-emerald-300 bg-emerald-50 text-emerald-600 dark:border-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-300'
                               : row.completionRate >= 40
                               ? 'border-amber-300 bg-amber-50 text-amber-600 dark:border-amber-600 dark:bg-amber-900/30 dark:text-amber-300'
-                              : 'border-fuchsia-300 bg-fuchsia-50 text-fuchsia-600 dark:border-fuchsia-600 dark:bg-fuchsia-900/30 dark:text-fuchsia-300'
+                              : 'border-[hsl(var(--rivian-blue)/0.4)] bg-[hsl(var(--rivian-blue)/0.12)] text-[hsl(var(--rivian-blue))] dark:border-[hsl(var(--rivian-blue)/0.55)] dark:bg-[hsl(var(--rivian-blue)/0.18)] dark:text-[hsl(var(--rivian-blue))]'
                           }
                         >
                           {row.completionRate}%
