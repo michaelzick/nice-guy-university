@@ -6,6 +6,17 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, '..');
 
+const courseArg = process.argv[2];
+if (!courseArg) {
+  console.error('Usage: node scripts/export-lessons.mjs <course-slug>');
+  console.error('Example: node scripts/export-lessons.mjs cognitive-distortion-playbook');
+  process.exit(1);
+}
+
+function toDashCase(str) {
+  return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
 // Read .env.local from project root (or main repo root)
 function loadEnv() {
   const candidates = [
@@ -38,21 +49,20 @@ const env = loadEnv();
 
 const SUPABASE_URL = env.VITE_SUPABASE_URL || 'http://127.0.0.1:54331';
 const SUPABASE_ANON_KEY = env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH';
-const COURSE_SLUG = 'cognitive-distortion-playbook';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 async function main() {
   console.log(`Connecting to Supabase at ${SUPABASE_URL}`);
 
-  // 1. Fetch the course
+  // 1. Fetch the course by slug
   const { data: course, error: courseErr } = await supabase
     .from('courses')
     .select('id, title, slug')
-    .eq('slug', COURSE_SLUG)
+    .eq('slug', courseArg)
     .single();
 
-  if (courseErr) throw new Error(`Failed to fetch course: ${courseErr.message}`);
+  if (courseErr) throw new Error(`Failed to fetch course "${courseArg}": ${courseErr.message}`);
   console.log(`Course: ${course.title} (${course.id})`);
 
   // 2. Fetch chapters ordered by sort_order
@@ -65,7 +75,7 @@ async function main() {
   if (chapErr) throw new Error(`Failed to fetch chapters: ${chapErr.message}`);
   console.log(`Chapters: ${chapters.length}`);
 
-  // 3. Fetch all lessons for this course (join via chapter_id)
+  // 3. Fetch all lessons for this course
   const chapterIds = chapters.map(c => c.id);
   const { data: lessons, error: lessonErr } = await supabase
     .from('lessons')
@@ -76,8 +86,9 @@ async function main() {
   if (lessonErr) throw new Error(`Failed to fetch lessons: ${lessonErr.message}`);
   console.log(`Lessons: ${lessons.length}`);
 
-  // 4. Create output directory
-  const outDir = resolve(rootDir, 'lesson-exports', COURSE_SLUG);
+  // 4. Create output directory using dash-case course title
+  const courseDirName = toDashCase(course.title);
+  const outDir = resolve(rootDir, 'lesson-exports', courseDirName);
   mkdirSync(outDir, { recursive: true });
 
   // 5. Build chapter lookup
@@ -86,10 +97,7 @@ async function main() {
     chapterMap[ch.id] = { ...ch, num: idx + 1 };
   });
 
-  // 6. Track lesson numbers per chapter
-  const lessonCountByChapter = {};
-
-  // Sort lessons by chapter sort_order then lesson sort_order
+  // 6. Sort lessons by chapter sort_order then lesson sort_order
   const sortedLessons = [...lessons].sort((a, b) => {
     const ca = chapterMap[a.chapter_id];
     const cb = chapterMap[b.chapter_id];
@@ -97,6 +105,8 @@ async function main() {
     return a.sort_order - b.sort_order;
   });
 
+  // 7. Track lesson numbers per chapter
+  const lessonCountByChapter = {};
   let filesWritten = 0;
 
   for (const lesson of sortedLessons) {
@@ -106,8 +116,8 @@ async function main() {
 
     const chapterNum = String(chapter.num).padStart(2, '0');
     const lessonNum = String(lessonCountByChapter[chapter.id]).padStart(2, '0');
-    const slug = lesson.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-    const filename = `${chapterNum}-${lessonNum}-${slug}.md`;
+    const lessonSlug = toDashCase(lesson.title);
+    const filename = `${chapterNum}-${lessonNum}-${lessonSlug}.md`;
     const filepath = resolve(outDir, filename);
 
     // Build journal prompts section
@@ -130,7 +140,7 @@ ${content}${journalSection}`;
     filesWritten++;
   }
 
-  console.log(`\nDone. ${filesWritten} files written to lesson-exports/${COURSE_SLUG}/`);
+  console.log(`\nDone. ${filesWritten} files written to lesson-exports/${courseDirName}/`);
 }
 
 main().catch(err => {
