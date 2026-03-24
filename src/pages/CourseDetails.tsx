@@ -16,6 +16,8 @@ import CourseCard from '@/components/CourseCard';
 import { useCart } from '@/hooks/use-cart';
 import { useCourseBySlug, useCourseChapters, useRelatedCourses } from '@/hooks/use-courses';
 import { useCoachById } from '@/hooks/use-coaches';
+import { useAuth } from '@/hooks/use-auth';
+import { useIsEnrolled } from '@/hooks/use-enrollments';
 import CourseReviewsSection from '@/components/reviews/CourseReviewsSection';
 import { ReviewStars } from '@/components/reviews/ReviewStars';
 
@@ -32,6 +34,8 @@ export default function CourseDetails() {
   const { data: relatedCourses = [] } = useRelatedCourses(course?.id, course?.category);
   const { data: coach } = useCoachById(course?.coachId);
   const { addToCart, isInCart } = useCart();
+  const { user, isLoading: isAuthLoading } = useAuth();
+  const { data: isEnrolled = false, isLoading: isEnrollmentLoading } = useIsEnrolled(course?.id);
 
   if (isLoading) {
     return (
@@ -76,6 +80,51 @@ export default function CourseDetails() {
     ? coach.bio.split(/\n\s*\n/).map((paragraph) => paragraph.trim()).filter(Boolean)
     : [];
   const coachDisplayName = coach?.name ?? course.instructor;
+  const isCheckingAccess = isAuthLoading || (user ? isEnrollmentLoading : false);
+  const canViewCourse = !!user && isEnrolled;
+
+  const renderCourseCta = (
+    buttonClassName: string,
+    cartButtonClassName: string,
+    cartLinkClassName = 'block w-full',
+  ) => {
+    if (isCheckingAccess) {
+      return (
+        <Button disabled className={buttonClassName}>
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          Checking Access
+        </Button>
+      );
+    }
+
+    if (canViewCourse) {
+      return (
+        <Button asChild className={buttonClassName}>
+          <Link to={`/learn/${course.slug}`}>View Course</Link>
+        </Button>
+      );
+    }
+
+    if (isInCart(course.id)) {
+      return (
+        <Link to="/cart" className={cartLinkClassName}>
+          <Button variant="outline" className={cartButtonClassName}>
+            <ShoppingCart className="mr-2 h-5 w-5" />
+            Go to Cart
+          </Button>
+        </Link>
+      );
+    }
+
+    return (
+      <Button
+        className={buttonClassName}
+        onClick={() => addToCart(course.id)}
+      >
+        Enroll Now
+      </Button>
+    );
+  };
 
   return (
     <div className="min-h-screen flex flex-col overflow-x-hidden">
@@ -343,20 +392,9 @@ export default function CourseDetails() {
                       )}
                     </div>
 
-                    {isInCart(course.id) ? (
-                      <Link to="/cart" className="block w-full">
-                        <Button variant="outline" className="mb-3 w-full border-foreground text-foreground hover:bg-foreground/10">
-                          <ShoppingCart className="mr-2 h-5 w-5" />
-                          Go to Cart
-                        </Button>
-                      </Link>
-                    ) : (
-                      <Button
-                        className="mb-3 w-full bg-accent text-accent-foreground hover:bg-accent/90"
-                        onClick={() => addToCart(course.id)}
-                      >
-                        Enroll Now
-                      </Button>
+                    {renderCourseCta(
+                      'mb-3 w-full bg-accent text-accent-foreground hover:bg-accent/90',
+                      'mb-3 w-full border-foreground text-foreground hover:bg-foreground/10',
                     )}
 
                     <div className="text-center text-sm text-muted-foreground mb-6">
@@ -444,25 +482,16 @@ export default function CourseDetails() {
                 {formatPrice(course.salePrice ?? course.price)}
               </span>
               {course.salePrice && (
-                <span className="truncate text-sm text-muted-foreground line-through">
+              <span className="truncate text-sm text-muted-foreground line-through">
                   {formatPrice(course.price)}
                 </span>
               )}
             </div>
           </div>
-          {isInCart(course.id) ? (
-            <Link to="/cart" className="shrink-0">
-              <Button variant="outline" className="border-foreground text-foreground hover:bg-foreground/10">
-                Go to Cart
-              </Button>
-            </Link>
-          ) : (
-            <Button
-              className="shrink-0 bg-accent text-accent-foreground hover:bg-accent/90"
-              onClick={() => addToCart(course.id)}
-            >
-              Enroll Now
-            </Button>
+          {renderCourseCta(
+            'shrink-0 bg-accent text-accent-foreground hover:bg-accent/90',
+            'border-foreground text-foreground hover:bg-foreground/10',
+            'shrink-0',
           )}
         </div>
       </div>

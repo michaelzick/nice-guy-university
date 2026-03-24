@@ -1,4 +1,5 @@
 import { useEffect, useRef, useCallback } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { updateLessonProgress } from '@/lib/api/progress';
 
 type ScormPlayerProps = {
@@ -7,8 +8,10 @@ type ScormPlayerProps = {
 };
 
 export default function ScormPlayer({ packageUrl, lessonId }: ScormPlayerProps) {
+  const queryClient = useQueryClient();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const scormDataRef = useRef<Record<string, string>>({});
+  const completionInvalidatedRef = useRef(false);
 
   const saveProgress = useCallback(async () => {
     const completed = scormDataRef.current['cmi.core.lesson_status'] === 'completed' ||
@@ -18,6 +21,15 @@ export default function ScormPlayer({ packageUrl, lessonId }: ScormPlayerProps) 
       completed,
       scormData: { ...scormDataRef.current },
     });
+
+    if (completed && !completionInvalidatedRef.current) {
+      completionInvalidatedRef.current = true;
+      void queryClient.invalidateQueries({ queryKey: ['course-progress'] });
+    }
+  }, [lessonId, queryClient]);
+
+  useEffect(() => {
+    completionInvalidatedRef.current = false;
   }, [lessonId]);
 
   useEffect(() => {
@@ -25,7 +37,9 @@ export default function ScormPlayer({ packageUrl, lessonId }: ScormPlayerProps) 
     const api = {
       LMSInitialize: () => 'true',
       LMSFinish: () => {
-        saveProgress();
+        void saveProgress().catch((error) => {
+          console.error('Failed to save SCORM progress:', error);
+        });
         return 'true';
       },
       LMSGetValue: (key: string) => scormDataRef.current[key] ?? '',
@@ -34,7 +48,9 @@ export default function ScormPlayer({ packageUrl, lessonId }: ScormPlayerProps) 
         return 'true';
       },
       LMSCommit: () => {
-        saveProgress();
+        void saveProgress().catch((error) => {
+          console.error('Failed to save SCORM progress:', error);
+        });
         return 'true';
       },
       LMSGetLastError: () => '0',
@@ -47,7 +63,9 @@ export default function ScormPlayer({ packageUrl, lessonId }: ScormPlayerProps) 
 
     return () => {
       delete (window as Record<string, unknown>).API;
-      saveProgress();
+      void saveProgress().catch((error) => {
+        console.error('Failed to save SCORM progress:', error);
+      });
     };
   }, [saveProgress]);
 
