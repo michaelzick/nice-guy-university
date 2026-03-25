@@ -240,9 +240,9 @@ export default function CoursePlayer() {
           <div className="mx-auto flex max-w-screen-2xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex min-w-0 items-center gap-2 sm:gap-4">
               <Link to={`/course/${courseSlug}`} className="shrink-0">
-                <Button variant="ghost" size="sm" className="shrink-0 px-2 text-xs text-secondary-foreground/80 sm:px-3 sm:text-sm">
-                  <ChevronLeft className="h-4 w-4 mr-1" />
-                  Back
+                <Button variant="outline" size="sm" className="shrink-0 border-border bg-background px-2 text-xs text-foreground hover:border-primary/50 hover:bg-secondary hover:text-foreground sm:px-3 sm:text-sm">
+                  <BookOpen className="h-4 w-4 mr-1" />
+                  COURSE
                 </Button>
               </Link>
               {!isProfileLoading && isAdmin && course && (
