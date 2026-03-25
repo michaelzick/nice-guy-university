@@ -19,7 +19,8 @@ export default function CourseCard({ course, className }: CourseCardProps) {
   const { addToCart, isInCart } = useCart();
   const { user } = useAuth();
   const { data: enrollments = [] } = useMyEnrollments();
-  const showViewInEnrollments = !!user && enrollments.some((enrollment) => enrollment.course_id === course.id);
+  const showViewCourse = !!user && enrollments.some((enrollment) => enrollment.course_id === course.id);
+  const coursePlayerHref = `/learn/${course.slug}`;
   
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -110,10 +111,10 @@ export default function CourseCard({ course, className }: CourseCardProps) {
         </div>
         
         <div className="mt-auto">
-          {showViewInEnrollments ? (
+          {showViewCourse ? (
             <Button asChild className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
-              <Link to="/enrollments">
-                View In Enrollments
+              <Link to={coursePlayerHref}>
+                View Course
               </Link>
             </Button>
           ) : isInCart(course.id) ? (

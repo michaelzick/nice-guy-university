@@ -82,6 +82,7 @@ export default function CourseDetails() {
   const coachDisplayName = coach?.name ?? course.instructor;
   const isCheckingAccess = isAuthLoading || (user ? isEnrollmentLoading : false);
   const canViewCourse = !!user && isEnrolled;
+  const coursePlayerHref = `/learn/${course.slug}`;
 
   const renderCourseCta = (
     buttonClassName: string,
@@ -100,7 +101,7 @@ export default function CourseDetails() {
     if (canViewCourse) {
       return (
         <Button asChild className={buttonClassName}>
-          <Link to="/enrollments">View In Enrollments</Link>
+          <Link to={coursePlayerHref}>View Course</Link>
         </Button>
       );
     }
