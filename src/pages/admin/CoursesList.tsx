@@ -83,7 +83,12 @@ export default function AdminCoursesList() {
                       className="h-16 w-24 flex-shrink-0 object-cover"
                     />
                     <div className="content-stack">
-                      <h2 className="font-bold text-card-foreground">{course.title}</h2>
+                      <Link
+                        to={`/learn/${course.slug}`}
+                        className="font-bold text-card-foreground underline-offset-4 transition-colors hover:text-primary hover:underline"
+                      >
+                        {course.title}
+                      </Link>
                       <p className="mt-1 text-xs uppercase tracking-[0.08em] text-muted-foreground">{course.level}</p>
                     </div>
                   </div>
@@ -201,7 +206,12 @@ export default function AdminCoursesList() {
                           className="h-8 w-12 object-cover"
                         />
                         <div>
-                          <p className="font-medium">{course.title}</p>
+                          <Link
+                            to={`/learn/${course.slug}`}
+                            className="font-medium underline-offset-4 transition-colors hover:text-primary hover:underline"
+                          >
+                            {course.title}
+                          </Link>
                           <p className="text-xs text-muted-foreground">{course.level}</p>
                         </div>
                       </div>

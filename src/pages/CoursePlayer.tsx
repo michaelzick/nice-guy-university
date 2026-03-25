@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
-import { ChevronLeft, ChevronRight, PlayCircle, BookOpen, Loader2, Menu, CheckCircle2 } from '@/lib/icons';
+import { ChevronLeft, ChevronRight, PlayCircle, BookOpen, Loader2, Menu, CheckCircle2, Pencil } from '@/lib/icons';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
@@ -16,12 +16,14 @@ import SEOHead from '@/components/SEOHead';
 import { useToast } from '@/components/ui/use-toast';
 import { markCourseCompleted, updateLessonProgress } from '@/lib/api/progress';
 import CourseReviewDialog from '@/components/reviews/CourseReviewDialog';
+import { useAuth } from '@/hooks/use-auth';
 
 export default function CoursePlayer() {
   const { courseSlug, lessonId } = useParams<{ courseSlug: string; lessonId?: string }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const { isAdmin, isProfileLoading } = useAuth();
   const { data: course, isLoading: courseLoading } = useCourseBySlug(courseSlug);
   const { data: chapters = [], isLoading: chaptersLoading } = useCourseChapters(course?.id);
   const { data: courseProgress = [] } = useCourseProgress(course?.id);
@@ -243,6 +245,14 @@ export default function CoursePlayer() {
                   Back
                 </Button>
               </Link>
+              {!isProfileLoading && isAdmin && course && (
+                <Link to={`/admin/courses/${course.id}/edit`} className="shrink-0">
+                  <Button variant="outline" size="sm" className="shrink-0 border-border bg-background px-2 text-xs text-foreground hover:border-primary/50 hover:bg-secondary hover:text-foreground sm:px-3 sm:text-sm">
+                    <Pencil className="h-4 w-4 mr-1" />
+                    Edit
+                  </Button>
+                </Link>
+              )}
               <div className="min-w-0">
                 <p className="text-[11px] uppercase tracking-[0.08em] text-muted-foreground sm:hidden">
                   {lessonProgressLabel}
