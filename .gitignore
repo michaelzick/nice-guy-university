@@ -28,3 +28,6 @@ dist-ssr
 .env.keys
 .env.local
 .env.*.local
+
+# Lesson exports
+lesson-exports/
