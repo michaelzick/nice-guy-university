@@ -21,8 +21,8 @@ export type Course = {
   featured?: boolean;
   bestseller?: boolean;
   lastUpdated: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
   language: string;
   topics: string[];
   whatYouWillLearn: string[];
