@@ -288,17 +288,21 @@ export default function CourseDetails() {
                                   <AccordionContent>
                                     <div className="px-6 pb-4">
                                       <ul className="divide-y divide-border">
-                                        {chapter.lessons.map((lesson) => (
-                                          <li key={lesson.id} className="flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between">
+                                        {[chapter.chapterIntro, ...chapter.lessons].map((entry) => (
+                                          <li key={entry.id} className="flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between">
                                             <div className="flex min-w-0 items-center">
-                                              <PlayCircle className="h-5 w-5 text-muted-foreground mr-3" />
-                                              <span className="min-w-0 break-words text-foreground">{lesson.title}</span>
-                                              {lesson.isPreview && (
+                                              {entry.kind === 'chapter_intro' ? (
+                                                <BookOpen className="h-5 w-5 text-muted-foreground mr-3" />
+                                              ) : (
+                                                <PlayCircle className="h-5 w-5 text-muted-foreground mr-3" />
+                                              )}
+                                              <span className="min-w-0 break-words text-foreground">{entry.title}</span>
+                                              {entry.kind === 'lesson' && entry.isPreview && (
                                                 <span className="ml-2 text-xs bg-foreground/10 text-foreground px-2 py-0.5 border border-foreground uppercase tracking-[0.03em]">Preview</span>
                                               )}
                                             </div>
-                                            {lesson.durationSeconds > 0 && (
-                                              <span className="text-sm text-muted-foreground">{formatDuration(lesson.durationSeconds)}</span>
+                                            {entry.durationSeconds > 0 && (
+                                              <span className="text-sm text-muted-foreground">{formatDuration(entry.durationSeconds)}</span>
                                             )}
                                           </li>
                                         ))}

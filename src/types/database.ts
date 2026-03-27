@@ -83,10 +83,16 @@ export type DbChapter = {
   title: string;
   description: string | null;
   sort_order: number;
+  intro_video_source_type: VideoSourceType;
+  intro_video_url: string | null;
+  intro_scorm_package_url: string | null;
+  intro_xapi_endpoint: string | null;
+  intro_xapi_activity_id: string | null;
+  intro_duration_seconds: number;
   created_at: string;
 };
 
-export type VideoSourceType = 'self_hosted' | 'youtube' | 'vimeo' | 's3' | 'scorm' | 'xapi';
+export type VideoSourceType = 'self_hosted' | 'youtube' | 'vimeo' | 's3' | 'scorm' | 'xapi' | 'no_video';
 
 export type DbLesson = {
   id: string;
@@ -126,6 +132,18 @@ export type DbLessonProgress = {
   xapi_statement: Record<string, unknown> | null;
   scorm_data: Record<string, unknown> | null;
   updated_at: string;
+};
+
+export type DbChapterIntroAnalytics = {
+  id: string;
+  user_id: string;
+  chapter_id: string;
+  view_count: number;
+  video_play_count: number;
+  watched_seconds: number;
+  last_position_seconds: number;
+  first_viewed_at: string;
+  last_viewed_at: string;
 };
 
 export type DbOrder = {

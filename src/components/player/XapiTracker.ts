@@ -1,6 +1,4 @@
-import { updateLessonProgress } from '@/lib/api/progress';
-
-type XapiStatement = {
+export type XapiStatement = {
   actor: { mbox: string; name: string };
   verb: { id: string; display: Record<string, string> };
   object: { id: string; definition?: { name?: Record<string, string> } };
@@ -17,22 +15,28 @@ const VERBS = {
 export class XapiTracker {
   private endpoint: string;
   private activityId: string;
-  private lessonId: string;
   private actorEmail: string;
   private actorName: string;
+  private onInitialized?: (statement: XapiStatement) => Promise<void>;
+  private onProgressed?: (statement: XapiStatement, progressPercent: number, positionSeconds: number) => Promise<void>;
+  private onCompleted?: (statement: XapiStatement) => Promise<void>;
 
   constructor(config: {
     endpoint: string;
     activityId: string;
-    lessonId: string;
     actorEmail: string;
     actorName: string;
+    onInitialized?: (statement: XapiStatement) => Promise<void>;
+    onProgressed?: (statement: XapiStatement, progressPercent: number, positionSeconds: number) => Promise<void>;
+    onCompleted?: (statement: XapiStatement) => Promise<void>;
   }) {
     this.endpoint = config.endpoint;
     this.activityId = config.activityId;
-    this.lessonId = config.lessonId;
     this.actorEmail = config.actorEmail;
     this.actorName = config.actorName;
+    this.onInitialized = config.onInitialized;
+    this.onProgressed = config.onProgressed;
+    this.onCompleted = config.onCompleted;
   }
 
   private buildStatement(verbId: string, verbDisplay: string, result?: XapiStatement['result']): XapiStatement {
@@ -59,14 +63,12 @@ export class XapiTracker {
       }
     }
 
-    // Always save to local DB
-    await updateLessonProgress(this.lessonId, {
-      xapiStatement: statement as unknown as Record<string, unknown>,
-      completed: statement.verb.id === VERBS.completed,
-      progressPercent: statement.result?.score?.scaled
-        ? statement.result.score.scaled * 100
-        : undefined,
-    });
+    if (statement.verb.id === VERBS.completed) {
+      await this.onCompleted?.(statement);
+      return;
+    }
+
+    await this.onInitialized?.(statement);
   }
 
   async initialized() {
@@ -78,11 +80,19 @@ export class XapiTracker {
       score: { scaled: progressPercent / 100 },
     });
 
-    await updateLessonProgress(this.lessonId, {
-      progressPercent,
-      lastPositionSeconds: positionSeconds,
-      xapiStatement: statement as unknown as Record<string, unknown>,
-    });
+    if (this.endpoint) {
+      try {
+        await fetch(`${this.endpoint}/statements`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(statement),
+        });
+      } catch (err) {
+        console.error('Failed to send xAPI statement to LRS:', err);
+      }
+    }
+
+    await this.onProgressed?.(statement, progressPercent, positionSeconds);
   }
 
   async completed() {

@@ -59,6 +59,8 @@ export interface ChapterProgressRow {
   avgWatchPercent: number;
   completionRate: number;
   totalLearners: number;
+  chapterIntroViews: number;
+  chapterIntroVideoPlays: number;
 }
 
 export interface VideoTrackingRow {
@@ -70,6 +72,8 @@ export interface VideoTrackingRow {
   avgSessions: number;
   avgWatchTimeSeconds: number;
   totalLearners: number;
+  chapterIntroViews: number;
+  chapterIntroVideoPlays: number;
 }
 
 export interface EnrollmentTrendRow {
