@@ -62,43 +62,50 @@ type VimeoEmbedProps = {
 
 export default function VimeoEmbed({ url, title, onPlay, onProgress, onEnded }: VimeoEmbedProps) {
   const videoId = extractVimeoId(url);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<{ destroy: () => Promise<void>; on: (eventName: string, callback: (payload?: { percent?: number; seconds?: number; duration?: number }) => void) => void } | null>(null);
   const lastReportedSecondRef = useRef(-1);
   const shouldUseApiPlayer = useMemo(() => !!(onPlay || onProgress || onEnded), [onEnded, onPlay, onProgress]);
 
   useEffect(() => {
-    if (!videoId || !shouldUseApiPlayer || !containerRef.current) return;
+    if (!videoId || !shouldUseApiPlayer || !wrapperRef.current) return;
 
     let cancelled = false;
+    const mountNode = document.createElement('div');
+    mountNode.className = 'h-full w-full';
+    wrapperRef.current.replaceChildren(mountNode);
 
     void loadVimeoApi()
       .then(() => {
-        if (cancelled || !containerRef.current || !window.Vimeo?.Player) return;
+        if (cancelled || !window.Vimeo?.Player) return;
 
-        playerRef.current = new window.Vimeo.Player(containerRef.current, {
-          id: Number(videoId),
-          byline: false,
-          portrait: false,
-          title: false,
-        });
+        try {
+          playerRef.current = new window.Vimeo.Player(mountNode, {
+            id: Number(videoId),
+            byline: false,
+            portrait: false,
+            title: false,
+          });
 
-        playerRef.current.on('play', () => {
-          onPlay?.();
-        });
+          playerRef.current.on('play', () => {
+            onPlay?.();
+          });
 
-        playerRef.current.on('timeupdate', (payload) => {
-          if (!onProgress || !payload?.duration) return;
+          playerRef.current.on('timeupdate', (payload) => {
+            if (!onProgress || !payload?.duration) return;
 
-          const roundedSecond = Math.floor(payload.seconds ?? 0);
-          if (roundedSecond === lastReportedSecondRef.current) return;
-          lastReportedSecondRef.current = roundedSecond;
-          onProgress((payload.percent ?? 0) * 100, roundedSecond);
-        });
+            const roundedSecond = Math.floor(payload.seconds ?? 0);
+            if (roundedSecond === lastReportedSecondRef.current) return;
+            lastReportedSecondRef.current = roundedSecond;
+            onProgress((payload.percent ?? 0) * 100, roundedSecond);
+          });
 
-        playerRef.current.on('ended', () => {
-          onEnded?.();
-        });
+          playerRef.current.on('ended', () => {
+            onEnded?.();
+          });
+        } catch (error) {
+          console.error('Failed to initialize Vimeo player:', error);
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -107,8 +114,15 @@ export default function VimeoEmbed({ url, title, onPlay, onProgress, onEnded }: 
     return () => {
       cancelled = true;
       lastReportedSecondRef.current = -1;
-      void playerRef.current?.destroy();
+      if (playerRef.current) {
+        void playerRef.current.destroy().catch((error) => {
+          console.error('Failed to destroy Vimeo player:', error);
+        });
+      }
       playerRef.current = null;
+      if (wrapperRef.current) {
+        wrapperRef.current.replaceChildren();
+      }
     };
   }, [onEnded, onPlay, onProgress, shouldUseApiPlayer, videoId]);
 
@@ -130,5 +144,5 @@ export default function VimeoEmbed({ url, title, onPlay, onProgress, onEnded }: 
     );
   }
 
-  return <div ref={containerRef} className="aspect-video w-full overflow-hidden rounded-lg" aria-label={title ?? 'Video'} />;
+  return <div ref={wrapperRef} className="aspect-video w-full overflow-hidden rounded-lg" aria-label={title ?? 'Video'} />;
 }

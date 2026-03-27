@@ -40,21 +40,30 @@ function loadYouTubeApi() {
   }
 
   if (!window.__nguYoutubeApiReady) {
-    window.__nguYoutubeApiReady = new Promise<void>((resolve) => {
+    window.__nguYoutubeApiReady = new Promise<void>((resolve, reject) => {
       const previousReady = window.onYouTubeIframeAPIReady;
       window.onYouTubeIframeAPIReady = () => {
         previousReady?.();
         resolve();
       };
 
-      const existingScript = document.querySelector('script[data-ngu-youtube-api]');
-      if (!existingScript) {
-        const script = document.createElement('script');
-        script.src = 'https://www.youtube.com/iframe_api';
-        script.async = true;
-        script.dataset.nguYoutubeApi = 'true';
-        document.head.appendChild(script);
+      const existingScript = document.querySelector('script[data-ngu-youtube-api]') as HTMLScriptElement | null;
+      if (existingScript) {
+        existingScript.addEventListener('load', () => {
+          if (window.YT?.Player) {
+            resolve();
+          }
+        }, { once: true });
+        existingScript.addEventListener('error', () => reject(new Error('Failed to load YouTube API')), { once: true });
+        return;
       }
+
+      const script = document.createElement('script');
+      script.src = 'https://www.youtube.com/iframe_api';
+      script.async = true;
+      script.dataset.nguYoutubeApi = 'true';
+      script.addEventListener('error', () => reject(new Error('Failed to load YouTube API')), { once: true });
+      document.head.appendChild(script);
     });
   }
 
@@ -71,7 +80,7 @@ type YouTubeEmbedProps = {
 
 export default function YouTubeEmbed({ url, title, onPlay, onProgress, onEnded }: YouTubeEmbedProps) {
   const videoId = extractYouTubeId(url);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const intervalRef = useRef<number | null>(null);
   const playerRef = useRef<{
     destroy: () => void;
@@ -83,9 +92,12 @@ export default function YouTubeEmbed({ url, title, onPlay, onProgress, onEnded }
   const shouldUseApiPlayer = useMemo(() => !!(onPlay || onProgress || onEnded), [onEnded, onPlay, onProgress]);
 
   useEffect(() => {
-    if (!videoId || !shouldUseApiPlayer || !containerRef.current) return;
+    if (!videoId || !shouldUseApiPlayer || !wrapperRef.current) return;
 
     let cancelled = false;
+    const mountNode = document.createElement('div');
+    mountNode.className = 'h-full w-full';
+    wrapperRef.current.replaceChildren(mountNode);
 
     const stopProgressInterval = () => {
       if (intervalRef.current !== null) {
@@ -113,53 +125,68 @@ export default function YouTubeEmbed({ url, title, onPlay, onProgress, onEnded }
       intervalRef.current = window.setInterval(emitProgress, 5000);
     };
 
-    void loadYouTubeApi().then(() => {
-      if (cancelled || !containerRef.current || !window.YT?.Player) return;
+    void loadYouTubeApi()
+      .then(() => {
+        if (cancelled || !window.YT?.Player) return;
 
-      playerRef.current = new window.YT.Player(containerRef.current, {
-        videoId,
-        playerVars: {
-          rel: 0,
-          modestbranding: 1,
-          iv_load_policy: 3,
-          playsinline: 1,
-        },
-        events: {
-          onStateChange: (event) => {
-            if (!window.YT?.PlayerState) return;
+        try {
+          playerRef.current = new window.YT.Player(mountNode, {
+            videoId,
+            playerVars: {
+              rel: 0,
+              modestbranding: 1,
+              iv_load_policy: 3,
+              playsinline: 1,
+            },
+            events: {
+              onStateChange: (event) => {
+                if (!window.YT?.PlayerState) return;
 
-            if (event.data === window.YT.PlayerState.PLAYING) {
-              if (!isPlayingRef.current) {
-                onPlay?.();
-              }
-              isPlayingRef.current = true;
-              startProgressInterval();
-              return;
-            }
+                if (event.data === window.YT.PlayerState.PLAYING) {
+                  if (!isPlayingRef.current) {
+                    onPlay?.();
+                  }
+                  isPlayingRef.current = true;
+                  startProgressInterval();
+                  return;
+                }
 
-            if (event.data === window.YT.PlayerState.ENDED) {
-              emitProgress();
-              stopProgressInterval();
-              isPlayingRef.current = false;
-              onEnded?.();
-              return;
-            }
+                if (event.data === window.YT.PlayerState.ENDED) {
+                  emitProgress();
+                  stopProgressInterval();
+                  isPlayingRef.current = false;
+                  onEnded?.();
+                  return;
+                }
 
-            if (event.data === window.YT.PlayerState.PAUSED || event.data === window.YT.PlayerState.BUFFERING) {
-              emitProgress();
-              stopProgressInterval();
-              isPlayingRef.current = false;
-            }
-          },
-        },
+                if (event.data === window.YT.PlayerState.PAUSED || event.data === window.YT.PlayerState.BUFFERING) {
+                  emitProgress();
+                  stopProgressInterval();
+                  isPlayingRef.current = false;
+                }
+              },
+            },
+          });
+        } catch (error) {
+          console.error('Failed to initialize YouTube player:', error);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
       });
-    });
 
     return () => {
       cancelled = true;
       stopProgressInterval();
-      playerRef.current?.destroy();
+      try {
+        playerRef.current?.destroy();
+      } catch (error) {
+        console.error('Failed to destroy YouTube player:', error);
+      }
       playerRef.current = null;
+      if (wrapperRef.current) {
+        wrapperRef.current.replaceChildren();
+      }
       isPlayingRef.current = false;
       lastReportedSecondRef.current = -1;
     };
@@ -183,5 +210,5 @@ export default function YouTubeEmbed({ url, title, onPlay, onProgress, onEnded }
     );
   }
 
-  return <div ref={containerRef} className="aspect-video w-full overflow-hidden rounded-lg" aria-label={title ?? 'Video'} />;
+  return <div ref={wrapperRef} className="aspect-video w-full overflow-hidden rounded-lg" aria-label={title ?? 'Video'} />;
 }
