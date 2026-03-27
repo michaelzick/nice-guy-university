@@ -4,8 +4,8 @@ import type { Course } from "@/types/course";
 export const courses: Course[] = [
   {
     id: "course-1",
-    title: "The Complete Nice Guy Recovery System",
-    slug: "complete-nice-guy-recovery-system",
+    title: "Introduction To Nice Guy Recovery",
+    slug: "introduction-to-nice-guy-recovery",
     instructor: "Michael Zick",
     coachId: null,
     category: "nice-guy-recovery",
