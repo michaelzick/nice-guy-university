@@ -5,7 +5,7 @@ import {
 import { supabase } from '@/lib/supabase';
 import { mapDbCoachToCoach } from '@/lib/api/coaches';
 import { AdminCoach, Coach } from '@/types/coach';
-import { DbCoach, DbCourse, DbOrder } from '@/types/database';
+import { DbCoach, DbCourse, DbOrder, VideoSourceType } from '@/types/database';
 
 type AdminOrderItem = {
   id: string;
@@ -267,13 +267,26 @@ export async function uploadCourseThumbnail(file: File, slug: string) {
   return data.publicUrl;
 }
 
-export async function createChapter(chapter: { course_id: string; title: string; description?: string; sort_order: number }) {
+export type ChapterMutationInput = {
+  course_id?: string;
+  title?: string;
+  description?: string;
+  sort_order?: number;
+  intro_video_source_type?: VideoSourceType;
+  intro_video_url?: string;
+  intro_scorm_package_url?: string;
+  intro_xapi_endpoint?: string;
+  intro_xapi_activity_id?: string;
+  intro_duration_seconds?: number;
+};
+
+export async function createChapter(chapter: ChapterMutationInput & { course_id: string; title: string; sort_order: number }) {
   const { data, error } = await supabase.from('chapters').insert(chapter).select().single();
   if (error) throw error;
   return data;
 }
 
-export async function updateChapter(id: string, updates: { title?: string; description?: string; sort_order?: number }) {
+export async function updateChapter(id: string, updates: ChapterMutationInput) {
   const { data, error } = await supabase.from('chapters').update(updates).eq('id', id).select().single();
   if (error) throw error;
   return data;

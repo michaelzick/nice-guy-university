@@ -48,6 +48,7 @@ done
       print "-- Snapshot seed generated from the current local Supabase database."
       print "-- Regenerate with: npm run supabase:seed:snapshot"
       print "TRUNCATE TABLE"
+      print "  public.chapter_intro_analytics,"
       print "  public.lesson_progress,"
       print "  public.order_items,"
       print "  public.orders,"

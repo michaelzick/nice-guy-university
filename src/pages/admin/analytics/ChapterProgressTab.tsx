@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { fetchChapterProgressData, fetchAnalyticsCourses } from '@/lib/api/analytics';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -67,29 +68,59 @@ export default function ChapterProgressTab() {
       )}
 
       {chartData.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Chapter Completion & Watch Progress</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="aspect-[4/3] w-full sm:aspect-[2/1]">
-              <BarChart data={chartData} margin={{ left: 10, right: 10 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" tick={{ fontSize: 11 }} angle={-20} textAnchor="end" height={60} />
-                <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} unit="%" />
-                <ChartTooltip
-                  content={<ChartTooltipContent />}
-                  labelFormatter={(_label, payload) => {
-                    const item = payload?.[0]?.payload;
-                    return item?.fullName ? `${item.fullName} (${item.learners} learners)` : _label;
-                  }}
-                />
-                <Bar dataKey="avgWatchPercent" fill="var(--color-avgWatchPercent)" />
-                <Bar dataKey="completionRate" fill="var(--color-completionRate)" />
-              </BarChart>
-            </ChartContainer>
-          </CardContent>
-        </Card>
+        <>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Chapter Completion & Watch Progress</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ChartContainer config={chartConfig} className="aspect-[4/3] w-full sm:aspect-[2/1]">
+                <BarChart data={chartData} margin={{ left: 10, right: 10 }}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" tick={{ fontSize: 11 }} angle={-20} textAnchor="end" height={60} />
+                  <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} unit="%" />
+                  <ChartTooltip
+                    content={<ChartTooltipContent />}
+                    labelFormatter={(_label, payload) => {
+                      const item = payload?.[0]?.payload;
+                      return item?.fullName ? `${item.fullName} (${item.learners} learners)` : _label;
+                    }}
+                  />
+                  <Bar dataKey="avgWatchPercent" fill="var(--color-avgWatchPercent)" />
+                  <Bar dataKey="completionRate" fill="var(--color-completionRate)" />
+                </BarChart>
+              </ChartContainer>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Chapter Intro Engagement</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Chapter</TableHead>
+                    <TableHead className="text-right">Intro Views</TableHead>
+                    <TableHead className="text-right">Intro Plays</TableHead>
+                    <TableHead className="text-right">Learners</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {(data ?? []).map((row) => (
+                    <TableRow key={row.chapterId}>
+                      <TableCell className="font-medium">{row.chapterTitle}</TableCell>
+                      <TableCell className="text-right">{row.chapterIntroViews}</TableCell>
+                      <TableCell className="text-right">{row.chapterIntroVideoPlays}</TableCell>
+                      <TableCell className="text-right">{row.totalLearners}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </>
       )}
     </div>
   );

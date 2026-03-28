@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Loader2, Plus, Trash2, GripVertical } from '@/lib/icons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -31,7 +31,7 @@ import {
 } from '@/lib/api/admin';
 import { fetchCourseChapters } from '@/lib/api/courses';
 import { supabase } from '@/lib/supabase';
-import { DbCourse } from '@/types/database';
+import { DbCourse, VideoSourceType } from '@/types/database';
 
 const courseSchema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -54,29 +54,95 @@ const courseSchema = z.object({
 
 type CourseFormData = z.infer<typeof courseSchema>;
 
-type ChapterFormItem = {
-  id?: string;
-  title: string;
-  description: string;
-  sort_order: number;
-  lessons: LessonFormItem[];
-};
-
-type LessonFormItem = {
-  id?: string;
-  title: string;
-  description: string;
-  sort_order: number;
+type MediaFormItem = {
   duration_seconds: number;
   video_source_type: string;
   video_url: string;
   scorm_package_url: string;
   xapi_endpoint: string;
   xapi_activity_id: string;
+};
+
+type ChapterIntroFormItem = MediaFormItem & {
+  blurb: string;
+};
+
+type ChapterFormItem = {
+  id?: string;
+  title: string;
+  sort_order: number;
+  intro: ChapterIntroFormItem;
+  lessons: LessonFormItem[];
+};
+
+type LessonFormItem = MediaFormItem & {
+  id?: string;
+  title: string;
+  description: string;
+  sort_order: number;
   content: string;
   journal_prompts: string[];
   is_preview: boolean;
 };
+
+const VIDEO_SOURCE_OPTIONS = [
+  { value: 'no_video', label: 'No Video' },
+  { value: 'youtube', label: 'YouTube' },
+  { value: 'vimeo', label: 'Vimeo' },
+  { value: 'self_hosted', label: 'Self-Hosted' },
+  { value: 's3', label: 'S3' },
+  { value: 'scorm', label: 'SCORM' },
+  { value: 'xapi', label: 'xAPI' },
+] as const;
+
+const VIDEO_URL_SOURCES = ['youtube', 'vimeo', 'self_hosted', 's3', 'xapi'] as const;
+
+function createDefaultMediaFormItem(overrides?: Partial<MediaFormItem>): MediaFormItem {
+  return {
+    duration_seconds: 0,
+    video_source_type: 'youtube',
+    video_url: '',
+    scorm_package_url: '',
+    xapi_endpoint: '',
+    xapi_activity_id: '',
+    ...overrides,
+  };
+}
+
+function normalizeMediaFormItem<T extends MediaFormItem>(item: T): T {
+  if (item.video_source_type === 'no_video') {
+    return {
+      ...item,
+      video_url: '',
+      scorm_package_url: '',
+      xapi_endpoint: '',
+      xapi_activity_id: '',
+    };
+  }
+
+  if (item.video_source_type === 'scorm') {
+    return {
+      ...item,
+      video_url: '',
+      xapi_endpoint: '',
+      xapi_activity_id: '',
+    };
+  }
+
+  if (item.video_source_type === 'xapi') {
+    return {
+      ...item,
+      scorm_package_url: '',
+    };
+  }
+
+  return {
+    ...item,
+    scorm_package_url: '',
+    xapi_endpoint: '',
+    xapi_activity_id: '',
+  };
+}
 
 export default function AdminCourseForm() {
   const { id } = useParams<{ id: string }>();
@@ -164,19 +230,31 @@ export default function AdminCourseForm() {
       setChapters(existingChapters.map(ch => ({
         id: ch.id,
         title: ch.title,
-        description: ch.description ?? '',
         sort_order: ch.sortOrder,
+        intro: {
+          ...createDefaultMediaFormItem({
+            duration_seconds: ch.chapterIntro.durationSeconds,
+            video_source_type: ch.chapterIntro.videoSourceType,
+            video_url: ch.chapterIntro.videoUrl ?? '',
+            scorm_package_url: ch.chapterIntro.scormPackageUrl ?? '',
+            xapi_endpoint: ch.chapterIntro.xapiEndpoint ?? '',
+            xapi_activity_id: ch.chapterIntro.xapiActivityId ?? '',
+          }),
+          blurb: ch.chapterIntro.blurb ?? '',
+        },
         lessons: ch.lessons.map(l => ({
+          ...createDefaultMediaFormItem({
+            duration_seconds: l.durationSeconds,
+            video_source_type: l.videoSourceType,
+            video_url: l.videoUrl ?? '',
+            scorm_package_url: l.scormPackageUrl ?? '',
+            xapi_endpoint: l.xapiEndpoint ?? '',
+            xapi_activity_id: l.xapiActivityId ?? '',
+          }),
           id: l.id,
           title: l.title,
           description: l.description ?? '',
           sort_order: l.sortOrder,
-          duration_seconds: l.durationSeconds,
-          video_source_type: l.videoSourceType,
-          video_url: l.videoUrl ?? '',
-          scorm_package_url: l.scormPackageUrl ?? '',
-          xapi_endpoint: l.xapiEndpoint ?? '',
-          xapi_activity_id: l.xapiActivityId ?? '',
           content: l.content ?? '',
           journal_prompts: l.journalPrompts ?? [],
           is_preview: l.isPreview,
@@ -200,8 +278,11 @@ export default function AdminCourseForm() {
   const addChapter = () => {
     setChapters(prev => [...prev, {
       title: `Chapter ${prev.length + 1}`,
-      description: '',
       sort_order: prev.length,
+      intro: {
+        ...createDefaultMediaFormItem({ video_source_type: 'no_video' }),
+        blurb: '',
+      },
       lessons: [],
     }]);
   };
@@ -220,15 +301,10 @@ export default function AdminCourseForm() {
       updated[chapterIndex] = {
         ...updated[chapterIndex],
         lessons: [...updated[chapterIndex].lessons, {
+          ...createDefaultMediaFormItem(),
           title: `Lesson ${updated[chapterIndex].lessons.length + 1}`,
           description: '',
           sort_order: updated[chapterIndex].lessons.length,
-          duration_seconds: 0,
-          video_source_type: 'youtube',
-          video_url: '',
-          scorm_package_url: '',
-          xapi_endpoint: '',
-          xapi_activity_id: '',
           content: '',
           journal_prompts: [],
           is_preview: false,
@@ -253,10 +329,28 @@ export default function AdminCourseForm() {
     });
   };
 
-  const updateChapterField = (index: number, field: string, value: string) => {
+  const updateChapterField = (index: number, field: 'title', value: string) => {
     setChapters(prev => {
       const updated = [...prev];
       updated[index] = { ...updated[index], [field]: value };
+      return updated;
+    });
+  };
+
+  const updateChapterIntroField = (
+    chapterIndex: number,
+    field: keyof ChapterIntroFormItem,
+    value: string | number,
+  ) => {
+    setChapters(prev => {
+      const updated = [...prev];
+      updated[chapterIndex] = {
+        ...updated[chapterIndex],
+        intro: {
+          ...updated[chapterIndex].intro,
+          [field]: value,
+        },
+      };
       return updated;
     });
   };
@@ -334,39 +428,53 @@ export default function AdminCourseForm() {
       for (let i = 0; i < chapters.length; i++) {
         const ch = chapters[i];
         let chapterId = ch.id;
+        const normalizedIntro = normalizeMediaFormItem(ch.intro);
 
         if (chapterId) {
           await updateChapter(chapterId, {
             title: ch.title,
-            description: ch.description || undefined,
+            description: normalizedIntro.blurb || undefined,
             sort_order: i,
+            intro_video_source_type: normalizedIntro.video_source_type as VideoSourceType,
+            intro_video_url: normalizedIntro.video_url || undefined,
+            intro_scorm_package_url: normalizedIntro.scorm_package_url || undefined,
+            intro_xapi_endpoint: normalizedIntro.xapi_endpoint || undefined,
+            intro_xapi_activity_id: normalizedIntro.xapi_activity_id || undefined,
+            intro_duration_seconds: Number(normalizedIntro.duration_seconds) || 0,
           });
         } else {
           const created = await createChapter({
             course_id: courseId!,
             title: ch.title,
-            description: ch.description || undefined,
+            description: normalizedIntro.blurb || undefined,
             sort_order: i,
+            intro_video_source_type: normalizedIntro.video_source_type as VideoSourceType,
+            intro_video_url: normalizedIntro.video_url || undefined,
+            intro_scorm_package_url: normalizedIntro.scorm_package_url || undefined,
+            intro_xapi_endpoint: normalizedIntro.xapi_endpoint || undefined,
+            intro_xapi_activity_id: normalizedIntro.xapi_activity_id || undefined,
+            intro_duration_seconds: Number(normalizedIntro.duration_seconds) || 0,
           });
           chapterId = created.id;
         }
 
         for (let j = 0; j < ch.lessons.length; j++) {
           const l = ch.lessons[j];
+          const normalizedLesson = normalizeMediaFormItem(l);
           const lessonData = {
             chapter_id: chapterId,
-            title: l.title,
-            description: l.description || undefined,
+            title: normalizedLesson.title,
+            description: normalizedLesson.description || undefined,
             sort_order: j,
-            duration_seconds: Number(l.duration_seconds) || 0,
-            video_source_type: l.video_source_type,
-            video_url: l.video_url || undefined,
-            scorm_package_url: l.scorm_package_url || undefined,
-            xapi_endpoint: l.xapi_endpoint || undefined,
-            xapi_activity_id: l.xapi_activity_id || undefined,
-            content: l.content || undefined,
-            journal_prompts: l.journal_prompts.length > 0 ? l.journal_prompts : undefined,
-            is_preview: l.is_preview,
+            duration_seconds: Number(normalizedLesson.duration_seconds) || 0,
+            video_source_type: normalizedLesson.video_source_type,
+            video_url: normalizedLesson.video_url || undefined,
+            scorm_package_url: normalizedLesson.scorm_package_url || undefined,
+            xapi_endpoint: normalizedLesson.xapi_endpoint || undefined,
+            xapi_activity_id: normalizedLesson.xapi_activity_id || undefined,
+            content: normalizedLesson.content || undefined,
+            journal_prompts: normalizedLesson.journal_prompts.length > 0 ? normalizedLesson.journal_prompts : undefined,
+            is_preview: normalizedLesson.is_preview,
           };
 
           if (l.id) {
@@ -654,6 +762,90 @@ export default function AdminCourseForm() {
     </div>
   );
 
+  const renderMediaFields = (
+    media: MediaFormItem,
+    onFieldChange: (field: keyof MediaFormItem, value: string | number) => void,
+    labelClassName = 'text-xs',
+  ) => (
+    <div className="grid gap-3 md:grid-cols-2">
+      <div className="space-y-1">
+        <Label className={labelClassName}>Video Source</Label>
+        <Select
+          value={media.video_source_type}
+          onValueChange={(value) => onFieldChange('video_source_type', value)}
+        >
+          <SelectTrigger className="text-sm">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {VIDEO_SOURCE_OPTIONS.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {VIDEO_URL_SOURCES.includes(media.video_source_type as typeof VIDEO_URL_SOURCES[number]) && (
+        <div className="space-y-1">
+          <Label className={labelClassName}>Video URL</Label>
+          <Input
+            value={media.video_url}
+            onChange={(e) => onFieldChange('video_url', e.target.value)}
+            className="text-sm"
+            placeholder="https://..."
+          />
+        </div>
+      )}
+
+      {media.video_source_type === 'scorm' && (
+        <div className="space-y-1">
+          <Label className={labelClassName}>SCORM Package URL</Label>
+          <Input
+            value={media.scorm_package_url}
+            onChange={(e) => onFieldChange('scorm_package_url', e.target.value)}
+            className="text-sm"
+            placeholder="URL to SCORM package"
+          />
+        </div>
+      )}
+
+      {media.video_source_type === 'xapi' && (
+        <>
+          <div className="space-y-1">
+            <Label className={labelClassName}>xAPI Endpoint</Label>
+            <Input
+              value={media.xapi_endpoint}
+              onChange={(e) => onFieldChange('xapi_endpoint', e.target.value)}
+              className="text-sm"
+              placeholder="LRS endpoint URL"
+            />
+          </div>
+          <div className="space-y-1">
+            <Label className={labelClassName}>xAPI Activity ID</Label>
+            <Input
+              value={media.xapi_activity_id}
+              onChange={(e) => onFieldChange('xapi_activity_id', e.target.value)}
+              className="text-sm"
+              placeholder="Activity IRI"
+            />
+          </div>
+        </>
+      )}
+
+      <div className="space-y-1">
+        <Label className={labelClassName}>Duration (seconds)</Label>
+        <Input
+          type="number"
+          value={media.duration_seconds}
+          onChange={(e) => onFieldChange('duration_seconds', Number(e.target.value))}
+          className="text-sm"
+        />
+      </div>
+    </div>
+  );
+
   const renderContentFields = () => (
     <div className="space-y-6">
       {chapters.map((chapter, chapterIndex) => (
@@ -674,7 +866,7 @@ export default function AdminCourseForm() {
             </Button>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="space-y-2">
               <div className="space-y-2">
                 <Label>Chapter Title</Label>
                 <Input
@@ -682,14 +874,28 @@ export default function AdminCourseForm() {
                   onChange={(e) => updateChapterField(chapterIndex, 'title', e.target.value)}
                 />
               </div>
-              <div className="space-y-2">
-                <Label>Description</Label>
-                <Input
-                  value={chapter.description}
-                  onChange={(e) => updateChapterField(chapterIndex, 'description', e.target.value)}
-                  placeholder="Optional"
+            </div>
+
+            <Separator />
+
+            <div className="space-y-4 border border-border p-4">
+              <div>
+                <h4 className="text-sm font-medium text-foreground">Chapter Intro</h4>
+                <p className="mt-1 text-xs text-muted-foreground">This appears before Lesson 1 as the chapter overview entry.</p>
+              </div>
+
+              <div className="space-y-1">
+                <Label className="text-xs">Blurb</Label>
+                <Textarea
+                  value={chapter.intro.blurb}
+                  onChange={(e) => updateChapterIntroField(chapterIndex, 'blurb', e.target.value)}
+                  className="min-h-[100px] text-sm"
+                  placeholder="Summarize what this chapter will cover..."
+                  rows={5}
                 />
               </div>
+
+              {renderMediaFields(chapter.intro, (field, value) => updateChapterIntroField(chapterIndex, field, value))}
             </div>
 
             <Separator />
@@ -704,7 +910,7 @@ export default function AdminCourseForm() {
               </div>
 
               {chapter.lessons.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No lessons yet. Add the first lesson for this chapter.</p>
+                <p className="text-sm text-muted-foreground">No lessons yet. Add the first lesson after the chapter intro.</p>
               ) : (
                 chapter.lessons.map((lesson, lessonIndex) => (
                   <div key={`${lesson.id ?? 'lesson'}-${lessonIndex}`} className="space-y-3 border border-border p-4">
@@ -730,82 +936,9 @@ export default function AdminCourseForm() {
                           className="text-sm"
                         />
                       </div>
-                      <div className="space-y-1">
-                        <Label className="text-xs">Video Source</Label>
-                        <Select
-                          value={lesson.video_source_type}
-                          onValueChange={(value) => updateLessonField(chapterIndex, lessonIndex, 'video_source_type', value)}
-                        >
-                          <SelectTrigger className="text-sm">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="youtube">YouTube</SelectItem>
-                            <SelectItem value="vimeo">Vimeo</SelectItem>
-                            <SelectItem value="self_hosted">Self-Hosted</SelectItem>
-                            <SelectItem value="s3">S3</SelectItem>
-                            <SelectItem value="scorm">SCORM</SelectItem>
-                            <SelectItem value="xapi">xAPI</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
                     </div>
 
-                    <div className="grid gap-3 md:grid-cols-2">
-                      {['youtube', 'vimeo', 'self_hosted', 's3', 'xapi'].includes(lesson.video_source_type) && (
-                        <div className="space-y-1">
-                          <Label className="text-xs">Video URL</Label>
-                          <Input
-                            value={lesson.video_url}
-                            onChange={(e) => updateLessonField(chapterIndex, lessonIndex, 'video_url', e.target.value)}
-                            className="text-sm"
-                            placeholder="https://..."
-                          />
-                        </div>
-                      )}
-                      {lesson.video_source_type === 'scorm' && (
-                        <div className="space-y-1">
-                          <Label className="text-xs">SCORM Package URL</Label>
-                          <Input
-                            value={lesson.scorm_package_url}
-                            onChange={(e) => updateLessonField(chapterIndex, lessonIndex, 'scorm_package_url', e.target.value)}
-                            className="text-sm"
-                            placeholder="URL to SCORM package"
-                          />
-                        </div>
-                      )}
-                      {lesson.video_source_type === 'xapi' && (
-                        <>
-                          <div className="space-y-1">
-                            <Label className="text-xs">xAPI Endpoint</Label>
-                            <Input
-                              value={lesson.xapi_endpoint}
-                              onChange={(e) => updateLessonField(chapterIndex, lessonIndex, 'xapi_endpoint', e.target.value)}
-                              className="text-sm"
-                              placeholder="LRS endpoint URL"
-                            />
-                          </div>
-                          <div className="space-y-1">
-                            <Label className="text-xs">xAPI Activity ID</Label>
-                            <Input
-                              value={lesson.xapi_activity_id}
-                              onChange={(e) => updateLessonField(chapterIndex, lessonIndex, 'xapi_activity_id', e.target.value)}
-                              className="text-sm"
-                              placeholder="Activity IRI"
-                            />
-                          </div>
-                        </>
-                      )}
-                      <div className="space-y-1">
-                        <Label className="text-xs">Duration (seconds)</Label>
-                        <Input
-                          type="number"
-                          value={lesson.duration_seconds}
-                          onChange={(e) => updateLessonField(chapterIndex, lessonIndex, 'duration_seconds', Number(e.target.value))}
-                          className="text-sm"
-                        />
-                      </div>
-                    </div>
+                    {renderMediaFields(lesson, (field, value) => updateLessonField(chapterIndex, lessonIndex, field, value))}
 
                     <div className="space-y-1">
                       <Label className="text-xs">Lesson Script / Content (Markdown)</Label>

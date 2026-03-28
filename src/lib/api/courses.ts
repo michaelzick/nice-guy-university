@@ -137,11 +137,28 @@ export type ChapterWithLessons = {
   title: string;
   description: string | null;
   sortOrder: number;
+  chapterIntro: ChapterIntroItem;
   lessons: LessonItem[];
 };
 
-export type LessonItem = {
+export type ChapterIntroItem = {
+  kind: 'chapter_intro';
   id: string;
+  chapterId: string;
+  title: 'Chapter Intro';
+  blurb: string | null;
+  durationSeconds: number;
+  videoSourceType: DbChapter['intro_video_source_type'];
+  videoUrl: string | null;
+  scormPackageUrl: string | null;
+  xapiEndpoint: string | null;
+  xapiActivityId: string | null;
+};
+
+export type LessonItem = {
+  kind: 'lesson';
+  id: string;
+  chapterId: string;
   title: string;
   description: string | null;
   sortOrder: number;
@@ -156,6 +173,8 @@ export type LessonItem = {
   isPreview: boolean;
 };
 
+export type CourseContentEntry = ChapterIntroItem | LessonItem;
+
 export async function fetchCourseChapters(courseId: string): Promise<ChapterWithLessons[]> {
   const { data: chapters, error: chapError } = await supabase
     .from('chapters')
@@ -165,23 +184,41 @@ export async function fetchCourseChapters(courseId: string): Promise<ChapterWith
 
   if (chapError) throw chapError;
 
+  const chapterRows = (chapters as DbChapter[]) ?? [];
+  if (chapterRows.length === 0) return [];
+
   const { data: lessons, error: lessonError } = await supabase
     .from('lessons')
     .select('*')
-    .in('chapter_id', (chapters as DbChapter[]).map(c => c.id))
+    .in('chapter_id', chapterRows.map(c => c.id))
     .order('sort_order');
 
   if (lessonError) throw lessonError;
 
-  return (chapters as DbChapter[]).map(ch => ({
+  return chapterRows.map(ch => ({
     id: ch.id,
     title: ch.title,
     description: ch.description,
     sortOrder: ch.sort_order,
+    chapterIntro: {
+      kind: 'chapter_intro',
+      id: `chapter-intro:${ch.id}`,
+      chapterId: ch.id,
+      title: 'Chapter Intro',
+      blurb: ch.description,
+      durationSeconds: ch.intro_duration_seconds,
+      videoSourceType: ch.intro_video_source_type,
+      videoUrl: ch.intro_video_url,
+      scormPackageUrl: ch.intro_scorm_package_url,
+      xapiEndpoint: ch.intro_xapi_endpoint,
+      xapiActivityId: ch.intro_xapi_activity_id,
+    },
     lessons: (lessons as DbLesson[])
       .filter(l => l.chapter_id === ch.id)
       .map(l => ({
+        kind: 'lesson',
         id: l.id,
+        chapterId: l.chapter_id,
         title: l.title,
         description: l.description,
         sortOrder: l.sort_order,

@@ -8,6 +8,37 @@ import type {
   CourseOption,
 } from '@/types/analytics';
 
+async function fetchChapterIntroMetrics(courseId: string) {
+  const { data, error } = await supabase
+    .from('chapter_intro_analytics')
+    .select(`
+      chapter_id,
+      view_count,
+      video_play_count,
+      chapters!inner (
+        course_id
+      )
+    `)
+    .eq('chapters.course_id', courseId);
+
+  if (error) throw error;
+
+  const totals = new Map<string, { chapterIntroViews: number; chapterIntroVideoPlays: number }>();
+
+  for (const row of data ?? []) {
+    const existing = totals.get(row.chapter_id) ?? {
+      chapterIntroViews: 0,
+      chapterIntroVideoPlays: 0,
+    };
+
+    existing.chapterIntroViews += row.view_count ?? 0;
+    existing.chapterIntroVideoPlays += row.video_play_count ?? 0;
+    totals.set(row.chapter_id, existing);
+  }
+
+  return totals;
+}
+
 export async function fetchAnalyticsOverview(): Promise<AnalyticsOverview> {
   const [enrollmentsRes, summaryRes] = await Promise.all([
     supabase.from('dummy_analytics_enrollments').select('status'),
@@ -128,10 +159,15 @@ export async function fetchAnalyticsCourses(): Promise<CourseOption[]> {
 }
 
 export async function fetchChapterProgressData(courseId: string): Promise<ChapterProgressRow[]> {
-  const { data, error } = await supabase
-    .from('dummy_analytics_chapter_progress')
-    .select('chapter_id, chapter_title, chapter_sort_order, watch_percent, completed')
-    .eq('course_id', courseId);
+  const [progressRes, introMetrics] = await Promise.all([
+    supabase
+      .from('dummy_analytics_chapter_progress')
+      .select('chapter_id, chapter_title, chapter_sort_order, watch_percent, completed')
+      .eq('course_id', courseId),
+    fetchChapterIntroMetrics(courseId),
+  ]);
+
+  const { data, error } = progressRes;
 
   if (error) throw error;
 
@@ -169,15 +205,22 @@ export async function fetchChapterProgressData(courseId: string): Promise<Chapte
       avgWatchPercent: Math.round((g.totalWatchPercent / g.count) * 10) / 10,
       completionRate: Math.round((g.completedCount / g.count) * 100),
       totalLearners: g.count,
+      chapterIntroViews: introMetrics.get(g.chapterId)?.chapterIntroViews ?? 0,
+      chapterIntroVideoPlays: introMetrics.get(g.chapterId)?.chapterIntroVideoPlays ?? 0,
     }))
     .sort((a, b) => a.chapterSortOrder - b.chapterSortOrder);
 }
 
 export async function fetchVideoTrackingData(courseId: string): Promise<VideoTrackingRow[]> {
-  const { data, error } = await supabase
-    .from('dummy_analytics_chapter_progress')
-    .select('chapter_id, chapter_title, chapter_sort_order, watch_percent, completed, sessions_count, watched_seconds')
-    .eq('course_id', courseId);
+  const [progressRes, introMetrics] = await Promise.all([
+    supabase
+      .from('dummy_analytics_chapter_progress')
+      .select('chapter_id, chapter_title, chapter_sort_order, watch_percent, completed, sessions_count, watched_seconds')
+      .eq('course_id', courseId),
+    fetchChapterIntroMetrics(courseId),
+  ]);
+
+  const { data, error } = progressRes;
 
   if (error) throw error;
 
@@ -223,6 +266,8 @@ export async function fetchVideoTrackingData(courseId: string): Promise<VideoTra
       avgSessions: Math.round((g.totalSessions / g.count) * 10) / 10,
       avgWatchTimeSeconds: Math.round(g.totalWatchTime / g.count),
       totalLearners: g.count,
+      chapterIntroViews: introMetrics.get(g.chapterId)?.chapterIntroViews ?? 0,
+      chapterIntroVideoPlays: introMetrics.get(g.chapterId)?.chapterIntroVideoPlays ?? 0,
     }))
     .sort((a, b) => a.chapterSortOrder - b.chapterSortOrder);
 }

@@ -107,6 +107,8 @@ export default function VideoTrackingTab() {
                     <TableHead className="text-right">Completion</TableHead>
                     <TableHead className="hidden text-right sm:table-cell">Avg Sessions</TableHead>
                     <TableHead className="hidden text-right sm:table-cell">Avg Watch Time</TableHead>
+                    <TableHead className="text-right">Intro Views</TableHead>
+                    <TableHead className="text-right">Intro Plays</TableHead>
                     <TableHead className="text-right">Learners</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -131,6 +133,8 @@ export default function VideoTrackingTab() {
                       </TableCell>
                       <TableCell className="hidden text-right sm:table-cell">{row.avgSessions}</TableCell>
                       <TableCell className="hidden text-right sm:table-cell">{formatTime(row.avgWatchTimeSeconds)}</TableCell>
+                      <TableCell className="text-right">{row.chapterIntroViews}</TableCell>
+                      <TableCell className="text-right">{row.chapterIntroVideoPlays}</TableCell>
                       <TableCell className="text-right">{row.totalLearners}</TableCell>
                     </TableRow>
                   ))}
