@@ -108,16 +108,6 @@ export default function Login() {
 
       <main className="flex-grow mobile-shell bg-muted pb-16 pt-32">
         <div className="container mx-auto max-w-md content-stack">
-          <div className="text-center mb-8">
-            <Link to="/" className="inline-flex items-center space-x-2 mb-6">
-              <span className="text-2xl font-bold text-foreground tracking-tight">
-                MICHAEL ZICK
-              </span>
-            </Link>
-            <h1 className="text-3xl font-bold text-foreground mb-2">Welcome Back</h1>
-            <p className="text-muted-foreground">Sign in to access your courses</p>
-          </div>
-
           <Card className="content-stack">
             <CardHeader>
               <CardTitle>Sign In</CardTitle>
