@@ -95,9 +95,10 @@ export default function YouTubeEmbed({ url, title, onPlay, onProgress, onEnded }
     if (!videoId || !shouldUseApiPlayer || !wrapperRef.current) return;
 
     let cancelled = false;
+    const wrapper = wrapperRef.current;
     const mountNode = document.createElement('div');
     mountNode.className = 'h-full w-full';
-    wrapperRef.current.replaceChildren(mountNode);
+    wrapper.replaceChildren(mountNode);
 
     const stopProgressInterval = () => {
       if (intervalRef.current !== null) {
@@ -184,8 +185,8 @@ export default function YouTubeEmbed({ url, title, onPlay, onProgress, onEnded }
         console.error('Failed to destroy YouTube player:', error);
       }
       playerRef.current = null;
-      if (wrapperRef.current) {
-        wrapperRef.current.replaceChildren();
+      if (wrapper) {
+        wrapper.replaceChildren();
       }
       isPlayingRef.current = false;
       lastReportedSecondRef.current = -1;

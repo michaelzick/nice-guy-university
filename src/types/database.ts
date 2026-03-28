@@ -50,6 +50,7 @@ export type DbCourse = {
   description: string;
   short_description: string;
   thumbnail_url: string;
+  thumbnail_video_url: string | null;
   featured: boolean;
   bestseller: boolean;
   last_updated: string;

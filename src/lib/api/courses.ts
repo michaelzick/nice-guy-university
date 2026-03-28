@@ -35,6 +35,7 @@ export function mapDbCourseToCourse(db: DbCourse): Course {
     description: db.description,
     shortDescription: db.short_description,
     thumbnailUrl: db.thumbnail_url,
+    thumbnailVideoUrl: db.thumbnail_video_url ?? undefined,
     featured: db.featured,
     bestseller: db.bestseller,
     lastUpdated: db.last_updated,

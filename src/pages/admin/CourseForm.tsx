@@ -22,6 +22,7 @@ import {
   fetchAllCoachesAdmin,
   updateCourse,
   uploadCourseThumbnail,
+  uploadCourseThumbnailVideo,
   createChapter,
   updateChapter,
   deleteChapter,
@@ -46,6 +47,7 @@ const courseSchema = z.object({
   description: z.string().min(1),
   short_description: z.string().min(1),
   thumbnail_url: z.string().min(1),
+  thumbnail_video_url: z.string().trim().default(''),
   language: z.string().default('English'),
   featured: z.boolean().default(false),
   bestseller: z.boolean().default(false),
@@ -96,6 +98,43 @@ const VIDEO_SOURCE_OPTIONS = [
 ] as const;
 
 const VIDEO_URL_SOURCES = ['youtube', 'vimeo', 'self_hosted', 's3', 'xapi'] as const;
+const THUMBNAIL_IMAGE_MAX_SIZE_BYTES = 5 * 1024 * 1024;
+const THUMBNAIL_VIDEO_MAX_SIZE_BYTES = 50 * 1024 * 1024;
+const THUMBNAIL_VIDEO_MAX_DURATION_SECONDS = 10;
+const THUMBNAIL_VIDEO_ALLOWED_TYPES = ['video/mp4', 'video/webm'];
+
+function getVideoDurationSeconds(file: File): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const video = document.createElement('video');
+    const objectUrl = URL.createObjectURL(file);
+
+    const cleanup = () => {
+      URL.revokeObjectURL(objectUrl);
+      video.removeAttribute('src');
+      video.load();
+    };
+
+    video.preload = 'metadata';
+    video.onloadedmetadata = () => {
+      const { duration } = video;
+      cleanup();
+
+      if (!Number.isFinite(duration) || duration <= 0) {
+        reject(new Error('Unable to read video duration.'));
+        return;
+      }
+
+      resolve(duration);
+    };
+
+    video.onerror = () => {
+      cleanup();
+      reject(new Error('Unable to read video metadata.'));
+    };
+
+    video.src = objectUrl;
+  });
+}
 
 function createDefaultMediaFormItem(overrides?: Partial<MediaFormItem>): MediaFormItem {
   return {
@@ -159,6 +198,7 @@ export default function AdminCourseForm() {
   const [learnInput, setLearnInput] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [isUploadingThumbnail, setIsUploadingThumbnail] = useState(false);
+  const [isUploadingThumbnailVideo, setIsUploadingThumbnailVideo] = useState(false);
 
   const { data: coaches = [] } = useQuery({
     queryKey: ['admin', 'coaches'],
@@ -196,6 +236,7 @@ export default function AdminCourseForm() {
       published: false,
       price: 0,
       lecture_count: 0,
+      thumbnail_video_url: '',
     },
   });
 
@@ -215,6 +256,7 @@ export default function AdminCourseForm() {
         description: existingCourse.description,
         short_description: existingCourse.short_description,
         thumbnail_url: existingCourse.thumbnail_url,
+        thumbnail_video_url: existingCourse.thumbnail_video_url ?? '',
         language: existingCourse.language,
         featured: existingCourse.featured,
         bestseller: existingCourse.bestseller,
@@ -410,6 +452,7 @@ export default function AdminCourseForm() {
         instructor: selectedCoach?.name ?? existingCourse?.instructor ?? 'Nice Guy University',
         coach_id: data.coach_id ?? null,
         sale_price: data.sale_price || null,
+        thumbnail_video_url: data.thumbnail_video_url.trim() || null,
         topics,
         what_you_will_learn: whatYouWillLearn,
         last_updated: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
@@ -509,7 +552,7 @@ export default function AdminCourseForm() {
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > THUMBNAIL_IMAGE_MAX_SIZE_BYTES) {
       toast({ title: 'Image too large', description: 'Thumbnail must be 5 MB or smaller.', variant: 'destructive' });
       event.target.value = '';
       return;
@@ -525,6 +568,46 @@ export default function AdminCourseForm() {
       toast({ title: 'Upload failed', description: error instanceof Error ? error.message : 'Something went wrong.', variant: 'destructive' });
     } finally {
       setIsUploadingThumbnail(false);
+      event.target.value = '';
+    }
+  };
+
+  const handleThumbnailVideoUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!THUMBNAIL_VIDEO_ALLOWED_TYPES.includes(file.type)) {
+      toast({ title: 'Unsupported file type', description: 'Upload an MP4 or WEBM video.', variant: 'destructive' });
+      event.target.value = '';
+      return;
+    }
+
+    if (file.size > THUMBNAIL_VIDEO_MAX_SIZE_BYTES) {
+      toast({ title: 'Video too large', description: 'Thumbnail video must be 50 MB or smaller.', variant: 'destructive' });
+      event.target.value = '';
+      return;
+    }
+
+    try {
+      setIsUploadingThumbnailVideo(true);
+
+      const durationSeconds = await getVideoDurationSeconds(file);
+      if (durationSeconds > THUMBNAIL_VIDEO_MAX_DURATION_SECONDS) {
+        throw new Error('Thumbnail video must be 10 seconds or shorter.');
+      }
+
+      const slug = form.getValues('slug');
+      const publicUrl = await uploadCourseThumbnailVideo(file, slug);
+      form.setValue('thumbnail_video_url', publicUrl, { shouldDirty: true, shouldValidate: true });
+      toast({ title: 'Thumbnail preview video uploaded' });
+    } catch (error) {
+      toast({
+        title: 'Upload failed',
+        description: error instanceof Error ? error.message : 'Something went wrong.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsUploadingThumbnailVideo(false);
       event.target.value = '';
     }
   };
@@ -616,6 +699,11 @@ export default function AdminCourseForm() {
         <Input {...form.register('thumbnail_url')} placeholder="https://..." />
       </div>
 
+      <div className="space-y-2">
+        <Label>Thumbnail Video URL</Label>
+        <Input {...form.register('thumbnail_video_url')} placeholder="https://..." />
+      </div>
+
       <div className="space-y-3">
         <Label>Upload Thumbnail Image</Label>
         <div className="flex flex-col gap-4 md:flex-row md:items-start">
@@ -640,6 +728,43 @@ export default function AdminCourseForm() {
               JPG, PNG, or WEBP · Max 5 MB · Recommended: 16:9 ratio, minimum 1280×720
             </p>
             {isUploadingThumbnail && (
+              <div className="flex items-center text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                Uploading...
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        <Label>Upload Thumbnail Preview Video</Label>
+        <div className="flex flex-col gap-4 md:flex-row md:items-start">
+          {form.watch('thumbnail_video_url') && (
+            <div className="w-40 aspect-video bg-muted overflow-hidden flex-shrink-0">
+              <video
+                src={form.watch('thumbnail_video_url')}
+                className="w-full h-full object-cover"
+                muted
+                loop
+                playsInline
+                controls
+                preload="metadata"
+              />
+            </div>
+          )}
+          <div className="flex-1 space-y-2">
+            <Input
+              id="course-thumbnail-video"
+              type="file"
+              accept=".mp4,.webm,video/mp4,video/webm"
+              onChange={handleThumbnailVideoUpload}
+              disabled={isUploadingThumbnailVideo}
+            />
+            <p className="text-sm text-muted-foreground">
+              MP4 or WEBM · Max 50 MB · Max 10 seconds · Recommended: 16:9 ratio, muted preview clip
+            </p>
+            {isUploadingThumbnailVideo && (
               <div className="flex items-center text-sm text-muted-foreground">
                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                 Uploading...

@@ -18,6 +18,7 @@ export type Course = {
   description: string;
   shortDescription: string;
   thumbnailUrl: string;
+  thumbnailVideoUrl?: string;
   featured?: boolean;
   bestseller?: boolean;
   lastUpdated: string;

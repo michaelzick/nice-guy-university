@@ -71,9 +71,10 @@ export default function VimeoEmbed({ url, title, onPlay, onProgress, onEnded }: 
     if (!videoId || !shouldUseApiPlayer || !wrapperRef.current) return;
 
     let cancelled = false;
+    const wrapper = wrapperRef.current;
     const mountNode = document.createElement('div');
     mountNode.className = 'h-full w-full';
-    wrapperRef.current.replaceChildren(mountNode);
+    wrapper.replaceChildren(mountNode);
 
     void loadVimeoApi()
       .then(() => {
@@ -120,8 +121,8 @@ export default function VimeoEmbed({ url, title, onPlay, onProgress, onEnded }: 
         });
       }
       playerRef.current = null;
-      if (wrapperRef.current) {
-        wrapperRef.current.replaceChildren();
+      if (wrapper) {
+        wrapper.replaceChildren();
       }
     };
   }, [onEnded, onPlay, onProgress, shouldUseApiPlayer, videoId]);
